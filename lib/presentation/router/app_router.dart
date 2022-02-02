@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:payattubook/presentation/screens/dashboard_screen/dashboard_screen.dart';
 import 'package:payattubook/presentation/screens/sign_in_screen/sign_in_screen.dart';
 import 'package:payattubook/presentation/screens/sign_up_screen/sign_up_screen.dart';
 
@@ -21,6 +22,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const SignInScreen());
       case signUpScreen:
         return MaterialPageRoute(builder: (_) => const SignUpScreen());
+      case dashboardScreen:
+        return MaterialPageRoute(builder: (_) => const DashboardScreen());
       default:
         throw InvalidRouteException(
             "invalid route reached : ${routeSettings.name}");

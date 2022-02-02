@@ -37,6 +37,7 @@ dependencies:
   flutter_bloc: ^8.0.1
   supabase_flutter: ^0.2.12
   image_picker: ^0.8.4+5
+  validators: ^3.0.0
 
 dev_dependencies:
   flutter_test:

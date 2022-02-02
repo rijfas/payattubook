@@ -25,7 +25,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
           Navigator.of(context)
               .pushNamedAndRemoveUntil(AppRouter.signInScreen, (_) => false);
         },
-        child: Center(
+        child: const Center(
           child: CircularProgressIndicator(),
         ),
       ),

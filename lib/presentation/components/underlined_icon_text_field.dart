@@ -7,15 +7,18 @@ class UnderlinedIconTextField extends StatelessWidget {
     required this.icon,
     required this.controller,
     this.obscureText = false,
+    this.validator,
   }) : super(key: key);
   final String hintText;
   final IconData icon;
   final bool obscureText;
   final TextEditingController controller;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      validator: validator,
       controller: controller,
       obscureText: obscureText,
       decoration: InputDecoration(
