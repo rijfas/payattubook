@@ -45,7 +45,14 @@ class CustomSearchBar extends StatelessWidget {
               ),
             ),
           ),
-          const Icon(Icons.published_with_changes_sharp)
+          if (_controller.value.text != '')
+            IconButton(
+              icon: const Icon(Icons.clear),
+              onPressed: () {
+                _controller.clear();
+                _onSearch();
+              },
+            )
         ],
       ),
     );

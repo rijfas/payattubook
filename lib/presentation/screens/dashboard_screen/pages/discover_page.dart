@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../logic/discover_payattu/cubit/discover_payattu_cubit.dart';
 import '../../../components/rounded_elevated_button.dart';
 import '../components/custom_search_bar.dart';
+import '../components/custom_modal_sheet.dart';
 
 class DiscoverPage extends StatefulWidget {
   const DiscoverPage({Key? key}) : super(key: key);
@@ -75,7 +76,30 @@ class _DiscoverPageState extends State<DiscoverPage> {
                           ],
                         ),
                         child: ListTile(
-                          onTap: () {},
+                          onTap: () {
+                            showModalBottomSheet(
+                                isScrollControlled: true,
+                                constraints: BoxConstraints(
+                                  minWidth: size.width,
+                                  maxHeight: size.height,
+                                ),
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(30.0),
+                                    topRight: Radius.circular(30.0),
+                                  ),
+                                ),
+                                context: context,
+                                builder: (_) => CustomModalSheet(
+                                    hostImageUrl:
+                                        state.payattList[index].coverImageUrl,
+                                    hostName: state.payattList[index].host,
+                                    date:
+                                        state.payattList[index].date.toString(),
+                                    time: state.payattList[index].time,
+                                    location:
+                                        state.payattList[index].location));
+                          },
                           leading: CircleAvatar(
                             backgroundImage: NetworkImage(
                                 state.payattList[index].coverImageUrl),
