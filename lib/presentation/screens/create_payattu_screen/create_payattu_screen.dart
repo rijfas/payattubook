@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/utils/utils.dart';
 import '../../../core/utils/validators.dart';
 import '../../../logic/authentication/cubit/authentication_cubit.dart';
-import '../../../logic/payattu/cubit/payattu_cubit.dart';
+import '../../../logic/create_payattu/cubit/create_payattu_cubit.dart';
 import '../../components/avatar_image_picker.dart';
 import '../../components/rounded_elevated_button.dart';
 import '../../components/underlined_icon_text_field.dart';
@@ -66,16 +66,16 @@ class _CreatePayattuScreenState extends State<CreatePayattuScreen> {
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(14.0),
-            child: BlocListener<PayattuCubit, PayattuState>(
+            child: BlocListener<CreatePayattuCubit, CreatePayattuState>(
               listener: (context, state) {
-                if (state is PayattuError) {
+                if (state is CreatePayattuError) {
                   Navigator.of(context).pop();
                   Utils.showErrorSnackBar(
                       context: context, message: state.message);
-                } else if (state is PayattuCreated) {
+                } else if (state is CreatePayattuCompleted) {
                   Navigator.of(context).pushNamedAndRemoveUntil(
                       AppRouter.dashboardScreen, (route) => false);
-                } else if (state is PayattuLoading) {
+                } else if (state is CreatePayattuLoading) {
                   Utils.showLoadingDialog(context);
                 }
               },
@@ -124,7 +124,7 @@ class _CreatePayattuScreenState extends State<CreatePayattuScreen> {
                       child: const Text('Save'),
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          context.read<PayattuCubit>().createPayattu(
+                          context.read<CreatePayattuCubit>().createPayattu(
                                 host: _hostNameController.value.text,
                                 hostPhoneNumber:
                                     _hostPhoneNumberController.value.text,

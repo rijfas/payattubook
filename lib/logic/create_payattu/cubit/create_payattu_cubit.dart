@@ -4,10 +4,10 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:payattubook/core/utils/utils.dart';
 
-part 'payattu_state.dart';
+part 'create_payattu_state.dart';
 
-class PayattuCubit extends Cubit<PayattuState> {
-  PayattuCubit() : super(PayattuLoading());
+class CreatePayattuCubit extends Cubit<CreatePayattuState> {
+  CreatePayattuCubit() : super(CreatePayattuLoading());
 
   void createPayattu({
     required String host,
@@ -20,17 +20,17 @@ class PayattuCubit extends Cubit<PayattuState> {
     String? coverImageFileName,
   }) async {
     final String createdBy = Utils.supabase.auth.currentUser!.id;
-    emit(PayattuLoading());
+    emit(CreatePayattuLoading());
     if (coverImage != null && coverImageFileName != null) {
       final image = await Utils.supabase.storage.from('profiles').uploadBinary(
           '${Utils.supabase.auth.currentUser!.id}/$coverImageFileName',
           coverImage);
       if (image.error != null) {
-        emit(PayattuError(message: image.error!.message));
+        emit(CreatePayattuError(message: image.error!.message));
         return;
       }
       coverImageUrl = Utils.supabase.storage
-          .from('/profiles')
+          .from('profiles')
           .getPublicUrl(
               '${Utils.supabase.auth.currentUser!.id}/$coverImageFileName')
           .data;
@@ -47,10 +47,10 @@ class PayattuCubit extends Cubit<PayattuState> {
     }).execute();
 
     if (response.error != null) {
-      emit(PayattuError(message: response.error!.message));
+      emit(CreatePayattuError(message: response.error!.message));
       return;
     }
 
-    emit(PayattuCreated());
+    emit(CreatePayattuCompleted());
   }
 }
