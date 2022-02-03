@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:payattubook/logic/payattu/cubit/payattu_cubit.dart';
 
 import 'core/themes/app_theme.dart';
 import 'logic/authentication/cubit/authentication_cubit.dart';
@@ -14,6 +15,9 @@ class App extends StatelessWidget {
       providers: [
         BlocProvider<AuthenticationCubit>(
           create: (_) => AuthenticationCubit(),
+        ),
+        BlocProvider<PayattuCubit>(
+          create: (_) => PayattuCubit(),
         ),
       ],
       child: MaterialApp(

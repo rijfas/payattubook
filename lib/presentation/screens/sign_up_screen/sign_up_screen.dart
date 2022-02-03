@@ -2,10 +2,10 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:payattubook/core/utils/utils.dart';
-import 'package:payattubook/core/utils/validators.dart';
-import 'package:payattubook/logic/authentication/cubit/authentication_cubit.dart';
 
+import '../../../core/utils/utils.dart';
+import '../../../core/utils/validators.dart';
+import '../../../logic/authentication/cubit/authentication_cubit.dart';
 import '../../components/avatar_image_picker.dart';
 import '../../components/rounded_elevated_button.dart';
 import '../../components/underlined_icon_text_field.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:payattubook/core/utils/utils.dart';
-import 'package:payattubook/presentation/router/app_router.dart';
+import '../../../core/utils/utils.dart';
+import '../../router/app_router.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({Key? key}) : super(key: key);

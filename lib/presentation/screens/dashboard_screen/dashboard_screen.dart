@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/constants/assets.dart';
 import '../../../logic/authentication/cubit/authentication_cubit.dart';
+import '../../router/app_router.dart';
+import 'pages/discover_page.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   final List<Widget> _pages = const [
     Text('home'),
-    Text('Discover'),
+    DiscoverPage(),
     Text('Transactions'),
   ];
 
@@ -24,7 +25,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        leading:
+            IconButton(onPressed: () {}, icon: const Icon(Icons.notifications)),
         centerTitle: true,
         title: const Text('PayattuBook'),
         actions: [
@@ -38,7 +40,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   backgroundImage: NetworkImage(state.user.profileUrl),
                 );
               }
-              return CircleAvatar(child: Image.asset(Assets.defaultProfile));
+              return IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.account_circle,
+                    size: 36.0,
+                  ));
             }),
           )
         ],
@@ -70,6 +77,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
           )
         ],
       ),
+      floatingActionButton: (_currentIndex == 1)
+          ? FloatingActionButton(
+              backgroundColor: Theme.of(context).primaryColor,
+              child: const Icon(
+                Icons.edit,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.of(context).pushNamed(AppRouter.createPayattuScreen);
+              })
+          : null,
     );
   }
 }

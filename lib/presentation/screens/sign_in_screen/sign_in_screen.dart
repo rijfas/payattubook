@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:payattubook/core/utils/validators.dart';
 
 import '../../../core/constants/assets.dart';
 import '../../../core/utils/utils.dart';
+import '../../../core/utils/validators.dart';
 import '../../../logic/authentication/cubit/authentication_cubit.dart';
 import '../../components/rounded_elevated_button.dart';
 import '../../components/underlined_icon_text_field.dart';
