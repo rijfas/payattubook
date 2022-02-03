@@ -31,4 +31,32 @@ class DiscoverPayattuCubit extends Cubit<DiscoverPayattuState> {
 
     emit(DiscoverPayattuLoaded(payattList: payatts));
   }
+
+  void searchPayattu({required String hostName}) async {
+    emit(DiscoverPayattuLoading());
+    final response = await Utils.supabase
+        .from('payatts')
+        .select()
+        .like('host', '%$hostName%')
+        .execute();
+    if (response.error != null) {
+      emit(DiscoverPayattuError(message: response.error!.message));
+      return;
+    }
+    final data = response.data;
+    late List<Payattu> payatts = [];
+    data.forEach((e) {
+      payatts.add(Payattu(
+        host: e['host'],
+        time: e['time'],
+        hostPhoneNumber: e['host_phone_number'],
+        location: e['location'],
+        date: DateTime.parse(e['date']),
+        createdBy: e['created_by'],
+        coverImageUrl: e['cover_image_url'],
+      ));
+    });
+
+    emit(DiscoverPayattuLoaded(payattList: payatts));
+  }
 }

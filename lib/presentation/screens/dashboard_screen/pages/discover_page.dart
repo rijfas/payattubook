@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:payattubook/core/themes/app_theme.dart';
-import 'package:payattubook/logic/discover_payattu/cubit/discover_payattu_cubit.dart';
-import 'package:payattubook/presentation/components/rounded_elevated_button.dart';
+import '../../../../logic/discover_payattu/cubit/discover_payattu_cubit.dart';
+import '../../../components/rounded_elevated_button.dart';
+import '../components/custom_search_bar.dart';
 
 class DiscoverPage extends StatefulWidget {
   const DiscoverPage({Key? key}) : super(key: key);
@@ -13,10 +13,19 @@ class DiscoverPage extends StatefulWidget {
 }
 
 class _DiscoverPageState extends State<DiscoverPage> {
+  late final TextEditingController _searchController;
+
   @override
   void initState() {
     super.initState();
     context.read<DiscoverPayattuCubit>().loadPayattu();
+    _searchController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   @override
@@ -33,7 +42,6 @@ class _DiscoverPageState extends State<DiscoverPage> {
           height: size.height - kToolbarHeight,
           child: RefreshIndicator(
             onRefresh: () {
-              print('boom');
               return context.read<DiscoverPayattuCubit>().loadPayattu();
             },
             child: SingleChildScrollView(
@@ -42,35 +50,12 @@ class _DiscoverPageState extends State<DiscoverPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    Container(
-                      margin: const EdgeInsets.all(8.0),
-                      padding: const EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(
-                        color: AppTheme.lightInputBackgroundColor,
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: Row(
-                        children: const [
-                          Icon(Icons.search),
-                          SizedBox(
-                            width: 8.0,
-                          ),
-                          Expanded(
-                            child: TextField(
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Search payattu',
-                                hintStyle: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: AppTheme.lightSecondaryColor,
-                                ),
-                                contentPadding: EdgeInsets.zero,
-                              ),
-                            ),
-                          ),
-                          Icon(Icons.published_with_changes_sharp)
-                        ],
-                      ),
+                    CustomSearchBar(
+                      controller: _searchController,
+                      onSearch: () {
+                        context.read<DiscoverPayattuCubit>().searchPayattu(
+                            hostName: _searchController.value.text);
+                      },
                     ),
                     ListView.builder(
                       itemCount: state.payattList.length,
@@ -106,7 +91,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                               color: Theme.of(context).colorScheme.secondary,
                             ),
                           ),
-                          trailing: Icon(Icons.add),
+                          trailing: const Icon(Icons.add),
                         ),
                       ),
                     )
