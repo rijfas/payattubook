@@ -37,7 +37,7 @@ class DiscoverPayattuCubit extends Cubit<DiscoverPayattuState> {
     final response = await Utils.supabase
         .from('payatts')
         .select()
-        .like('host', '%$hostName%')
+        .ilike('host', '%$hostName%')
         .execute();
     if (response.error != null) {
       emit(DiscoverPayattuError(message: response.error!.message));

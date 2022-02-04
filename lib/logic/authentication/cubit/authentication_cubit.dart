@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
 
 import '../../../core/utils/utils.dart';
 import '../../../data/authentication/models/user.dart';
@@ -10,6 +11,8 @@ part 'authentication_state.dart';
 class AuthenticationCubit extends Cubit<AuthenticationState> {
   AuthenticationCubit() : super(AuthenticationPending());
 
+  /// signs up the user with given details
+  /// uploads the profileImage if present with the given filename
   void signUp({
     required String fullName,
     required String phoneNumber,
@@ -67,8 +70,14 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       return;
     }
 
-    final user =
-        User(fullName: fullName, phoneNumber: phoneNumber, address: address);
+    final user = User(
+        profileUrl: imageUrl ?? '',
+        fullName: fullName,
+        phoneNumber: phoneNumber,
+        address: address);
+
+    final box = await Hive.openBox('profile');
+    box.put('user', user);
     emit(AuthenticationCompleted(user: user));
   }
 
@@ -110,6 +119,24 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         fullName: profile.data[0]['full_name'],
         phoneNumber: profile.data[0]['phone_number'],
         address: profile.data[0]['address']);
+    final box = await Hive.openBox('profile');
+    box.put('user', user);
     emit(AuthenticationCompleted(user: user));
+  }
+
+  void signOut() {
+    emit(AuthenticationPending());
+  }
+
+  void signInWithSession() async {
+    emit(AuthenticationLoading());
+    final box = await Hive.openBox('profile');
+    final user = await box.get('user');
+    if (user == null) {
+      emit(AuthenticationError(
+          message: 'Session expired, please login to continue'));
+    } else {
+      emit(AuthenticationCompleted(user: user));
+    }
   }
 }

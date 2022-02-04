@@ -38,6 +38,9 @@ dependencies:
   supabase_flutter: ^0.2.12
   image_picker: ^0.8.4+5
   validators: ^3.0.0
+  hive: ^2.0.5
+  hive_flutter: ^1.1.0
+  cached_network_image: ^3.2.0
 
 dev_dependencies:
   flutter_test:
@@ -49,6 +52,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
+  hive_generator: ^1.1.2
+  build_runner: ^2.1.7
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -72,6 +77,7 @@ flutter:
     - assets/images/greet_1.svg
     - assets/images/greet_2.svg
     - assets/images/greet_3.svg
+    - assets/images/error.svg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

@@ -1,10 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../core/constants/assets.dart';
 import '../../../../logic/discover_payattu/cubit/discover_payattu_cubit.dart';
-import '../../../components/rounded_elevated_button.dart';
-import '../components/custom_search_bar.dart';
 import '../components/custom_modal_sheet.dart';
+import '../components/custom_search_bar.dart';
 
 class DiscoverPage extends StatefulWidget {
   const DiscoverPage({Key? key}) : super(key: key);
@@ -101,8 +103,13 @@ class _DiscoverPageState extends State<DiscoverPage> {
                                         state.payattList[index].location));
                           },
                           leading: CircleAvatar(
-                            backgroundImage: NetworkImage(
-                                state.payattList[index].coverImageUrl),
+                            foregroundImage:
+                                (state.payattList[index].coverImageUrl != '')
+                                    ? CachedNetworkImageProvider(
+                                        state.payattList[index].coverImageUrl)
+                                    : null,
+                            backgroundImage:
+                                const AssetImage(Assets.defaultProfile),
                           ),
                           title: Text(
                             state.payattList[index].host,
@@ -125,20 +132,31 @@ class _DiscoverPageState extends State<DiscoverPage> {
             ),
           ),
         );
-      } else if (state is DiscoverPayattuError) {
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Error'),
-            RoundedElevatedButton(
-              child: Text('Retry'),
-              onPressed: () =>
-                  context.read<DiscoverPayattuCubit>().loadPayattu(),
-            )
-          ],
-        );
       }
-      return Text('Unknown error');
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SvgPicture.asset(
+            Assets.defaultErrorImage,
+            width: size.width * 0.4,
+          ),
+          SizedBox(height: size.height * 0.025),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('An error occured'),
+              const SizedBox(width: 4.0),
+              InkWell(
+                child: const Text(
+                  'reload?',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                onTap: () => context.read<DiscoverPayattuCubit>().loadPayattu(),
+              )
+            ],
+          )
+        ],
+      );
     });
   }
 }

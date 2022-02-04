@@ -1,6 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'custom_icon_tile.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../core/constants/assets.dart';
+import '../../../../data/manage_payattu/models/user_payattu.dart';
+import '../../../../data/payattu/models/payattu.dart';
+import '../../../../logic/manage_payattu/cubit/manage_payattu_cubit.dart';
 import '../../../components/rounded_elevated_button.dart';
+import 'custom_icon_tile.dart';
 
 class CustomModalSheet extends StatelessWidget {
   const CustomModalSheet({
@@ -37,7 +44,10 @@ class CustomModalSheet extends StatelessWidget {
             Center(
               child: CircleAvatar(
                 radius: size.width * 0.2,
-                backgroundImage: NetworkImage(_hostImageUrl),
+                foregroundImage: (_hostImageUrl != '')
+                    ? CachedNetworkImageProvider(_hostImageUrl)
+                    : null,
+                backgroundImage: const AssetImage(Assets.defaultProfile),
               ),
             ),
             SizedBox(height: size.height * 0.025),
@@ -76,7 +86,23 @@ class CustomModalSheet extends StatelessWidget {
             SizedBox(height: size.height * 0.025),
             RoundedElevatedButton(
               child: const Text('Add to payattu list'),
-              onPressed: () {},
+              onPressed: () {
+                final state = context.read<ManagePayattuCubit>().state;
+
+                final currentPayatts = (state is ManagePayattuLoaded)
+                    ? state.payattuList
+                    : const <UserPayattu>[];
+                context.read<ManagePayattuCubit>().addPayattu(
+                    currentPayatts: currentPayatts,
+                    payattu: Payattu(
+                        createdBy: 'Rijfas',
+                        host: 'Rijfas',
+                        hostPhoneNumber: 'aasdas',
+                        date: DateTime.now(),
+                        time: '12 man',
+                        location: 'fdsf'),
+                    amount: 100);
+              },
             ),
             SizedBox(height: size.height * 0.025),
           ],

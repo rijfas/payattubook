@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:payattubook/presentation/screens/dashboard_screen/pages/home_page.dart';
 
 import '../../../logic/authentication/cubit/authentication_cubit.dart';
 import '../../router/app_router.dart';
@@ -16,7 +18,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = const [
-    Text('home'),
+    HomePage(),
     DiscoverPage(),
     Text('Transactions'),
   ];
@@ -37,7 +39,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
               if (state is AuthenticationCompleted &&
                   state.user.profileUrl != '') {
                 return CircleAvatar(
-                  backgroundImage: NetworkImage(state.user.profileUrl),
+                  backgroundImage: CachedNetworkImageProvider(
+                    state.user.profileUrl,
+                  ),
                 );
               }
               return IconButton(

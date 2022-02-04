@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -32,20 +33,22 @@ class _AvatarImagePickerState extends State<AvatarImagePicker> {
             foregroundImage: _profile ??
                 (widget.profileUrl == ''
                     ? null
-                    : NetworkImage(widget.profileUrl)),
+                    : CachedNetworkImageProvider(widget.profileUrl)),
             backgroundImage: const AssetImage(Assets.defaultProfile),
           ),
         ),
         Positioned(
             bottom: 0,
             right: 0,
-            child: (_profile == null)
+            child: (_profile == null && widget.profileUrl == '')
                 ? IconButton(
                     icon: const Icon(Icons.add_a_photo),
                     onPressed: () async {
                       final ImagePicker _picker = ImagePicker();
-                      final imageFile =
-                          await _picker.pickImage(source: ImageSource.gallery);
+                      final imageFile = await _picker.pickImage(
+                        source: ImageSource.gallery,
+                        imageQuality: 25,
+                      );
                       final fileExt = imageFile?.path.split('.').last;
                       final fileName =
                           '${DateTime.now().toIso8601String()}.$fileExt';
