@@ -30,4 +30,10 @@ class Utils {
         content: Text(message ?? ''),
         backgroundColor: Theme.of(context).primaryColor));
   }
+
+  static bool isSameDate(DateTime first, DateTime second) {
+    return first.day == second.day &&
+        first.month == second.month &&
+        first.year == second.year;
+  }
 }
