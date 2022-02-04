@@ -1,12 +1,15 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../core/constants/assets.dart';
 import '../../../../logic/discover_payattu/cubit/discover_payattu_cubit.dart';
-import '../components/custom_modal_sheet.dart';
+import '../components/bottom_payattu_card.dart';
 import '../components/custom_search_bar.dart';
+import '../components/custom_input_popup.dart';
+import '../../../components/rounded_elevated_button.dart';
+import '../../../../logic/manage_payattu/cubit/manage_payattu_cubit.dart';
+import '../components/custom_payattu_tile.dart';
 
 class DiscoverPage extends StatefulWidget {
   const DiscoverPage({Key? key}) : super(key: key);
@@ -77,52 +80,50 @@ class _DiscoverPageState extends State<DiscoverPage> {
                             )
                           ],
                         ),
-                        child: ListTile(
+                        child: CustomPayattuTile(
+                          payattu: state.payattList[index],
                           onTap: () {
                             showModalBottomSheet(
-                                isScrollControlled: true,
-                                constraints: BoxConstraints(
-                                  minWidth: size.width,
-                                  maxHeight: size.height,
+                              isScrollControlled: true,
+                              constraints: BoxConstraints(
+                                minWidth: size.width,
+                                maxHeight: size.height,
+                              ),
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(30.0),
+                                  topRight: Radius.circular(30.0),
                                 ),
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(30.0),
-                                    topRight: Radius.circular(30.0),
-                                  ),
+                              ),
+                              context: context,
+                              builder: (_) => BottomPayattuCard(
+                                payattu: state.payattList[index],
+                                bottomButton: RoundedElevatedButton(
+                                  child: const Text('Add to payattu list'),
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (_) => CustomInputPopup(
+                                        title: 'Enter Amount',
+                                        onCancell: () =>
+                                            Navigator.of(context).pop(false),
+                                        onSubmit: (String value) => context
+                                            .read<ManagePayattuCubit>()
+                                            .addPayattu(
+                                              payattu: state.payattList[index],
+                                              amount: double.parse(value),
+                                            ),
+                                      ),
+                                    ).then((result) {
+                                      if (result) {
+                                        Navigator.of(context).pop();
+                                      }
+                                    });
+                                  },
                                 ),
-                                context: context,
-                                builder: (_) => CustomModalSheet(
-                                    hostImageUrl:
-                                        state.payattList[index].coverImageUrl,
-                                    hostName: state.payattList[index].host,
-                                    date:
-                                        state.payattList[index].date.toString(),
-                                    time: state.payattList[index].time,
-                                    location:
-                                        state.payattList[index].location));
+                              ),
+                            );
                           },
-                          leading: CircleAvatar(
-                            foregroundImage:
-                                (state.payattList[index].coverImageUrl != '')
-                                    ? CachedNetworkImageProvider(
-                                        state.payattList[index].coverImageUrl)
-                                    : null,
-                            backgroundImage:
-                                const AssetImage(Assets.defaultProfile),
-                          ),
-                          title: Text(
-                            state.payattList[index].host,
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          subtitle: Text(
-                            state.payattList[index].date.toString(),
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
-                          ),
-                          trailing: const Icon(Icons.add),
                         ),
                       ),
                     )

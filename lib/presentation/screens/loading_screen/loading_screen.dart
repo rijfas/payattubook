@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:payattubook/presentation/components/rounded_elevated_button.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../core/constants/assets.dart';
 import '../../../core/utils/auth_state.dart';
-import '../../../core/utils/utils.dart';
 import '../../../logic/authentication/cubit/authentication_cubit.dart';
 import '../../router/app_router.dart';
 
@@ -23,6 +23,7 @@ class _LoadingScreenState extends AuthState<LoadingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return BlocListener<AuthenticationCubit, AuthenticationState>(
       listener: (context, state) {
         if (state is AuthenticationCompleted) {
@@ -36,20 +37,35 @@ class _LoadingScreenState extends AuthState<LoadingScreen> {
       child: Scaffold(
         body: BlocBuilder<AuthenticationCubit, AuthenticationState>(
           builder: (context, state) {
-            if (state is AuthenticationLoading) {
-              return Center(
-                child: CircularProgressIndicator(),
+            if (state is AuthenticationError) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    Assets.defaultErrorImage,
+                    width: size.width * 0.4,
+                  ),
+                  SizedBox(height: size.height * 0.025),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text('An error occured'),
+                      const SizedBox(width: 4.0),
+                      InkWell(
+                        child: const Text(
+                          'Sign in?',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        onTap: () =>
+                            context.read<AuthenticationCubit>().signOut(),
+                      )
+                    ],
+                  )
+                ],
               );
             }
-            return Column(
-              children: [
-                RoundedElevatedButton(
-                  child: Text('Re Login'),
-                  onPressed: () {
-                    context.read<AuthenticationCubit>().signOut();
-                  },
-                )
-              ],
+            return const Center(
+              child: CircularProgressIndicator(),
             );
           },
         ),

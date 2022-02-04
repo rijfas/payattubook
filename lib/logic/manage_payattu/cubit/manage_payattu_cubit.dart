@@ -12,27 +12,28 @@ class ManagePayattuCubit extends Cubit<ManagePayattuState> {
   void loadPayattu() async {
     emit(ManagePayattuLoading());
     final box = await Hive.openBox('payatts');
-    final payattuRawList = box.get('payatts') as List;
+    final rawPayattuList = box.values.toList();
     List<UserPayattu> payattulist = [];
-    for (var e in payattuRawList) {
-      payattulist.add(e);
+    for (UserPayattu item in rawPayattuList) {
+      payattulist.add(item);
     }
     emit(ManagePayattuLoaded(payattuList: payattulist));
   }
 
   void addPayattu({
-    required List<UserPayattu> currentPayatts,
     required Payattu payattu,
     required double amount,
   }) async {
     emit(ManagePayattuLoading());
-
-    final newPayatts = [
-      ...currentPayatts,
-      UserPayattu(payattu: payattu, amount: amount)
-    ];
     final box = await Hive.openBox('payatts');
-    box.put('payatts', newPayatts);
-    emit(ManagePayattuLoaded(payattuList: newPayatts));
+    box.add(UserPayattu(payattu: payattu, amount: amount));
+    loadPayattu();
+  }
+
+  void removePayattu({required int index}) async {
+    emit(ManagePayattuLoading());
+    final box = await Hive.openBox('payatts');
+    box.deleteAt(index);
+    loadPayattu();
   }
 }

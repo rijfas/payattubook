@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:payattubook/logic/manage_payattu/cubit/manage_payattu_cubit.dart';
 
-import '../../../../logic/discover_payattu/cubit/discover_payattu_cubit.dart';
+import '../../../../logic/manage_payattu/cubit/manage_payattu_cubit.dart';
 import '../../../components/rounded_elevated_button.dart';
-import '../components/custom_search_bar.dart';
-import '../components/custom_modal_sheet.dart';
+import '../components/bottom_payattu_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -70,16 +68,22 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                               context: context,
-                              builder: (_) => CustomModalSheet(
-                                  hostImageUrl: state
-                                      .payattuList[index].payattu.coverImageUrl,
-                                  hostName:
-                                      state.payattuList[index].payattu.host,
-                                  date: state.payattuList[index].payattu.date
-                                      .toString(),
-                                  time: state.payattuList[index].payattu.time,
-                                  location: state
-                                      .payattuList[index].payattu.location));
+                              builder: (_) => BottomPayattuCard(
+                                    payattu: state.payattuList[index].payattu,
+                                    bottomButton: RoundedElevatedButton(
+                                      color: Colors.red[300],
+                                      child: const Text(
+                                        'Remove from payattu list',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      onPressed: () {
+                                        context
+                                            .read<ManagePayattuCubit>()
+                                            .removePayattu(index: index);
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ));
                         },
                         leading: CircleAvatar(
                           backgroundImage: NetworkImage(
@@ -96,7 +100,8 @@ class _HomePageState extends State<HomePage> {
                             color: Theme.of(context).colorScheme.secondary,
                           ),
                         ),
-                        trailing: const Icon(Icons.add),
+                        trailing:
+                            Text(state.payattuList[index].amount.toString()),
                       ),
                     ),
                   )

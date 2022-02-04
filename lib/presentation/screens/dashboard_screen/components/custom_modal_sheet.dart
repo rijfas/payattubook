@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constants/assets.dart';
-import '../../../../data/manage_payattu/models/user_payattu.dart';
 import '../../../../data/payattu/models/payattu.dart';
 import '../../../../logic/manage_payattu/cubit/manage_payattu_cubit.dart';
 import '../../../components/rounded_elevated_button.dart';
@@ -87,21 +86,44 @@ class CustomModalSheet extends StatelessWidget {
             RoundedElevatedButton(
               child: const Text('Add to payattu list'),
               onPressed: () {
-                final state = context.read<ManagePayattuCubit>().state;
-
-                final currentPayatts = (state is ManagePayattuLoaded)
-                    ? state.payattuList
-                    : const <UserPayattu>[];
-                context.read<ManagePayattuCubit>().addPayattu(
-                    currentPayatts: currentPayatts,
-                    payattu: Payattu(
-                        createdBy: 'Rijfas',
-                        host: 'Rijfas',
-                        hostPhoneNumber: 'aasdas',
-                        date: DateTime.now(),
-                        time: '12 man',
-                        location: 'fdsf'),
-                    amount: 100);
+                final TextEditingController _amountController =
+                    TextEditingController();
+                showDialog(
+                    context: context,
+                    builder: (_) => AlertDialog(
+                          title: Text(
+                            'Enter Amount',
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor),
+                          ),
+                          content: TextField(
+                            controller: _amountController,
+                          ),
+                          actions: <Widget>[
+                            ElevatedButton(
+                              child: Text('CANCEL'),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                            ElevatedButton(
+                              child: Text('OK'),
+                              onPressed: () {
+                                context.read<ManagePayattuCubit>().addPayattu(
+                                    payattu: Payattu(
+                                        createdBy: 'Rijfas',
+                                        host: 'Rijfas',
+                                        hostPhoneNumber: 'aasdas',
+                                        date: DateTime.now(),
+                                        time: '12 man',
+                                        location: 'fdsf'),
+                                    amount: double.parse(
+                                        _amountController.value.text));
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        )).then((value) => Navigator.of(context).pop());
               },
             ),
             SizedBox(height: size.height * 0.025),

@@ -115,7 +115,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     }
 
     final user = User(
-        profileUrl: profile.data[0]['profile_url'],
+        profileUrl: profile.data[0]['profile_url'] ?? '',
         fullName: profile.data[0]['full_name'],
         phoneNumber: profile.data[0]['phone_number'],
         address: profile.data[0]['address']);
