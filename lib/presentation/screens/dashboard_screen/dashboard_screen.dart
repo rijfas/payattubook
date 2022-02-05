@@ -36,23 +36,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
-            child: BlocBuilder<AuthenticationCubit, AuthenticationState>(
-                builder: (context, state) {
-              if (state is AuthenticationCompleted &&
-                  state.user.profileUrl != '') {
-                return CircleAvatar(
-                  backgroundImage: CachedNetworkImageProvider(
-                    state.user.profileUrl,
-                  ),
+            child: IconButton(
+              onPressed: () =>
+                  Navigator.of(context).pushNamed(AppRouter.profileScreen),
+              icon: BlocBuilder<AuthenticationCubit, AuthenticationState>(
+                  builder: (context, state) {
+                if (state is AuthenticationCompleted &&
+                    state.user.profileUrl != '') {
+                  return CircleAvatar(
+                    backgroundImage: CachedNetworkImageProvider(
+                      state.user.profileUrl,
+                    ),
+                  );
+                }
+                return const Icon(
+                  Icons.account_circle,
+                  size: 36.0,
                 );
-              }
-              return IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.account_circle,
-                    size: 36.0,
-                  ));
-            }),
+              }),
+            ),
           )
         ],
       ),

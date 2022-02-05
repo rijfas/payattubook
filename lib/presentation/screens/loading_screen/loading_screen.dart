@@ -5,7 +5,7 @@ import 'package:payattubook/core/utils/utils.dart';
 import 'package:rive/rive.dart';
 
 import '../../../core/constants/assets.dart';
-import '../../../core/utils/auth_state.dart';
+import '../../../core/states/auth_state.dart';
 import '../../../logic/authentication/cubit/authentication_cubit.dart';
 import '../../router/app_router.dart';
 
