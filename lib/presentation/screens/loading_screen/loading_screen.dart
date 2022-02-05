@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:payattubook/core/utils/utils.dart';
+import 'package:rive/rive.dart';
 
 import '../../../core/constants/assets.dart';
 import '../../../core/utils/auth_state.dart';
@@ -17,6 +19,7 @@ class LoadingScreen extends StatefulWidget {
 class _LoadingScreenState extends AuthState<LoadingScreen> {
   @override
   void initState() {
+    Utils.enableFullScreen();
     recoverSupabaseSession();
     super.initState();
   }
@@ -27,11 +30,12 @@ class _LoadingScreenState extends AuthState<LoadingScreen> {
     return BlocListener<AuthenticationCubit, AuthenticationState>(
       listener: (context, state) {
         if (state is AuthenticationCompleted) {
-          Navigator.of(context)
-              .pushNamedAndRemoveUntil(AppRouter.dashboardScreen, (_) => false);
+          Utils.disableFullScreen().then((value) => Navigator.of(context)
+              .pushNamedAndRemoveUntil(
+                  AppRouter.dashboardScreen, (_) => false));
         } else if (state is AuthenticationPending) {
-          Navigator.of(context)
-              .pushNamedAndRemoveUntil(AppRouter.signInScreen, (_) => false);
+          Utils.disableFullScreen().then((value) => Navigator.of(context)
+              .pushNamedAndRemoveUntil(AppRouter.signInScreen, (_) => false));
         }
       },
       child: Scaffold(
@@ -64,8 +68,20 @@ class _LoadingScreenState extends AuthState<LoadingScreen> {
                 ],
               );
             }
-            return const Center(
-              child: CircularProgressIndicator(),
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: size.height * 0.3,
+                  child: const RiveAnimation.asset(
+                    Assets.loadingAnimation,
+                    artboard: 'wallet',
+                  ),
+                ),
+                SizedBox(height: size.height * 0.025),
+                const CircularProgressIndicator(),
+              ],
             );
           },
         ),

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:payattubook/core/utils/utils.dart';
-import 'package:payattubook/data/manage_payattu/models/user_payattu.dart';
-import 'package:table_calendar/table_calendar.dart';
-import '../../../../logic/manage_payattu/cubit/manage_payattu_cubit.dart';
-import '../components/bottom_payattu_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:table_calendar/table_calendar.dart';
+
+import '../../../../core/constants/assets.dart';
+import '../../../../core/utils/utils.dart';
+import '../../../../data/manage_payattu/models/user_payattu.dart';
+import '../../../../logic/manage_payattu/cubit/manage_payattu_cubit.dart';
 import '../../../components/rounded_elevated_button.dart';
+import '../components/bottom_payattu_card.dart';
 
 class CalendarPayattuView extends StatefulWidget {
   const CalendarPayattuView({
@@ -97,10 +100,16 @@ class _CalendarPayattuViewState extends State<CalendarPayattuView> {
                   BoxDecoration(shape: BoxShape.circle, border: Border.all()),
               todayTextStyle: TextStyle(color: Theme.of(context).primaryColor),
               selectedDecoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Theme.of(context).primaryColor),
+                shape: BoxShape.circle,
+                color: Theme.of(context).primaryColor,
+              ),
+              holidayDecoration: const BoxDecoration(
+                border: Border.fromBorderSide(BorderSide.none),
+              ),
+              holidayTextStyle: TextStyle(color: Colors.red[300]),
             ),
             onDaySelected: _onDaySelected,
+            holidayPredicate: (day) => day.weekday == 7,
             onFormatChanged: (format) {
               if (_calendarFormat != format) {
                 setState(() {
@@ -113,84 +122,94 @@ class _CalendarPayattuViewState extends State<CalendarPayattuView> {
             },
           ),
           const SizedBox(height: 8.0),
-          ValueListenableBuilder<List<Map<int, UserPayattu>>>(
-            valueListenable: _selectedPayatts,
-            builder: (context, value, _) {
-              if (value.length == 0) {
-                return Center(
-                  child: Text('No Payatt'),
-                );
-              }
-              return ListView.builder(
-                itemCount: value.length,
-                shrinkWrap: true,
-                physics: const ScrollPhysics(),
-                itemBuilder: (context, index) => Container(
-                  margin: const EdgeInsets.only(bottom: 16.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: Colors.white,
-                    boxShadow: const [
-                      BoxShadow(
-                        offset: Offset(0, 5),
-                        color: Colors.black12,
-                        blurRadius: 5,
-                      )
+          Expanded(
+            child: ValueListenableBuilder<List<Map<int, UserPayattu>>>(
+              valueListenable: _selectedPayatts,
+              builder: (context, value, _) {
+                if (value.isEmpty) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 8.0),
+                      SvgPicture.asset(Assets.defaulEmptyImage,
+                          width: size.width * 0.3),
+                      const SizedBox(height: 8.0),
+                      Text('No payattu on $_selectedDay'),
                     ],
-                  ),
-                  child: ListTile(
-                    onTap: () {
-                      showModalBottomSheet(
-                          isScrollControlled: true,
-                          constraints: BoxConstraints(
-                            minWidth: size.width,
-                            maxHeight: size.height,
-                          ),
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(30.0),
-                              topRight: Radius.circular(30.0),
+                  );
+                }
+                return ListView.builder(
+                  itemCount: value.length,
+                  shrinkWrap: true,
+                  physics: const ScrollPhysics(),
+                  itemBuilder: (context, index) => Container(
+                    margin: const EdgeInsets.only(bottom: 16.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      color: Colors.white,
+                      boxShadow: const [
+                        BoxShadow(
+                          offset: Offset(0, 5),
+                          color: Colors.black12,
+                          blurRadius: 5,
+                        )
+                      ],
+                    ),
+                    child: ListTile(
+                      onTap: () {
+                        showModalBottomSheet(
+                            isScrollControlled: true,
+                            constraints: BoxConstraints(
+                              minWidth: size.width,
+                              maxHeight: size.height,
                             ),
-                          ),
-                          context: context,
-                          builder: (_) => BottomPayattuCard(
-                                payattu: value[index].values.first.payattu,
-                                bottomButton: RoundedElevatedButton(
-                                  color: Colors.red[300],
-                                  child: const Text(
-                                    'Remove from payattu list',
-                                    style: TextStyle(color: Colors.white),
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(30.0),
+                                topRight: Radius.circular(30.0),
+                              ),
+                            ),
+                            context: context,
+                            builder: (_) => BottomPayattuCard(
+                                  payattu: value[index].values.first.payattu,
+                                  bottomButton: RoundedElevatedButton(
+                                    color: Colors.red[300],
+                                    child: const Text(
+                                      'Remove from payattu list',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    onPressed: () {
+                                      context
+                                          .read<ManagePayattuCubit>()
+                                          .removePayattu(
+                                              index: value[index].keys.first);
+                                      Navigator.of(context).pop();
+                                    },
                                   ),
-                                  onPressed: () {
-                                    context
-                                        .read<ManagePayattuCubit>()
-                                        .removePayattu(
-                                            index: value[index].keys.first);
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                              ));
-                    },
-                    leading: CircleAvatar(
-                      backgroundImage: NetworkImage(
-                          value[index].values.first.payattu.coverImageUrl),
-                    ),
-                    title: Text(
-                      value[index].values.first.payattu.host,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text(
-                      value[index].values.first.payattu.date.toString(),
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.secondary,
+                                ));
+                      },
+                      leading: CircleAvatar(
+                        backgroundImage: NetworkImage(
+                            value[index].values.first.payattu.coverImageUrl),
                       ),
+                      title: Text(
+                        value[index].values.first.payattu.host,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Text(
+                        value[index].values.first.payattu.date.toString(),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                      ),
+                      trailing:
+                          Text(value[index].values.first.amount.toString()),
                     ),
-                    trailing: Text(value[index].values.first.amount.toString()),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         ],
       ),

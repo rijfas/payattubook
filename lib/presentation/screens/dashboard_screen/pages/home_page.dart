@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:payattubook/data/manage_payattu/models/user_payattu.dart';
-import 'package:table_calendar/table_calendar.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../core/constants/assets.dart';
+import '../../../../core/constants/default_widgets.dart';
+import '../../../../core/utils/utils.dart';
+import '../../../../data/payattu/models/payattu.dart';
+import '../../../../logic/discover_payattu/cubit/discover_payattu_cubit.dart';
 import '../../../../logic/manage_payattu/cubit/manage_payattu_cubit.dart';
-import '../../../components/rounded_elevated_button.dart';
-import '../components/bottom_payattu_card.dart';
-import '../components/calendar_payattu_view.dart';
+import '../components/payattu_expansion_tile.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -25,108 +27,129 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    return BlocBuilder<ManagePayattuCubit, ManagePayattuState>(
+    return BlocBuilder<DiscoverPayattuCubit, DiscoverPayattuState>(
         builder: (context, state) {
-      if (state is ManagePayattuLoading) {
+      late final String message;
+      if (state is DiscoverPayattuLoading) {
         return const Center(
           child: CircularProgressIndicator(),
         );
-      } else if (state is ManagePayattuLoaded) {
+      } else if (state is DiscoverPayattuLoaded) {
+        final _todaysPayatts = _getTodaysPayattu(state.payattList);
         return SizedBox(
           height: size.height - kToolbarHeight,
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CalendarPayattuView(payattuList: state.payattuList),
-              // child: Column(
-              //   children: [
-              //     ListView.builder(
-              //       itemCount: state.payattuList.length,
-              //       shrinkWrap: true,
-              //       physics: const ScrollPhysics(),
-              //       itemBuilder: (context, index) => Container(
-              //         margin: const EdgeInsets.only(bottom: 16.0),
-              //         decoration: BoxDecoration(
-              //           borderRadius: BorderRadius.circular(10.0),
-              //           color: Colors.white,
-              //           boxShadow: const [
-              //             BoxShadow(
-              //               offset: Offset(0, 5),
-              //               color: Colors.black12,
-              //               blurRadius: 5,
-              //             )
-              //           ],
-              //         ),
-              //         child: ListTile(
-              //           onTap: () {
-              //             showModalBottomSheet(
-              //                 isScrollControlled: true,
-              //                 constraints: BoxConstraints(
-              //                   minWidth: size.width,
-              //                   maxHeight: size.height,
-              //                 ),
-              //                 shape: const RoundedRectangleBorder(
-              //                   borderRadius: BorderRadius.only(
-              //                     topLeft: Radius.circular(30.0),
-              //                     topRight: Radius.circular(30.0),
-              //                   ),
-              //                 ),
-              //                 context: context,
-              //                 builder: (_) => BottomPayattuCard(
-              //                       payattu: state.payattuList[index].payattu,
-              //                       bottomButton: RoundedElevatedButton(
-              //                         color: Colors.red[300],
-              //                         child: const Text(
-              //                           'Remove from payattu list',
-              //                           style: TextStyle(color: Colors.white),
-              //                         ),
-              //                         onPressed: () {
-              //                           context
-              //                               .read<ManagePayattuCubit>()
-              //                               .removePayattu(index: index);
-              //                           Navigator.of(context).pop();
-              //                         },
-              //                       ),
-              //                     ));
-              //           },
-              //           leading: CircleAvatar(
-              //             backgroundImage: NetworkImage(
-              //                 state.payattuList[index].payattu.coverImageUrl),
-              //           ),
-              //           title: Text(
-              //             state.payattuList[index].payattu.host,
-              //             style: const TextStyle(fontWeight: FontWeight.bold),
-              //           ),
-              //           subtitle: Text(
-              //             state.payattuList[index].payattu.date.toString(),
-              //             style: TextStyle(
-              //               fontWeight: FontWeight.bold,
-              //               color: Theme.of(context).colorScheme.secondary,
-              //             ),
-              //           ),
-              //           trailing:
-              //               Text(state.payattuList[index].amount.toString()),
-              //         ),
-              //       ),
-              //     )
-              //   ],
-              // ),
+              padding: DefaultWidgets.padding,
+              child: Column(
+                children: [
+                  ..._buildHeader(title: 'Today\'s Payattu'),
+                  if (_todaysPayatts.isNotEmpty)
+                    _buildPayattList(payattList: _todaysPayatts)
+                  else
+                    _buildEmptyMessage(message: 'No payattu today'),
+                  DefaultWidgets.verticalSpacing(context: context),
+                  ..._buildHeader(title: 'Upcoming Payattu'),
+                  if (state.payattList.isNotEmpty)
+                    _buildPayattList(payattList: state.payattList)
+                  else
+                    _buildEmptyMessage(message: 'No upcoming payattu'),
+                ],
+              ),
             ),
           ),
         );
-      } else if (state is ManagePayattuError) {
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+      } else if (state is DiscoverPayattuError) {
+        message = state.message;
+      } else {
+        message = 'Unknown error';
+      }
+      return _buildErrorMessage(message: message);
+    });
+  }
+
+  List<Payattu> _getTodaysPayattu(List<Payattu> payattList) {
+    final today = DateTime.now();
+    List<Payattu> payatts = <Payattu>[];
+    for (final payattu in payattList) {
+      if (Utils.isSameDate(today, payattu.date)) {
+        payatts.add(payattu);
+      }
+    }
+    return payatts;
+  }
+
+  List<Widget> _buildHeader({required String title}) {
+    return <Widget>[
+      Padding(
+        padding: const EdgeInsets.only(left: 16.0),
+        child: Row(
           children: [
-            Text('Error'),
-            RoundedElevatedButton(
-              child: Text('Retry'),
-              onPressed: () => context.read<ManagePayattuCubit>().loadPayattu(),
+            Text(
+              title,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             )
           ],
-        );
-      }
-      return Text('Unknown error');
-    });
+        ),
+      ),
+      const Divider(),
+    ];
+  }
+
+  Widget _buildEmptyMessage({required String message}) {
+    final Size size = MediaQuery.of(context).size;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        DefaultWidgets.verticalSizedBox,
+        SvgPicture.asset(
+          Assets.defaulEmptyImage,
+          width: size.width * 0.3,
+        ),
+        DefaultWidgets.verticalSizedBox,
+        Text(message),
+      ],
+    );
+  }
+
+  Widget _buildErrorMessage({required String message}) {
+    final Size size = MediaQuery.of(context).size;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        DefaultWidgets.verticalSizedBox,
+        SvgPicture.asset(
+          Assets.defaultErrorImage,
+          width: size.width * 0.3,
+        ),
+        DefaultWidgets.verticalSizedBox,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(message),
+            DefaultWidgets.horizontalSizedBox,
+            InkWell(
+              onTap: () => context.read<ManagePayattuCubit>().loadPayattu(),
+              child: const Text(
+                'Retry?',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            )
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPayattList({required List<Payattu> payattList}) {
+    return ListView.builder(
+      itemCount: payattList.length,
+      shrinkWrap: true,
+      physics: const ScrollPhysics(),
+      itemBuilder: (context, index) => PayattuExpansionTile(
+        payattu: payattList[index],
+      ),
+    );
   }
 }

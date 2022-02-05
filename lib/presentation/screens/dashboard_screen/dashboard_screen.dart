@@ -1,11 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:payattubook/presentation/screens/dashboard_screen/pages/home_page.dart';
 
 import '../../../logic/authentication/cubit/authentication_cubit.dart';
 import '../../router/app_router.dart';
+import 'pages/calendar_page.dart';
 import 'pages/discover_page.dart';
+import 'pages/home_page.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -19,8 +20,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   final List<Widget> _pages = const [
     HomePage(),
+    CalendarPage(),
     DiscoverPage(),
-    Text('Transactions'),
+    Center(child: Text('Transactions(Coming soon)')),
   ];
 
   @override
@@ -70,6 +72,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
             backgroundColor: Colors.white,
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_today_outlined),
+            label: 'Calendar',
+            backgroundColor: Colors.white,
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.search),
             label: 'Discover',
             backgroundColor: Colors.white,
@@ -81,7 +88,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           )
         ],
       ),
-      floatingActionButton: (_currentIndex == 1)
+      floatingActionButton: (_currentIndex == 2)
           ? FloatingActionButton(
               backgroundColor: Theme.of(context).primaryColor,
               child: const Icon(
