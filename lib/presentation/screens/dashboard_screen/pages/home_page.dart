@@ -130,7 +130,7 @@ class _HomePageState extends State<HomePage> {
             Text(message),
             DefaultWidgets.horizontalSizedBox,
             InkWell(
-              onTap: () => context.read<ManagePayattuCubit>().loadPayattu(),
+              onTap: () => context.read<DiscoverPayattuCubit>().loadPayattu(),
               child: const Text(
                 'Retry?',
                 style: TextStyle(fontWeight: FontWeight.bold),

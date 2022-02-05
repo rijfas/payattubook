@@ -20,8 +20,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   final List<Widget> _pages = const [
     HomePage(),
-    CalendarPage(),
     DiscoverPage(),
+    CalendarPage(),
     Center(child: Text('Transactions(Coming soon)')),
   ];
 
@@ -72,13 +72,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
             backgroundColor: Colors.white,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today_outlined),
-            label: 'Calendar',
+            icon: Icon(Icons.search),
+            label: 'Discover',
             backgroundColor: Colors.white,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Discover',
+            icon: Icon(Icons.calendar_today_outlined),
+            label: 'Calendar',
             backgroundColor: Colors.white,
           ),
           BottomNavigationBarItem(
@@ -88,7 +88,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           )
         ],
       ),
-      floatingActionButton: (_currentIndex == 2)
+      floatingActionButton: (_currentIndex == 1)
           ? FloatingActionButton(
               backgroundColor: Theme.of(context).primaryColor,
               child: const Icon(

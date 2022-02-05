@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/themes/app_theme.dart';
 
-class CustomSearchBar extends StatelessWidget {
+class CustomSearchBar extends StatefulWidget {
   const CustomSearchBar({
     Key? key,
     required TextEditingController controller,
@@ -15,6 +15,11 @@ class CustomSearchBar extends StatelessWidget {
   final void Function() _onSearch;
   final String _hintText;
 
+  @override
+  State<CustomSearchBar> createState() => _CustomSearchBarState();
+}
+
+class _CustomSearchBarState extends State<CustomSearchBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,11 +37,14 @@ class CustomSearchBar extends StatelessWidget {
           ),
           Expanded(
             child: TextField(
-              controller: _controller,
-              onEditingComplete: _onSearch,
+              onChanged: (_) {
+                setState(() {});
+              },
+              controller: widget._controller,
+              onEditingComplete: widget._onSearch,
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: _hintText,
+                hintText: widget._hintText,
                 hintStyle: const TextStyle(
                   fontWeight: FontWeight.w500,
                   color: AppTheme.lightSecondaryColor,
@@ -45,12 +53,13 @@ class CustomSearchBar extends StatelessWidget {
               ),
             ),
           ),
-          if (_controller.value.text != '')
+          if (widget._controller.value.text != '')
             IconButton(
               icon: const Icon(Icons.clear),
               onPressed: () {
-                _controller.clear();
-                _onSearch();
+                setState(() {
+                  widget._controller.clear();
+                });
               },
             )
         ],

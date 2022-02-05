@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:payattubook/core/utils/error_discriptors.dart';
 import 'package:payattubook/core/utils/utils.dart';
 
 import '../../../data/payattu/models/payattu.dart';
@@ -12,7 +13,8 @@ class DiscoverPayattuCubit extends Cubit<DiscoverPayattuState> {
     emit(DiscoverPayattuLoading());
     final response = await Utils.supabase.from('payatts').select().execute();
     if (response.error != null) {
-      emit(DiscoverPayattuError(message: response.error!.message));
+      emit(DiscoverPayattuError(
+          message: ErrorDescriptors.getNetworkErrorOrOriginal(response.error)));
       return;
     }
     final data = response.data;
@@ -40,7 +42,8 @@ class DiscoverPayattuCubit extends Cubit<DiscoverPayattuState> {
         .ilike('host', '%$hostName%')
         .execute();
     if (response.error != null) {
-      emit(DiscoverPayattuError(message: response.error!.message));
+      emit(DiscoverPayattuError(
+          message: ErrorDescriptors.getNetworkErrorOrOriginal(response.error)));
       return;
     }
     final data = response.data;
