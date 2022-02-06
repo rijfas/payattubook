@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:payattubook/presentation/components/default_error_widget.dart';
 import 'package:payattubook/presentation/components/default_shaded_container.dart';
 
 import '../../../../core/constants/assets.dart';
 import '../../../../logic/discover_payattu/cubit/discover_payattu_cubit.dart';
 import '../components/bottom_payattu_card.dart';
 import '../components/custom_search_bar.dart';
-import '../components/custom_input_popup.dart';
+import '../components/amount_popup.dart';
 import '../../../components/rounded_elevated_button.dart';
 import '../../../../logic/manage_payattu/cubit/manage_payattu_cubit.dart';
 import '../components/custom_payattu_tile.dart';
@@ -92,7 +93,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                                   onPressed: () {
                                     showDialog(
                                       context: context,
-                                      builder: (_) => CustomInputPopup(
+                                      builder: (_) => AmountPopup(
                                         title: 'Enter Amount',
                                         onCancell: () =>
                                             Navigator.of(context).pop(false),
@@ -121,7 +122,11 @@ class _DiscoverPageState extends State<DiscoverPage> {
                   } else {
                     message = 'Unknown Error!';
                   }
-                  return _buildErrorMessage(message: message);
+                  return DefaultErrorWidget(
+                    message: message,
+                    onRetry: () =>
+                        context.read<DiscoverPayattuCubit>().loadPayattu(),
+                  );
                 }),
               ),
             ),
@@ -131,33 +136,33 @@ class _DiscoverPageState extends State<DiscoverPage> {
     );
   }
 
-  Widget _buildErrorMessage({required String message}) {
-    final Size size = MediaQuery.of(context).size;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        DefaultWidgets.verticalSizedBox,
-        SvgPicture.asset(
-          Assets.defaultErrorImage,
-          width: size.width * 0.3,
-        ),
-        DefaultWidgets.verticalSizedBox,
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(message),
-            DefaultWidgets.horizontalSizedBox,
-            InkWell(
-              onTap: () => context.read<DiscoverPayattuCubit>().loadPayattu(),
-              child: const Text(
-                'Retry?',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            )
-          ],
-        ),
-      ],
-    );
-  }
+  // Widget _buildErrorMessage({required String message}) {
+  //   final Size size = MediaQuery.of(context).size;
+  //   return Column(
+  //     mainAxisAlignment: MainAxisAlignment.center,
+  //     crossAxisAlignment: CrossAxisAlignment.center,
+  //     children: [
+  //       DefaultWidgets.verticalSizedBox,
+  //       SvgPicture.asset(
+  //         Assets.defaultErrorImage,
+  //         width: size.width * 0.3,
+  //       ),
+  //       DefaultWidgets.verticalSizedBox,
+  //       Row(
+  //         mainAxisAlignment: MainAxisAlignment.center,
+  //         children: [
+  //           Text(message),
+  //           DefaultWidgets.horizontalSizedBox,
+  //           InkWell(
+  //             onTap: () => context.read<DiscoverPayattuCubit>().loadPayattu(),
+  //             child: const Text(
+  //               'Retry?',
+  //               style: TextStyle(fontWeight: FontWeight.bold),
+  //             ),
+  //           )
+  //         ],
+  //       ),
+  //     ],
+  //   );
+  // }
 }

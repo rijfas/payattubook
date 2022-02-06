@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/constants/default_widgets.dart';
 import '../../../../logic/manage_payattu/cubit/manage_payattu_cubit.dart';
-import '../../../components/rounded_elevated_button.dart';
+import '../../../components/default_error_widget.dart';
 import '../components/calendar_payattu_view.dart';
 
 class CalendarPage extends StatefulWidget {
@@ -23,28 +24,25 @@ class _CalendarPageState extends State<CalendarPage> {
   Widget build(BuildContext context) {
     return BlocBuilder<ManagePayattuCubit, ManagePayattuState>(
         builder: (context, state) {
+      late final String message;
       if (state is ManagePayattuLoading) {
         return const Center(
           child: CircularProgressIndicator(),
         );
       } else if (state is ManagePayattuLoaded) {
         return Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: DefaultWidgets.padding,
           child: CalendarPayattuView(payattuList: state.payattuList),
         );
       } else if (state is ManagePayattuError) {
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('Error'),
-            RoundedElevatedButton(
-              child: const Text('Retry'),
-              onPressed: () => context.read<ManagePayattuCubit>().loadPayattu(),
-            )
-          ],
-        );
+        message = state.message;
+      } else {
+        message = 'Unknown Error';
       }
-      return const Text('Unknown error');
+      return DefaultErrorWidget(
+        message: message,
+        onRetry: () => context.read<ManagePayattuCubit>().loadPayattu(),
+      );
     });
   }
 }

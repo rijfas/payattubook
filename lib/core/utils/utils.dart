@@ -37,4 +37,12 @@ class Utils {
         first.month == second.month &&
         first.year == second.year;
   }
+
+  static int getHoursFromTimeString(String timeString) {
+    return int.tryParse(timeString.split(':').first) ?? 0;
+  }
+
+  static int getMinutesFromTimeString(String timeString) {
+    return int.tryParse(timeString.split(':')[1]) ?? 0;
+  }
 }

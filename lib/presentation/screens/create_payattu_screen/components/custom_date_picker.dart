@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CustomDatePicker extends StatefulWidget {
   const CustomDatePicker({
@@ -20,7 +21,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
           context: context,
           initialDate: DateTime.now(),
           firstDate: DateTime.now(),
-          lastDate: DateTime(2030, 1, 1),
+          lastDate: DateTime(2050, 1, 1),
         );
         widget.onDatePicked(pickedDate);
         setState(() {
@@ -37,7 +38,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
             Text(
               (_pickedDate == null)
                   ? 'Select date'
-                  : '${_pickedDate!.day} / ${_pickedDate!.month} / ${_pickedDate!.year}',
+                  : DateFormat("EEE, dd/M/y").format(_pickedDate!),
               style: TextStyle(
                 fontSize: 16.0,
                 color: (_pickedDate == null)

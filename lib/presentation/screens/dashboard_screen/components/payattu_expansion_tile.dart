@@ -1,8 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../core/constants/assets.dart';
-import '../../../../data/payattu/models/payattu.dart';
+import '../../../../data/discover_payattu/models/payattu.dart';
 import '../../../components/default_shaded_container.dart';
 import 'custom_expansion_tile.dart';
 
@@ -31,13 +32,13 @@ class PayattuExpansionTile extends StatelessWidget {
           ListTile(
             selected: true,
             leading: const Icon(Icons.date_range_outlined),
-            title: Text(_payattu.date.toString()),
+            title: Text(DateFormat("EEEE, dd/MM/y").format(_payattu.date)),
             subtitle: const Text('Date'),
           ),
           ListTile(
             selected: true,
             leading: const Icon(Icons.access_time_filled_outlined),
-            title: Text(_payattu.time),
+            title: Text(_payattu.time.format(context)),
             subtitle: const Text('Time'),
           ),
           ListTile(

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../../../core/constants/assets.dart';
 import '../../../../core/utils/utils.dart';
 import '../../../../data/manage_payattu/models/user_payattu.dart';
 import '../../../../logic/manage_payattu/cubit/manage_payattu_cubit.dart';
+import '../../../components/confirm_popup.dart';
 import '../../../components/rounded_elevated_button.dart';
 import '../components/bottom_payattu_card.dart';
 
@@ -134,7 +136,8 @@ class _CalendarPayattuViewState extends State<CalendarPayattuView> {
                       SvgPicture.asset(Assets.defaulEmptyImage,
                           width: size.width * 0.3),
                       const SizedBox(height: 8.0),
-                      Text('No payattu on $_selectedDay'),
+                      Text(
+                          'No payattu on ${DateFormat("EEE, dd/M/y").format(_selectedDay!)}'),
                     ],
                   );
                 }
@@ -179,11 +182,22 @@ class _CalendarPayattuViewState extends State<CalendarPayattuView> {
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     onPressed: () {
-                                      context
-                                          .read<ManagePayattuCubit>()
-                                          .removePayattu(
-                                              index: value[index].keys.first);
-                                      Navigator.of(context).pop();
+                                      showDialog<bool>(
+                                        context: context,
+                                        builder: (_) => const ConfirmPopup(
+                                            title: 'Confirm remove?',
+                                            message:
+                                                'Removed payatts cannot be recovered!'),
+                                      ).then((canRemove) {
+                                        if (canRemove!) {
+                                          context
+                                              .read<ManagePayattuCubit>()
+                                              .removePayattu(
+                                                  index:
+                                                      value[index].keys.first);
+                                          Navigator.of(context).pop();
+                                        }
+                                      });
                                     },
                                   ),
                                 ));

@@ -94,14 +94,14 @@ class _CreatePayattuScreenState extends State<CreatePayattuScreen> {
                       ),
                     ),
                     UnderlinedIconTextField(
-                      hintText: 'Host name',
+                      labelText: 'Host name',
                       icon: Icons.person,
                       controller: _hostNameController,
                       validator: Validators.defaultStringValidator('host name'),
                     ),
                     SizedBox(height: size.height * 0.025),
                     UnderlinedIconTextField(
-                      hintText: 'Host phone number',
+                      labelText: 'Host phone number',
                       icon: Icons.call,
                       controller: _hostPhoneNumberController,
                       validator: Validators.phoneNumberValidator,
@@ -114,7 +114,7 @@ class _CreatePayattuScreenState extends State<CreatePayattuScreen> {
                     CustomTimePicker(onTimePicked: (time) => _time = time),
                     SizedBox(height: size.height * 0.025),
                     UnderlinedIconTextField(
-                      hintText: 'Location',
+                      labelText: 'Location',
                       icon: Icons.location_on,
                       controller: _locationController,
                       validator: Validators.defaultStringValidator('location'),

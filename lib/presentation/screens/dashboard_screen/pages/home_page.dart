@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/constants/assets.dart';
 import '../../../../core/constants/default_widgets.dart';
 import '../../../../core/utils/utils.dart';
-import '../../../../data/payattu/models/payattu.dart';
+import '../../../../data/discover_payattu/models/payattu.dart';
 import '../../../../logic/discover_payattu/cubit/discover_payattu_cubit.dart';
 import '../../../../logic/manage_payattu/cubit/manage_payattu_cubit.dart';
 import '../components/payattu_expansion_tile.dart';

@@ -1,9 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../core/constants/assets.dart';
-import '../../../../data/payattu/models/payattu.dart';
+import '../../../../data/discover_payattu/models/payattu.dart';
 import '../../../components/rounded_elevated_button.dart';
 import 'custom_icon_tile.dart';
 
@@ -64,13 +65,13 @@ class BottomPayattuCard extends StatelessWidget {
             CustomIconTile(
               icon: Icons.date_range_outlined,
               title: 'Date',
-              content: _payattu.date.toString(),
+              content: DateFormat.yMMMMEEEEd().format(_payattu.date),
             ),
             SizedBox(height: size.height * 0.025),
             CustomIconTile(
               icon: Icons.access_time_filled_outlined,
               title: 'Time',
-              content: _payattu.time,
+              content: _payattu.time.format(context),
             ),
             SizedBox(height: size.height * 0.025),
             CustomIconTile(

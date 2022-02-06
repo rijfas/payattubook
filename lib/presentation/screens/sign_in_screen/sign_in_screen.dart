@@ -81,14 +81,14 @@ class _SignInScreenState extends State<SignInScreen> {
                       UnderlinedIconTextField(
                         validator: Validators.phoneNumberValidator,
                         controller: _phoneController,
-                        hintText: 'Mobile Number',
+                        labelText: 'Mobile Number',
                         icon: Icons.call,
                       ),
                       SizedBox(height: size.height * 0.025),
                       UnderlinedIconTextField(
                         validator: Validators.passwordValidator,
                         controller: _passwordController,
-                        hintText: 'Password',
+                        labelText: 'Password',
                         icon: Icons.lock,
                         obscureText: true,
                       ),

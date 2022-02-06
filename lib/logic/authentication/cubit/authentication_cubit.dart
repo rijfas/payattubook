@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
+import 'package:payattubook/core/utils/error_discriptors.dart';
 
 import '../../../core/utils/utils.dart';
 import '../../../data/authentication/models/user.dart';
@@ -28,12 +29,14 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         await Utils.supabase.auth.signUpWithPhone(phoneNumber, password);
 
     if (response.error != null) {
-      emit(AuthenticationError(message: response.error?.message));
+      emit(AuthenticationError(
+          message: ErrorDescriptors.getNetworkErrorOrOriginalFromGotrueError(
+              response.error)));
       return;
     }
 
     if (response.data == null) {
-      emit(AuthenticationError(message: 'empty response: $response'));
+      emit(AuthenticationError(message: 'Unknown Error'));
       return;
     }
 
@@ -61,12 +64,14 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     }).execute();
 
     if (profile.error != null) {
-      emit(AuthenticationError(message: profile.error?.message));
+      emit(AuthenticationError(
+          message: ErrorDescriptors.getNetworkErrorOrOriginalFromPostgrestError(
+              profile.error)));
       return;
     }
 
     if (profile.data == null) {
-      emit(AuthenticationError(message: 'empty response: $response'));
+      emit(AuthenticationError(message: 'Unknown Error'));
       return;
     }
 
@@ -88,12 +93,14 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         .signIn(phone: phoneNumber, password: password);
 
     if (response.error != null) {
-      emit(AuthenticationError(message: response.error?.message));
+      emit(AuthenticationError(
+          message: ErrorDescriptors.getNetworkErrorOrOriginalFromGotrueError(
+              response.error)));
       return;
     }
 
     if (response.data == null) {
-      emit(AuthenticationError(message: 'empty response: $response'));
+      emit(AuthenticationError(message: 'Unknown Error'));
       return;
     }
 
@@ -105,12 +112,14 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         .execute();
 
     if (profile.error != null) {
-      emit(AuthenticationError(message: profile.error?.message));
+      emit(AuthenticationError(
+          message: ErrorDescriptors.getNetworkErrorOrOriginalFromPostgrestError(
+              profile.error)));
       return;
     }
 
     if (profile.data == null) {
-      emit(AuthenticationError(message: 'empty response: $response'));
+      emit(AuthenticationError(message: 'Unknown Error'));
       return;
     }
 

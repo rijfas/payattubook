@@ -17,33 +17,36 @@ class PayattuAdapter extends TypeAdapter<Payattu> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Payattu(
-      createdBy: fields[0] as String,
-      host: fields[1] as String,
-      hostPhoneNumber: fields[2] as String,
-      coverImageUrl: fields[3] == null ? '' : fields[3] as String,
-      date: fields[4] as DateTime,
-      time: fields[5] as String,
-      location: fields[6] as String,
+      id: fields[0] as int,
+      createdBy: fields[1] as String,
+      host: fields[2] as String,
+      hostPhoneNumber: fields[3] as String,
+      coverImageUrl: fields[4] == null ? '' : fields[4] as String,
+      date: fields[5] as DateTime,
+      time: fields[6] as TimeOfDay,
+      location: fields[7] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, Payattu obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
-      ..write(obj.createdBy)
+      ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.host)
+      ..write(obj.createdBy)
       ..writeByte(2)
-      ..write(obj.hostPhoneNumber)
+      ..write(obj.host)
       ..writeByte(3)
-      ..write(obj.coverImageUrl)
+      ..write(obj.hostPhoneNumber)
       ..writeByte(4)
-      ..write(obj.date)
+      ..write(obj.coverImageUrl)
       ..writeByte(5)
-      ..write(obj.time)
+      ..write(obj.date)
       ..writeByte(6)
+      ..write(obj.time)
+      ..writeByte(7)
       ..write(obj.location);
   }
 

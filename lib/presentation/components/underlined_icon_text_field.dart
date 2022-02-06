@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 class UnderlinedIconTextField extends StatelessWidget {
   const UnderlinedIconTextField({
     Key? key,
-    required this.hintText,
     required this.icon,
     required this.controller,
+    this.labelText,
     this.obscureText = false,
     this.validator,
+    this.hintText,
   }) : super(key: key);
-  final String hintText;
+  final String? labelText;
+  final String? hintText;
   final IconData icon;
   final bool obscureText;
   final TextEditingController controller;
@@ -26,6 +28,7 @@ class UnderlinedIconTextField extends StatelessWidget {
           icon,
         ),
         hintText: hintText,
+        label: labelText == null ? null : Text(labelText!),
         hintStyle: TextStyle(
           color: Theme.of(context).colorScheme.secondary,
         ),

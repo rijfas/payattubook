@@ -1,15 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:payattubook/core/constants/assets.dart';
-import 'package:payattubook/core/constants/default_widgets.dart';
-import 'package:payattubook/core/utils/utils.dart';
-import 'package:payattubook/data/payattu/models/payattu.dart';
-import 'package:payattubook/logic/authentication/cubit/authentication_cubit.dart';
-import 'package:payattubook/logic/discover_payattu/cubit/discover_payattu_cubit.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:payattubook/presentation/screens/dashboard_screen/components/payattu_expansion_tile.dart';
+
+import '../../../core/constants/assets.dart';
+import '../../../core/constants/default_widgets.dart';
+import '../../../core/utils/utils.dart';
+import '../../../data/discover_payattu/models/payattu.dart';
+import '../../../logic/authentication/cubit/authentication_cubit.dart';
+import '../../../logic/discover_payattu/cubit/discover_payattu_cubit.dart';
+import '../dashboard_screen/components/payattu_expansion_tile.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);

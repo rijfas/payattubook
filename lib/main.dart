@@ -3,9 +3,10 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'app.dart';
+import 'core/utils/time_of_day_adapter.dart';
 import 'data/authentication/models/user.dart';
+import 'data/discover_payattu/models/payattu.dart';
 import 'data/manage_payattu/models/user_payattu.dart';
-import 'data/payattu/models/payattu.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,6 +14,7 @@ void main() async {
   //     storageDirectory: await getApplicationDocumentsDirectory());
   await Hive.initFlutter();
   Hive.registerAdapter(UserAdapter());
+  Hive.registerAdapter(TimeOfDayAdapter());
   Hive.registerAdapter(PayattuAdapter());
   Hive.registerAdapter(UserPayattuAdapter());
   await Supabase.initialize(

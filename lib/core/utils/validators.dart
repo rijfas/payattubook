@@ -30,4 +30,14 @@ class Validators {
       return null;
     };
   }
+
+  static String? amountValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter amount';
+    }
+    if (!isNumeric(value)) {
+      return 'Please enter a valid amount';
+    }
+    return null;
+  }
 }

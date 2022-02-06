@@ -1,8 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../core/constants/assets.dart';
-import '../../../../data/payattu/models/payattu.dart';
+import '../../../../data/discover_payattu/models/payattu.dart';
 
 class CustomPayattuTile extends StatelessWidget {
   const CustomPayattuTile({
@@ -30,7 +31,7 @@ class CustomPayattuTile extends StatelessWidget {
         style: const TextStyle(fontWeight: FontWeight.bold),
       ),
       subtitle: Text(
-        _payattu.date.toString(),
+        DateFormat("EEE, dd/MM/y").format(_payattu.date),
         style: TextStyle(
           fontWeight: FontWeight.bold,
           color: Theme.of(context).colorScheme.secondary,

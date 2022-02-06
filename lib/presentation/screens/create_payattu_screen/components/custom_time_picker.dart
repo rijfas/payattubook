@@ -33,7 +33,7 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
             Text(
               (_pickedTime == null)
                   ? 'Select time'
-                  : '${_pickedTime!.hour} : ${_pickedTime!.minute}',
+                  : _pickedTime!.format(context),
               style: TextStyle(
                 fontSize: 16.0,
                 color: (_pickedTime == null)
