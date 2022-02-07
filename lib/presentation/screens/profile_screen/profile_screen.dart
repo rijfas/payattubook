@@ -2,6 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:payattubook/logic/create_payattu/cubit/create_payattu_cubit.dart';
+import 'package:payattubook/presentation/components/confirm_popup.dart';
+import 'package:payattubook/presentation/router/app_router.dart';
 
 import '../../../core/constants/assets.dart';
 import '../../../core/constants/default_widgets.dart';
@@ -9,7 +12,7 @@ import '../../../core/utils/utils.dart';
 import '../../../data/discover_payattu/models/payattu.dart';
 import '../../../logic/authentication/cubit/authentication_cubit.dart';
 import '../../../logic/discover_payattu/cubit/discover_payattu_cubit.dart';
-import '../dashboard_screen/components/payattu_expansion_tile.dart';
+import '../dashboard_screen/pages/home_page/payattu_expansion_tile.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -23,143 +26,160 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
-      ),
-      body: SizedBox(
-        height: size.height - kToolbarHeight,
-        width: double.infinity,
-        child: SingleChildScrollView(
-          child: BlocBuilder<AuthenticationCubit, AuthenticationState>(
-            builder: (context, state) {
-              if (state is AuthenticationCompleted) {
-                return Padding(
-                  padding: DefaultWidgets.padding,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      CircleAvatar(
-                        radius: size.width * 0.3,
-                        foregroundImage: (state.user.profileUrl != '')
-                            ? CachedNetworkImageProvider(state.user.profileUrl)
-                            : null,
-                        backgroundImage:
-                            const AssetImage(Assets.defaultProfile),
-                      ),
-                      DefaultWidgets.verticalSpacing(context: context),
-                      Text(
-                        state.user.fullName,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24.0,
+      appBar: AppBar(title: const Text('Profile'), actions: [
+        PopupMenuButton(
+          icon: const Icon(Icons.settings),
+          itemBuilder: (context) {
+            return [
+              const PopupMenuItem(
+                value: 0,
+                child: Text('Edit'),
+              ),
+              PopupMenuItem(
+                value: 1,
+                child: Text('Sign out'),
+                onTap: () {
+                  context.read<AuthenticationCubit>().signOut().then((value) =>
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                          AppRouter.signInScreen, (route) => false));
+                },
+              ),
+            ];
+          },
+        )
+      ]),
+      body: BlocListener<CreatePayattuCubit, CreatePayattuState>(
+        listener: (context, state) {
+          if (state is CreatePayattuLoading) {
+            Utils.showLoadingDialog(context);
+          } else if (state is CreatePayattuError) {
+            Navigator.of(context).pop();
+            Utils.showErrorSnackBar(context: context, message: state.message);
+          } else if (state is CreatePayattuCompleted) {
+            context
+                .read<DiscoverPayattuCubit>()
+                .loadPayattu()
+                .then((_) => Navigator.of(context).pop());
+          }
+        },
+        child: SizedBox(
+          height: size.height - kToolbarHeight,
+          width: double.infinity,
+          child: SingleChildScrollView(
+            child: BlocBuilder<AuthenticationCubit, AuthenticationState>(
+              builder: (context, state) {
+                if (state is AuthenticationCompleted) {
+                  return Padding(
+                    padding: DefaultWidgets.padding,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        CircleAvatar(
+                          radius: size.width * 0.3,
+                          foregroundImage: (state.user.profileUrl != '')
+                              ? CachedNetworkImageProvider(
+                                  state.user.profileUrl)
+                              : null,
+                          backgroundImage:
+                              const AssetImage(Assets.defaultProfile),
                         ),
-                      ),
-                      DefaultWidgets.verticalSizedBox,
-                      Text(
-                        '+91${state.user.phoneNumber}',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.secondary,
-                          fontSize: 16.0,
+                        DefaultWidgets.verticalSpacing(context: context),
+                        Text(
+                          state.user.fullName,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24.0,
+                          ),
                         ),
-                      ),
-                      DefaultWidgets.verticalSpacing(context: context),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              'User\'s Payattu',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Utils.showErrorSnackBar(
-                                    context: context,
-                                    message: 'Swipe left to delete');
-                              },
-                              child: const Text(
-                                '?',
+                        DefaultWidgets.verticalSizedBox,
+                        Text(
+                          '+91${state.user.phoneNumber}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.secondary,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                        DefaultWidgets.verticalSpacing(context: context),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                'User\'s Payattu',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 16),
                               ),
-                            ),
-                          ],
+                              InkWell(
+                                onTap: () {
+                                  Utils.showErrorSnackBar(
+                                      context: context,
+                                      message: 'Swipe left to delete');
+                                },
+                                child: const Text(
+                                  '?',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      const Divider(),
-                      BlocBuilder<DiscoverPayattuCubit, DiscoverPayattuState>(
-                          builder: (context, state) {
-                        late final String message;
-                        if (state is DiscoverPayattuLoaded) {
-                          final List<Payattu> _userPayatts = _getUserPayattList(
-                              Utils.supabase.auth.currentUser!.id,
-                              state.payattList);
-                          return ListView.builder(
+                        const Divider(),
+                        BlocBuilder<DiscoverPayattuCubit, DiscoverPayattuState>(
+                            builder: (context, state) {
+                          late final String message;
+                          if (state is DiscoverPayattuLoaded) {
+                            final List<Payattu> _userPayatts =
+                                _getUserPayattList(
+                                    Utils.supabase.auth.currentUser!.id,
+                                    state.payattList);
+                            return ListView.builder(
                               shrinkWrap: true,
                               itemCount: _userPayatts.length,
                               physics: const ScrollPhysics(),
                               itemBuilder: (context, index) => Dismissible(
-                                    confirmDismiss: (direct) {
-                                      return showDialog<bool>(
-                                          context: context,
-                                          builder: (context) => AlertDialog(
-                                                title: Text(
-                                                  'Confirm delete?',
-                                                  style: TextStyle(
-                                                      color: Theme.of(context)
-                                                          .primaryColor),
-                                                ),
-                                                content: Text(
-                                                    'Delete the payattu ${_userPayatts[index].host}'),
-                                                actions: <Widget>[
-                                                  ElevatedButton(
-                                                    child:
-                                                        const Text('Cancell'),
-                                                    onPressed: () =>
-                                                        Navigator.of(context)
-                                                            .pop(false),
-                                                  ),
-                                                  ElevatedButton(
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                      primary: Colors.red[400],
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(12),
-                                                      ),
-                                                    ),
-                                                    child: const Text('Delete'),
-                                                    onPressed: () =>
-                                                        Navigator.of(context)
-                                                            .pop(true),
-                                                  ),
-                                                ],
-                                              ));
-                                    },
-                                    key: Key(index.toString()),
-                                    child: PayattuExpansionTile(
-                                        payattu: _userPayatts[index]),
-                                  ));
-                        } else if (state is DiscoverPayattuLoading) {
-                          return const CircularProgressIndicator();
-                        } else if (state is DiscoverPayattuError) {
-                          message = state.message;
-                        } else {
-                          message = 'Unknown Error';
-                        }
-                        return _buildErrorMessage(message: message);
-                      })
-                    ],
-                  ),
-                );
-              }
-              return const CircularProgressIndicator();
-            },
+                                confirmDismiss: (direct) {
+                                  return showDialog<bool>(
+                                    context: context,
+                                    builder: (context) => ConfirmPopup(
+                                      title: 'Confirm delete?',
+                                      message:
+                                          'Delete the payattu ${_userPayatts[index].host}',
+                                    ),
+                                  );
+                                },
+                                key: Key(index.toString()),
+                                child: PayattuExpansionTile(
+                                    payattu: _userPayatts[index]),
+                                onDismissed: (_) {
+                                  context
+                                      .read<CreatePayattuCubit>()
+                                      .deletePayattu(
+                                          payattId: _userPayatts[index].id);
+                                },
+                              ),
+                            );
+                          } else if (state is DiscoverPayattuLoading) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else if (state is DiscoverPayattuError) {
+                            message = state.message;
+                          } else {
+                            message = 'Unknown Error';
+                          }
+                          return _buildErrorMessage(message: message);
+                        })
+                      ],
+                    ),
+                  );
+                }
+                return const CircularProgressIndicator();
+              },
+            ),
           ),
         ),
       ),

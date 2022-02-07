@@ -133,7 +133,15 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     emit(AuthenticationCompleted(user: user));
   }
 
-  void signOut() {
+  Future<void> signOut() async {
+    emit(AuthenticationLoading());
+    final response = await Utils.supabase.auth.signOut();
+    if (response.error != null) {
+      emit(AuthenticationError(
+          message: ErrorDescriptors.getNetworkErrorOrOriginalFromGotrueError(
+              response.error)));
+      return;
+    }
     emit(AuthenticationPending());
   }
 

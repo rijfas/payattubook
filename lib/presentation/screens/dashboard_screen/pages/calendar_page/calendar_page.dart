@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/constants/default_widgets.dart';
-import '../../../../logic/manage_payattu/cubit/manage_payattu_cubit.dart';
-import '../../../components/default_error_widget.dart';
-import '../components/calendar_payattu_view.dart';
+import '../../../../../core/constants/default_widgets.dart';
+import '../../../../../logic/manage_payattu/cubit/manage_payattu_cubit.dart';
+import '../../../../components/default_error_widget.dart';
+import 'components/calendar_payattu_view.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({Key? key}) : super(key: key);

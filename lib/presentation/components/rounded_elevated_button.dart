@@ -6,10 +6,12 @@ class RoundedElevatedButton extends StatelessWidget {
     required this.child,
     this.onPressed,
     this.color,
+    this.borderRadius,
   }) : super(key: key);
   final void Function()? onPressed;
   final Widget child;
   final Color? color;
+  final BorderRadiusGeometry? borderRadius;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -19,7 +21,7 @@ class RoundedElevatedButton extends StatelessWidget {
           primary: color,
           padding: const EdgeInsets.symmetric(vertical: 15.0),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: borderRadius ?? BorderRadius.circular(12),
           ),
         ),
         onPressed: onPressed,

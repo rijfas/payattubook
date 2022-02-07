@@ -29,6 +29,7 @@ class App extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         onGenerateRoute: AppRouter.onGenerateRoute,
         initialRoute: AppRouter.loadingScreen,
         theme: AppTheme.lightTheme,

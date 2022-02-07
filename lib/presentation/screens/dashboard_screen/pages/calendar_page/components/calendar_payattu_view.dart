@@ -1,16 +1,20 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:payattubook/presentation/components/default_shaded_container.dart';
+import 'package:payattubook/presentation/screens/dashboard_screen/components/payattu_tile.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import '../../../../core/constants/assets.dart';
-import '../../../../core/utils/utils.dart';
-import '../../../../data/manage_payattu/models/user_payattu.dart';
-import '../../../../logic/manage_payattu/cubit/manage_payattu_cubit.dart';
-import '../../../components/confirm_popup.dart';
-import '../../../components/rounded_elevated_button.dart';
-import '../components/bottom_payattu_card.dart';
+import '../../../../../../core/constants/assets.dart';
+import '../../../../../../core/utils/utils.dart';
+import '../../../../../../data/manage_payattu/models/user_payattu.dart';
+import '../../../../../../logic/manage_payattu/cubit/manage_payattu_cubit.dart';
+import '../../../../../components/confirm_popup.dart';
+import '../../../../../components/rounded_elevated_button.dart';
+import '../../../components/bottom_payattu_card.dart';
 
 class CalendarPayattuView extends StatefulWidget {
   const CalendarPayattuView({
@@ -145,20 +149,10 @@ class _CalendarPayattuViewState extends State<CalendarPayattuView> {
                   itemCount: value.length,
                   shrinkWrap: true,
                   physics: const ScrollPhysics(),
-                  itemBuilder: (context, index) => Container(
+                  itemBuilder: (context, index) => DefaultShadedContainer(
                     margin: const EdgeInsets.only(bottom: 16.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      color: Colors.white,
-                      boxShadow: const [
-                        BoxShadow(
-                          offset: Offset(0, 5),
-                          color: Colors.black12,
-                          blurRadius: 5,
-                        )
-                      ],
-                    ),
-                    child: ListTile(
+                    child: PayattuTile(
+                      payattu: value[index].values.first.payattu,
                       onTap: () {
                         showModalBottomSheet(
                             isScrollControlled: true,
@@ -202,23 +196,17 @@ class _CalendarPayattuViewState extends State<CalendarPayattuView> {
                                   ),
                                 ));
                       },
-                      leading: CircleAvatar(
-                        backgroundImage: NetworkImage(
-                            value[index].values.first.payattu.coverImageUrl),
-                      ),
-                      title: Text(
-                        value[index].values.first.payattu.host,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Text(
-                        value[index].values.first.payattu.date.toString(),
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.secondary,
-                        ),
-                      ),
-                      trailing:
-                          Text(value[index].values.first.amount.toString()),
+                      trailing: Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 4.0, horizontal: 8.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          child: Text(
+                            '₹ ${value[index].values.first.amount.toString()}',
+                            style: const TextStyle(color: Colors.white),
+                          )),
                     ),
                   ),
                 );

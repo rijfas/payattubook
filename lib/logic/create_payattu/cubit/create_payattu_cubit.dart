@@ -53,4 +53,19 @@ class CreatePayattuCubit extends Cubit<CreatePayattuState> {
 
     emit(CreatePayattuCompleted());
   }
+
+  void deletePayattu({required int payattId}) async {
+    emit(CreatePayattuLoading());
+    final response = await Utils.supabase
+        .from('payatts')
+        .delete()
+        .match({'id': payattId}).execute();
+
+    if (response.error != null) {
+      emit(CreatePayattuError(message: response.error!.message));
+      return;
+    }
+
+    emit(CreatePayattuCompleted());
+  }
 }

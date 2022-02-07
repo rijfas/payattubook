@@ -7,18 +7,16 @@ import '../../../components/underlined_icon_text_field.dart';
 class AmountPopup extends StatelessWidget {
   AmountPopup({
     Key? key,
-    required String title,
-    required void Function() onCancell,
-    required void Function(String) onSubmit,
-  })  : _title = title,
-        _onCancell = onCancell,
-        _onSubmit = onSubmit,
-        _inputController = TextEditingController(),
+    required this.title,
+    required this.onSubmit,
+    TextEditingController? inputController,
+    this.onCancell,
+  })  : _inputController = inputController ?? TextEditingController(),
         _key = GlobalKey<FormState>(),
         super(key: key);
-  final String _title;
-  final void Function() _onCancell;
-  final void Function(String) _onSubmit;
+  final String title;
+  final void Function(String) onSubmit;
+  final void Function()? onCancell;
   final TextEditingController _inputController;
   final GlobalKey<FormState> _key;
   @override
@@ -27,7 +25,7 @@ class AmountPopup extends StatelessWidget {
       key: _key,
       child: AlertDialog(
         title: Text(
-          _title,
+          title,
           style: TextStyle(color: Theme.of(context).primaryColor),
         ),
         content: UnderlinedIconTextField(
@@ -38,14 +36,18 @@ class AmountPopup extends StatelessWidget {
         ),
         actions: <Widget>[
           ElevatedButton(
-            child: const Text('Cancell'),
-            onPressed: _onCancell,
-          ),
+              child: const Text('Cancell'),
+              onPressed: () {
+                if (onCancell != null) {
+                  onCancell!();
+                }
+                Navigator.of(context).pop(true);
+              }),
           ElevatedButton(
             child: const Text('Save'),
             onPressed: () {
               if (_key.currentState!.validate()) {
-                _onSubmit(_inputController.value.text);
+                onSubmit(_inputController.value.text);
                 Navigator.of(context).pop(true);
               }
             },

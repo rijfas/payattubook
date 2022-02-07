@@ -1,12 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:payattubook/presentation/components/rounded_profile.dart';
 
 import '../../../logic/authentication/cubit/authentication_cubit.dart';
 import '../../router/app_router.dart';
-import 'pages/calendar_page.dart';
-import 'pages/discover_page.dart';
-import 'pages/home_page.dart';
+import 'pages/calendar_page/calendar_page.dart';
+import 'pages/discover_page/discover_page.dart';
+import 'pages/home_page/home_page.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -41,18 +42,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   Navigator.of(context).pushNamed(AppRouter.profileScreen),
               icon: BlocBuilder<AuthenticationCubit, AuthenticationState>(
                   builder: (context, state) {
-                if (state is AuthenticationCompleted &&
-                    state.user.profileUrl != '') {
-                  return CircleAvatar(
-                    backgroundImage: CachedNetworkImageProvider(
-                      state.user.profileUrl,
-                    ),
-                  );
+                if (state is AuthenticationCompleted) {
+                  return RoundedProfile(url: state.user.profileUrl);
                 }
-                return const Icon(
-                  Icons.account_circle,
-                  size: 36.0,
-                );
+                return const RoundedProfile(url: '');
               }),
             ),
           )
