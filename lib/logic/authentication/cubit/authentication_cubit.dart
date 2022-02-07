@@ -207,4 +207,49 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     box.put('user', user);
     emit(AuthenticationCompleted(user: user));
   }
+
+  // void updateProfile(
+  //     {required Uint8List image, required String fileName}) async {
+  //   emit(ProfileChangeLoading());
+  //   final profileFileName = 'profile.' + fileName.split('.').last;
+  //   final deleted = await Utils.supabase.storage
+  //       .from('profiles')
+  //       .remove(['${Utils.supabase.auth.currentUser?.id}/$profileFileName']);
+
+  //   if (deleted.error != null) {
+  //     emit(AuthenticationError(message: deleted.error?.message));
+  //     return;
+  //   }
+  //   final response = await Utils.supabase.storage.from('profiles').uploadBinary(
+  //       '${Utils.supabase.auth.currentUser?.id}/$profileFileName', image);
+  //   if (response.error != null) {
+  //     emit(AuthenticationError(message: response.error?.message));
+  //     return;
+  //   }
+  //   final imageUrl = Utils.supabase.storage
+  //       .from('profiles')
+  //       .getPublicUrl('${Utils.supabase.auth.currentUser?.id}/$profileFileName')
+  //       .data;
+  //   final profile = await Utils.supabase
+  //       .from('profiles')
+  //       .update({'profile_url': imageUrl})
+  //       .eq('user', Utils.supabase.auth.currentUser!.id)
+  //       .execute();
+
+  //   if (profile.error != null) {
+  //     emit(AuthenticationError(
+  //         message: ErrorDescriptors.getNetworkErrorOrOriginalFromPostgrestError(
+  //             profile.error)));
+  //     return;
+  //   }
+
+  //   final user = User(
+  //       profileUrl: profile.data[0]['profile_url'] ?? '',
+  //       fullName: profile.data[0]['full_name'],
+  //       phoneNumber: profile.data[0]['phone_number'],
+  //       address: profile.data[0]['address']);
+  //   final box = await Hive.openBox('profile');
+  //   box.put('user', user);
+  //   emit(AuthenticationCompleted(user: user));
+  // }
 }

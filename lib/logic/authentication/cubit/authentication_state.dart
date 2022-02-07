@@ -15,3 +15,5 @@ class AuthenticationError extends AuthenticationState {
 }
 
 class AuthenticationLoading extends AuthenticationState {}
+
+class ProfileChangeLoading extends AuthenticationState {}

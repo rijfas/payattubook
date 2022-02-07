@@ -11,8 +11,8 @@ import '../../components/avatar_image_picker.dart';
 import '../../components/rounded_elevated_button.dart';
 import '../../components/underlined_icon_text_field.dart';
 import '../../router/app_router.dart';
-import 'components/custom_date_picker.dart';
-import 'components/custom_time_picker.dart';
+import 'components/custom_date_picker_form.dart';
+import 'components/custom_time_picker_form.dart';
 
 class CreatePayattuScreen extends StatefulWidget {
   const CreatePayattuScreen({Key? key}) : super(key: key);
@@ -107,11 +107,26 @@ class _CreatePayattuScreenState extends State<CreatePayattuScreen> {
                       validator: Validators.phoneNumberValidator,
                     ),
                     SizedBox(height: size.height * 0.025),
-                    CustomDatePicker(
-                      onDatePicked: (date) => _date = date,
+                    CustomDatePickerForm(
+                      validator: (value) {
+                        if (value == null) {
+                          return 'Please select a date';
+                        } else if (DateTime.now().isBefore(value)) {
+                          return 'Please select an upcoming date';
+                        }
+                        return null;
+                      },
+                      onDatePicked: (value) => _date = value,
                     ),
                     SizedBox(height: size.height * 0.025),
-                    CustomTimePicker(onTimePicked: (time) => _time = time),
+                    CustomTimePickerForm(
+                        validator: (value) {
+                          if (value == null) {
+                            return 'Please select a time';
+                          }
+                          return null;
+                        },
+                        onTimePicked: (time) => _time = time),
                     SizedBox(height: size.height * 0.025),
                     UnderlinedIconTextField(
                       labelText: 'Location',

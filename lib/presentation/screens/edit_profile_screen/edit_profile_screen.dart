@@ -18,6 +18,8 @@ class EditProfileScreen extends StatelessWidget {
         if (state is AuthenticationLoading) {
           Navigator.of(context).pop();
           Utils.showLoadingDialog(context);
+        } else if (state is ProfileChangeLoading) {
+          Utils.showLoadingDialog(context);
         } else if (state is AuthenticationError) {
           Navigator.of(context).pop();
           Utils.showErrorSnackBar(context: context, message: state.message);
@@ -42,7 +44,12 @@ class EditProfileScreen extends StatelessWidget {
                     children: [
                       AvatarImagePicker(
                         radius: size.width * 0.2,
-                        onProfileChanged: (image, fileName) {},
+                        profileUrl: state.user.profileUrl,
+                        onProfileChanged: (image, fileName) {
+                          // context
+                          //     .read<AuthenticationCubit>()
+                          //     .updateProfile(image: image!, fileName: fileName);
+                        },
                       ),
                       DefaultWidgets.verticalSizedBox,
                       ListTile(
