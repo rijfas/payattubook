@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:payattubook/presentation/screens/create_payattu_screen/create_payattu_screen.dart';
+import 'package:payattubook/presentation/screens/edit_profile_screen/edit_profile_screen.dart';
 import 'package:payattubook/presentation/screens/profile_screen/profile_screen.dart';
 import '../screens/dashboard_screen/dashboard_screen.dart';
 import '../screens/sign_in_screen/sign_in_screen.dart';
@@ -17,6 +18,7 @@ class AppRouter {
   static const dashboardScreen = 'dashboard-screen';
   static const createPayattuScreen = 'create-payattu-screen';
   static const profileScreen = 'profile-screen';
+  static const editProfileScreen = 'edit-profile-screen';
 
   static Route onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
@@ -32,6 +34,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const CreatePayattuScreen());
       case profileScreen:
         return MaterialPageRoute(builder: (_) => const ProfileScreen());
+      case editProfileScreen:
+        return MaterialPageRoute(builder: (_) => const EditProfileScreen());
       default:
         throw InvalidRouteException(
             "invalid route reached : ${routeSettings.name}");

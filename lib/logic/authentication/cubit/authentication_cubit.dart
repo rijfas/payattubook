@@ -134,14 +134,14 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   }
 
   Future<void> signOut() async {
-    emit(AuthenticationLoading());
-    final response = await Utils.supabase.auth.signOut();
-    if (response.error != null) {
-      emit(AuthenticationError(
-          message: ErrorDescriptors.getNetworkErrorOrOriginalFromGotrueError(
-              response.error)));
-      return;
-    }
+    // emit(AuthenticationLoading());
+    // final response = await Utils.supabase.auth.signOut();
+    // if (response.error != null) {
+    //   emit(AuthenticationError(
+    //       message: ErrorDescriptors.getNetworkErrorOrOriginalFromGotrueError(
+    //           response.error)));
+    //   return;
+    // }
     emit(AuthenticationPending());
   }
 
@@ -155,5 +155,56 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     } else {
       emit(AuthenticationCompleted(user: user));
     }
+  }
+
+  void updateName({required String name}) async {
+    emit(AuthenticationLoading());
+    final response = await Utils.supabase
+        .from('profiles')
+        .update({'full_name': name})
+        .eq('user', Utils.supabase.auth.currentUser!.id)
+        .execute();
+
+    if (response.error != null) {
+      emit(AuthenticationError(
+          message: ErrorDescriptors.getNetworkErrorOrOriginalFromPostgrestError(
+              response.error)));
+      return;
+    }
+
+    final user = User(
+        profileUrl: response.data[0]['profile_url'] ?? '',
+        fullName: response.data[0]['full_name'],
+        phoneNumber: response.data[0]['phone_number'],
+        address: response.data[0]['address']);
+    final box = await Hive.openBox('profile');
+    box.put('user', user);
+    emit(AuthenticationCompleted(user: user));
+  }
+
+  void updateAddress({required String address}) async {
+    emit(AuthenticationLoading());
+    final response = await Utils.supabase
+        .from('profiles')
+        .update({'address': address})
+        .eq('user', Utils.supabase.auth.currentUser!.id)
+        .execute();
+
+    if (response.error != null) {
+      emit(AuthenticationError(
+          message: ErrorDescriptors.getNetworkErrorOrOriginalFromPostgrestError(
+              response.error)));
+      return;
+    }
+
+    final user = User(
+      profileUrl: response.data[0]['profile_url'] ?? '',
+      fullName: response.data[0]['full_name'],
+      phoneNumber: response.data[0]['phone_number'],
+      address: response.data[0]['address'],
+    );
+    final box = await Hive.openBox('profile');
+    box.put('user', user);
+    emit(AuthenticationCompleted(user: user));
   }
 }

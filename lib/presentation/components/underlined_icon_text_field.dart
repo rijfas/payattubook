@@ -9,6 +9,7 @@ class UnderlinedIconTextField extends StatelessWidget {
     this.obscureText = false,
     this.validator,
     this.hintText,
+    this.autoFocus = false,
   }) : super(key: key);
   final String? labelText;
   final String? hintText;
@@ -16,10 +17,12 @@ class UnderlinedIconTextField extends StatelessWidget {
   final bool obscureText;
   final TextEditingController controller;
   final String? Function(String?)? validator;
+  final bool autoFocus;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autofocus: autoFocus,
       validator: validator,
       controller: controller,
       obscureText: obscureText,

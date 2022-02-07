@@ -29,20 +29,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: AppBar(title: const Text('Profile'), actions: [
         PopupMenuButton(
           icon: const Icon(Icons.settings),
+          onSelected: (index) {
+            if (index == 1) {
+              Navigator.of(context).pushNamed(AppRouter.editProfileScreen);
+            } else if (index == 2) {
+              context.read<AuthenticationCubit>().signOut().then((value) =>
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      AppRouter.signInScreen, (route) => false));
+            }
+          },
           itemBuilder: (context) {
-            return [
-              const PopupMenuItem(
-                value: 0,
+            return const [
+              PopupMenuItem(
+                value: 1,
                 child: Text('Edit'),
               ),
               PopupMenuItem(
-                value: 1,
+                value: 2,
                 child: Text('Sign out'),
-                onTap: () {
-                  context.read<AuthenticationCubit>().signOut().then((value) =>
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                          AppRouter.signInScreen, (route) => false));
-                },
               ),
             ];
           },
@@ -75,7 +79,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         CircleAvatar(
-                          radius: size.width * 0.3,
+                          radius: size.width * 0.2,
                           foregroundImage: (state.user.profileUrl != '')
                               ? CachedNetworkImageProvider(
                                   state.user.profileUrl)
