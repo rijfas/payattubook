@@ -91,6 +91,10 @@ class _CreatePayattuScreenState extends State<CreatePayattuScreen> {
                           _coverImage = image;
                           _coverImagefileName = fileName;
                         },
+                        onProfileDeleted: () {
+                          _coverImage = null;
+                          _coverImagefileName = null;
+                        },
                       ),
                     ),
                     UnderlinedIconTextField(
@@ -99,6 +103,7 @@ class _CreatePayattuScreenState extends State<CreatePayattuScreen> {
                       icon: Icons.person,
                       controller: _hostNameController,
                       validator: Validators.defaultStringValidator('host name'),
+                      textInputAction: TextInputAction.next,
                     ),
                     SizedBox(height: size.height * 0.025),
                     UnderlinedIconTextField(
@@ -107,6 +112,7 @@ class _CreatePayattuScreenState extends State<CreatePayattuScreen> {
                       icon: Icons.call,
                       controller: _hostPhoneNumberController,
                       validator: Validators.phoneNumberValidator,
+                      textInputAction: TextInputAction.next,
                     ),
                     SizedBox(height: size.height * 0.025),
                     CustomDatePickerForm(
@@ -136,6 +142,7 @@ class _CreatePayattuScreenState extends State<CreatePayattuScreen> {
                       icon: Icons.location_on,
                       controller: _locationController,
                       validator: Validators.defaultStringValidator('location'),
+                      textInputAction: TextInputAction.done,
                     ),
                     SizedBox(height: size.height * 0.025),
                     RoundedElevatedButton(

@@ -8,7 +8,7 @@ class AuthState<T extends StatefulWidget> extends SupabaseAuthState<T> {
   @override
   void onUnauthenticated() {
     if (mounted) {
-      context.read<AuthenticationCubit>().signOut();
+      context.read<AuthenticationCubit>().reSignIn();
     }
   }
 

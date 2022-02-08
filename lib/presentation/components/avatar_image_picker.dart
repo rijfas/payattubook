@@ -11,17 +11,27 @@ class AvatarImagePicker extends StatefulWidget {
     Key? key,
     required this.radius,
     required this.onProfileChanged,
+    required this.onProfileDeleted,
     this.profileUrl = '',
   }) : super(key: key);
   final double radius;
   final String profileUrl;
   final void Function(Uint8List? image, String fileName) onProfileChanged;
+  final void Function() onProfileDeleted;
   @override
   State<AvatarImagePicker> createState() => _AvatarImagePickerState();
 }
 
 class _AvatarImagePickerState extends State<AvatarImagePicker> {
-  ImageProvider? _profile;
+  @override
+  void initState() {
+    super.initState();
+    if (widget.profileUrl != '') {
+      _image = CachedNetworkImageProvider(widget.profileUrl);
+    }
+  }
+
+  ImageProvider? _image;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -30,22 +40,19 @@ class _AvatarImagePickerState extends State<AvatarImagePicker> {
           padding: const EdgeInsets.all(8.0),
           child: CircleAvatar(
             radius: widget.radius,
-            foregroundImage: _profile ??
-                (widget.profileUrl == ''
-                    ? null
-                    : CachedNetworkImageProvider(widget.profileUrl)),
+            foregroundImage: _image,
             backgroundImage: const AssetImage(Assets.defaultProfile),
           ),
         ),
         Positioned(
             bottom: 0,
             right: 0,
-            child: (_profile == null && widget.profileUrl == '')
+            child: (_image == null)
                 ? IconButton(
                     icon: const Icon(Icons.add_a_photo),
                     onPressed: () async {
-                      final ImagePicker _picker = ImagePicker();
-                      final imageFile = await _picker.pickImage(
+                      final ImagePicker picker = ImagePicker();
+                      final imageFile = await picker.pickImage(
                         source: ImageSource.gallery,
                         imageQuality: 25,
                       );
@@ -57,8 +64,9 @@ class _AvatarImagePickerState extends State<AvatarImagePicker> {
                       }
                       final image = await imageFile.readAsBytes();
                       setState(() {
-                        _profile = MemoryImage(image);
+                        _image = MemoryImage(image);
                       });
+
                       widget.onProfileChanged(image, fileName);
                     },
                   )
@@ -66,9 +74,9 @@ class _AvatarImagePickerState extends State<AvatarImagePicker> {
                     icon: const Icon(Icons.delete),
                     onPressed: () {
                       setState(() {
-                        _profile = null;
-                        widget.onProfileChanged(null, '');
+                        _image = null;
                       });
+                      widget.onProfileDeleted();
                     },
                   ))
       ],

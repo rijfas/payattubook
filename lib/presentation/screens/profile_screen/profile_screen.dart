@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:payattubook/presentation/components/default_empty_widget.dart';
 
 import '../../../core/constants/assets.dart';
 import '../../../core/constants/default_widgets.dart';
@@ -28,7 +29,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Profile'), actions: [
         PopupMenuButton(
-          icon: const Icon(Icons.settings),
+          icon: const Icon(Icons.more_vert_rounded),
           onSelected: (index) {
             if (index == 1) {
               Navigator.of(context).pushNamed(AppRouter.editProfileScreen);
@@ -140,6 +141,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 _getUserPayattList(
                                     Utils.supabase.auth.currentUser!.id,
                                     state.payattList);
+                            if (_userPayatts.isEmpty) {
+                              return const DeafultEmptyWidget(
+                                  message: 'No payatts created so far..');
+                            }
                             return ListView.separated(
                                 separatorBuilder: ((context, index) =>
                                     const Divider()),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:payattubook/presentation/components/default_empty_widget.dart';
 import '../../components/amount_popup.dart';
 
 import '../../../../../core/constants/assets.dart';
@@ -48,13 +49,13 @@ class _HomePageState extends State<HomePage> {
                   if (_todaysPayatts.isNotEmpty)
                     _buildPayattList(payattList: _todaysPayatts)
                   else
-                    _buildEmptyMessage(message: 'No payattu today'),
+                    const DeafultEmptyWidget(message: 'No payattu today'),
                   DefaultWidgets.verticalSpacing(context: context),
                   ..._buildHeader(title: 'Upcoming Payattu'),
                   if (state.payattList.isNotEmpty)
                     _buildPayattList(payattList: state.payattList)
                   else
-                    _buildEmptyMessage(message: 'No upcoming payattu'),
+                    const DeafultEmptyWidget(message: 'No upcoming payattu'),
                 ],
               ),
             ),
@@ -95,22 +96,6 @@ class _HomePageState extends State<HomePage> {
       ),
       const Divider(),
     ];
-  }
-
-  Widget _buildEmptyMessage({required String message}) {
-    final Size size = MediaQuery.of(context).size;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        DefaultWidgets.verticalSizedBox,
-        SvgPicture.asset(
-          Assets.defaulEmptyImage,
-          width: size.width * 0.3,
-        ),
-        DefaultWidgets.verticalSizedBox,
-        Text(message),
-      ],
-    );
   }
 
   Widget _buildErrorMessage({required String message}) {

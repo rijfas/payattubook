@@ -1,7 +1,6 @@
 import 'package:hive/hive.dart';
 
 part 'user.g.dart';
-// import 'dart:convert';
 
 @HiveType(typeId: 1)
 class User {
@@ -19,4 +18,18 @@ class User {
   final String phoneNumber;
   @HiveField(3)
   final String address;
+
+  User copyWith({
+    String? profileUrl,
+    String? fullName,
+    String? phoneNumber,
+    String? address,
+  }) {
+    return User(
+      profileUrl: profileUrl ?? this.profileUrl,
+      fullName: fullName ?? this.fullName,
+      address: address ?? this.address,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+    );
+  }
 }

@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.rijfas.payattubook">
+   <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="payattubook"
+        android:label="Payattu Book"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

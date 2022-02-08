@@ -80,6 +80,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             _profileImage = image;
                             _profileFileName = fileName;
                           },
+                          onProfileDeleted: () {
+                            _profileImage = null;
+                            _profileFileName = null;
+                          },
                         ),
                       ),
                       Text(
@@ -97,6 +101,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         controller: _fullNameController,
                         labelText: 'Full Name',
                         icon: Icons.person,
+                        textInputAction: TextInputAction.next,
                       ),
                       SizedBox(height: size.height * 0.025),
                       UnderlinedIconTextField(
@@ -105,6 +110,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         controller: _addressController,
                         labelText: 'Address',
                         icon: Icons.home,
+                        textInputAction: TextInputAction.next,
                       ),
                       SizedBox(height: size.height * 0.025),
                       UnderlinedIconTextField(
@@ -113,6 +119,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         controller: _phoneNumberController,
                         labelText: 'Mobile Number',
                         icon: Icons.call,
+                        textInputAction: TextInputAction.next,
                       ),
                       SizedBox(height: size.height * 0.025),
                       UnderlinedIconTextField(
@@ -122,6 +129,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         labelText: 'Password',
                         icon: Icons.lock,
                         obscureText: true,
+                        textInputAction: TextInputAction.done,
                       ),
                       SizedBox(height: size.height * 0.025),
                       RoundedElevatedButton(

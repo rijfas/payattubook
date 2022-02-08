@@ -84,6 +84,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         controller: _phoneController,
                         labelText: 'Mobile Number',
                         icon: Icons.call,
+                        textInputAction: TextInputAction.next,
                       ),
                       SizedBox(height: size.height * 0.025),
                       UnderlinedIconTextField(
@@ -93,6 +94,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         labelText: 'Password',
                         icon: Icons.lock,
                         obscureText: true,
+                        textInputAction: TextInputAction.done,
                       ),
                       SizedBox(height: size.height * 0.025),
                       Row(

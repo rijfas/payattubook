@@ -46,9 +46,17 @@ class EditProfileScreen extends StatelessWidget {
                         radius: size.width * 0.2,
                         profileUrl: state.user.profileUrl,
                         onProfileChanged: (image, fileName) {
-                          // context
-                          //     .read<AuthenticationCubit>()
-                          //     .updateProfile(image: image!, fileName: fileName);
+                          if (image != null) {
+                            context.read<AuthenticationCubit>().updateProfile(
+                                currentProfile: state.user,
+                                image: image,
+                                fileName: fileName);
+                          }
+                        },
+                        onProfileDeleted: () {
+                          context
+                              .read<AuthenticationCubit>()
+                              .deleteProfile(currentProfile: state.user);
                         },
                       ),
                       DefaultWidgets.verticalSizedBox,
@@ -205,6 +213,8 @@ class EditProfileScreen extends StatelessWidget {
                           subtitle: Text('+91${state.user.phoneNumber}')),
                     ],
                   );
+                } else if (state is ProfileChangeLoading) {
+                  return const SizedBox();
                 } else if (state is AuthenticationError) {
                   message = 'Authentication error, please login to continue';
                 }
