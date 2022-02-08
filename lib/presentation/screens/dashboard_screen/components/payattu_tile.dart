@@ -8,12 +8,12 @@ class PayattuTile extends StatelessWidget {
   const PayattuTile({
     Key? key,
     required this.payattu,
-    required this.onTap,
-    required this.trailing,
+    this.onTap,
+    this.trailing,
   }) : super(key: key);
 
-  final void Function() onTap;
-  final Widget trailing;
+  final void Function()? onTap;
+  final Widget? trailing;
   final Payattu payattu;
   @override
   Widget build(BuildContext context) {

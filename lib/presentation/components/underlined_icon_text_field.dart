@@ -5,6 +5,7 @@ class UnderlinedIconTextField extends StatelessWidget {
     Key? key,
     required this.icon,
     required this.controller,
+    this.keyboardType,
     this.labelText,
     this.obscureText = false,
     this.validator,
@@ -13,6 +14,7 @@ class UnderlinedIconTextField extends StatelessWidget {
   }) : super(key: key);
   final String? labelText;
   final String? hintText;
+  final TextInputType? keyboardType;
   final IconData icon;
   final bool obscureText;
   final TextEditingController controller;
@@ -22,6 +24,7 @@ class UnderlinedIconTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      keyboardType: keyboardType,
       autofocus: autoFocus,
       validator: validator,
       controller: controller,

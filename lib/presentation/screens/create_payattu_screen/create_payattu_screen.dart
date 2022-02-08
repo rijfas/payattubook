@@ -94,6 +94,7 @@ class _CreatePayattuScreenState extends State<CreatePayattuScreen> {
                       ),
                     ),
                     UnderlinedIconTextField(
+                      keyboardType: TextInputType.name,
                       labelText: 'Host name',
                       icon: Icons.person,
                       controller: _hostNameController,
@@ -101,6 +102,7 @@ class _CreatePayattuScreenState extends State<CreatePayattuScreen> {
                     ),
                     SizedBox(height: size.height * 0.025),
                     UnderlinedIconTextField(
+                      keyboardType: TextInputType.phone,
                       labelText: 'Host phone number',
                       icon: Icons.call,
                       controller: _hostPhoneNumberController,
@@ -129,6 +131,7 @@ class _CreatePayattuScreenState extends State<CreatePayattuScreen> {
                         onTimePicked: (time) => _time = time),
                     SizedBox(height: size.height * 0.025),
                     UnderlinedIconTextField(
+                      keyboardType: TextInputType.text,
                       labelText: 'Location',
                       icon: Icons.location_on,
                       controller: _locationController,

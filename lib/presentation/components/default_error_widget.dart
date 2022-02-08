@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../core/constants/default_widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
 import '../../core/constants/assets.dart';
+import '../../core/constants/default_widgets.dart';
 
 class DefaultErrorWidget extends StatelessWidget {
   const DefaultErrorWidget({Key? key, required this.message, this.onRetry})

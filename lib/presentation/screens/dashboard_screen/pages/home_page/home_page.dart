@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../components/amount_popup.dart';
 
 import '../../../../../core/constants/assets.dart';
 import '../../../../../core/constants/default_widgets.dart';
@@ -147,8 +148,10 @@ class _HomePageState extends State<HomePage> {
       itemCount: payattList.length,
       shrinkWrap: true,
       physics: const ScrollPhysics(),
-      itemBuilder: (context, index) => PayattuExpansionTile(
+      itemBuilder: (_, index) => PayattuExpansionTile(
         payattu: payattList[index],
+        onPressed: () =>
+            readAmount(context: context, payattu: payattList[index]),
       ),
     );
   }

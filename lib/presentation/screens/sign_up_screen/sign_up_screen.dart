@@ -91,6 +91,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       SizedBox(height: size.height * 0.025),
                       UnderlinedIconTextField(
+                        keyboardType: TextInputType.name,
                         validator:
                             Validators.defaultStringValidator('full name'),
                         controller: _fullNameController,
@@ -99,6 +100,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       SizedBox(height: size.height * 0.025),
                       UnderlinedIconTextField(
+                        keyboardType: TextInputType.text,
                         validator: Validators.defaultStringValidator('address'),
                         controller: _addressController,
                         labelText: 'Address',
@@ -106,6 +108,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       SizedBox(height: size.height * 0.025),
                       UnderlinedIconTextField(
+                        keyboardType: TextInputType.phone,
                         validator: Validators.phoneNumberValidator,
                         controller: _phoneNumberController,
                         labelText: 'Mobile Number',
@@ -113,6 +116,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       SizedBox(height: size.height * 0.025),
                       UnderlinedIconTextField(
+                        keyboardType: TextInputType.text,
                         validator: Validators.passwordValidator,
                         controller: _passwordController,
                         labelText: 'Password',

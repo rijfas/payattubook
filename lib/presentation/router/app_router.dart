@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:payattubook/presentation/screens/create_payattu_screen/create_payattu_screen.dart';
-import 'package:payattubook/presentation/screens/edit_profile_screen/edit_profile_screen.dart';
-import 'package:payattubook/presentation/screens/profile_screen/profile_screen.dart';
-import '../screens/dashboard_screen/dashboard_screen.dart';
-import '../screens/sign_in_screen/sign_in_screen.dart';
-import '../screens/sign_up_screen/sign_up_screen.dart';
 
 import '../../core/exceptions/invalid_route_exception.dart';
+import '../screens/create_payattu_screen/create_payattu_screen.dart';
+import '../screens/dashboard_screen/dashboard_screen.dart';
+import '../screens/edit_profile_screen/edit_profile_screen.dart';
 import '../screens/loading_screen/loading_screen.dart';
+import '../screens/profile_screen/profile_screen.dart';
+import '../screens/sign_in_screen/sign_in_screen.dart';
+import '../screens/sign_up_screen/sign_up_screen.dart';
 
 class AppRouter {
   const AppRouter._();

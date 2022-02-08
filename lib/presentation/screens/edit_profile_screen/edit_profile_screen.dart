@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:payattubook/core/constants/default_widgets.dart';
-import 'package:payattubook/core/utils/utils.dart';
-import 'package:payattubook/logic/authentication/cubit/authentication_cubit.dart';
-import 'package:payattubook/presentation/components/avatar_image_picker.dart';
-import 'package:payattubook/presentation/components/default_error_widget.dart';
-import 'package:payattubook/presentation/components/underlined_icon_text_field.dart';
+import '../../../core/constants/default_widgets.dart';
+import '../../../core/utils/utils.dart';
+import '../../../logic/authentication/cubit/authentication_cubit.dart';
+import '../../components/avatar_image_picker.dart';
+import '../../components/default_error_widget.dart';
+import '../../components/underlined_icon_text_field.dart';
 
 class EditProfileScreen extends StatelessWidget {
   const EditProfileScreen({Key? key}) : super(key: key);

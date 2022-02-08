@@ -4,16 +4,15 @@ import '../../../../core/themes/app_theme.dart';
 class CustomSearchBar extends StatefulWidget {
   const CustomSearchBar({
     Key? key,
-    required TextEditingController controller,
-    required void Function() onSearch,
-    String hintText = 'Search people',
-  })  : _controller = controller,
-        _onSearch = onSearch,
-        _hintText = hintText,
-        super(key: key);
-  final TextEditingController _controller;
-  final void Function() _onSearch;
-  final String _hintText;
+    required this.controller,
+    required this.onSearch,
+    this.onClear,
+    this.hintText = 'Search people',
+  }) : super(key: key);
+  final TextEditingController controller;
+  final void Function() onSearch;
+  final void Function()? onClear;
+  final String hintText;
 
   @override
   State<CustomSearchBar> createState() => _CustomSearchBarState();
@@ -37,14 +36,15 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
           ),
           Expanded(
             child: TextField(
+              keyboardType: TextInputType.text,
               onChanged: (_) {
                 setState(() {});
               },
-              controller: widget._controller,
-              onEditingComplete: widget._onSearch,
+              controller: widget.controller,
+              onEditingComplete: widget.onSearch,
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: widget._hintText,
+                hintText: widget.hintText,
                 hintStyle: const TextStyle(
                   fontWeight: FontWeight.w500,
                   color: AppTheme.lightSecondaryColor,
@@ -53,13 +53,16 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
               ),
             ),
           ),
-          if (widget._controller.value.text != '')
+          if (widget.controller.value.text != '')
             IconButton(
               icon: const Icon(Icons.clear),
               onPressed: () {
                 setState(() {
-                  widget._controller.clear();
+                  widget.controller.clear();
                 });
+                if (widget.onClear != null) {
+                  widget.onClear!();
+                }
               },
             )
         ],

@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-import 'package:payattubook/presentation/components/default_shaded_container.dart';
-import 'package:payattubook/presentation/screens/dashboard_screen/components/payattu_tile.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../../../../../core/constants/assets.dart';
@@ -13,8 +11,10 @@ import '../../../../../../core/utils/utils.dart';
 import '../../../../../../data/manage_payattu/models/user_payattu.dart';
 import '../../../../../../logic/manage_payattu/cubit/manage_payattu_cubit.dart';
 import '../../../../../components/confirm_popup.dart';
+import '../../../../../components/default_shaded_container.dart';
 import '../../../../../components/rounded_elevated_button.dart';
 import '../../../components/bottom_payattu_card.dart';
+import '../../../components/payattu_tile.dart';
 
 class CalendarPayattuView extends StatefulWidget {
   const CalendarPayattuView({

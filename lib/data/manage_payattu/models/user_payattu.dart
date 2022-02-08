@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+
 import '../../discover_payattu/models/payattu.dart';
 
 part 'user_payattu.g.dart';

@@ -79,6 +79,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                       SizedBox(height: size.height * 0.025),
                       UnderlinedIconTextField(
+                        keyboardType: TextInputType.phone,
                         validator: Validators.phoneNumberValidator,
                         controller: _phoneController,
                         labelText: 'Mobile Number',
@@ -86,6 +87,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                       SizedBox(height: size.height * 0.025),
                       UnderlinedIconTextField(
+                        keyboardType: TextInputType.text,
                         validator: Validators.passwordValidator,
                         controller: _passwordController,
                         labelText: 'Password',

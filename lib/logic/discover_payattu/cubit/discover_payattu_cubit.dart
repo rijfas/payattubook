@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:payattubook/core/utils/error_discriptors.dart';
-import 'package:payattubook/core/utils/utils.dart';
 
+import '../../../core/utils/error_discriptors.dart';
+import '../../../core/utils/utils.dart';
 import '../../../data/discover_payattu/models/payattu.dart';
 
 part 'discover_payattu_state.dart';

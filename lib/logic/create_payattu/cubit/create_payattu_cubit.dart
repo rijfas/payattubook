@@ -2,7 +2,8 @@ import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:payattubook/core/utils/utils.dart';
+
+import '../../../core/utils/utils.dart';
 
 part 'create_payattu_state.dart';
 

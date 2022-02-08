@@ -1,9 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:payattubook/presentation/components/rounded_profile.dart';
 
 import '../../../logic/authentication/cubit/authentication_cubit.dart';
+import '../../components/rounded_profile.dart';
 import '../../router/app_router.dart';
 import 'pages/calendar_page/calendar_page.dart';
 import 'pages/discover_page/discover_page.dart';

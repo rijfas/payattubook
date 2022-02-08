@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/utils/validators.dart';
+import '../../../../data/discover_payattu/models/payattu.dart';
+import '../../../../logic/manage_payattu/cubit/manage_payattu_cubit.dart';
 import '../../../components/underlined_icon_text_field.dart';
 
 class AmountPopup extends StatelessWidget {
@@ -29,6 +32,7 @@ class AmountPopup extends StatelessWidget {
           style: TextStyle(color: Theme.of(context).primaryColor),
         ),
         content: UnderlinedIconTextField(
+          keyboardType: TextInputType.number,
           hintText: 'Eg.500',
           icon: FontAwesomeIcons.rupeeSign,
           controller: _inputController,
@@ -41,7 +45,7 @@ class AmountPopup extends StatelessWidget {
                 if (onCancell != null) {
                   onCancell!();
                 }
-                Navigator.of(context).pop(true);
+                Navigator.of(context).pop(false);
               }),
           ElevatedButton(
             child: const Text('Save'),
@@ -56,4 +60,17 @@ class AmountPopup extends StatelessWidget {
       ),
     );
   }
+}
+
+void readAmount({required BuildContext context, required Payattu payattu}) {
+  showDialog<bool>(
+    context: context,
+    builder: (_) => AmountPopup(
+      title: 'Enter Amount',
+      onSubmit: (String value) => context.read<ManagePayattuCubit>().addPayattu(
+            payattu: payattu,
+            amount: double.parse(value),
+          ),
+    ),
+  );
 }

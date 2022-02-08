@@ -2,17 +2,17 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:payattubook/logic/create_payattu/cubit/create_payattu_cubit.dart';
-import 'package:payattubook/presentation/components/confirm_popup.dart';
-import 'package:payattubook/presentation/router/app_router.dart';
 
 import '../../../core/constants/assets.dart';
 import '../../../core/constants/default_widgets.dart';
 import '../../../core/utils/utils.dart';
 import '../../../data/discover_payattu/models/payattu.dart';
 import '../../../logic/authentication/cubit/authentication_cubit.dart';
+import '../../../logic/create_payattu/cubit/create_payattu_cubit.dart';
 import '../../../logic/discover_payattu/cubit/discover_payattu_cubit.dart';
-import '../dashboard_screen/pages/home_page/payattu_expansion_tile.dart';
+import '../../components/confirm_popup.dart';
+import '../../router/app_router.dart';
+import '../dashboard_screen/components/payattu_tile.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -140,32 +140,59 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 _getUserPayattList(
                                     Utils.supabase.auth.currentUser!.id,
                                     state.payattList);
-                            return ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: _userPayatts.length,
-                              physics: const ScrollPhysics(),
-                              itemBuilder: (context, index) => Dismissible(
-                                confirmDismiss: (direct) {
-                                  return showDialog<bool>(
-                                    context: context,
-                                    builder: (context) => ConfirmPopup(
-                                      title: 'Confirm delete?',
-                                      message:
-                                          'Delete the payattu ${_userPayatts[index].host}',
-                                    ),
-                                  );
-                                },
-                                key: Key(index.toString()),
-                                child: PayattuExpansionTile(
-                                    payattu: _userPayatts[index]),
-                                onDismissed: (_) {
-                                  context
-                                      .read<CreatePayattuCubit>()
-                                      .deletePayattu(
-                                          payattId: _userPayatts[index].id);
-                                },
-                              ),
-                            );
+                            return ListView.separated(
+                                separatorBuilder: ((context, index) =>
+                                    const Divider()),
+                                shrinkWrap: true,
+                                itemCount: _userPayatts.length,
+                                physics: const ScrollPhysics(),
+                                itemBuilder: (context, index) => PayattuTile(
+                                    payattu: _userPayatts[index],
+                                    trailing: IconButton(
+                                        onPressed: () async {
+                                          final confirmDelete =
+                                              await showDialog<bool>(
+                                            context: context,
+                                            builder: (context) => ConfirmPopup(
+                                              title: 'Confirm delete?',
+                                              message:
+                                                  'Delete the payattu ${_userPayatts[index].host}',
+                                            ),
+                                          );
+                                          if (confirmDelete ?? false) {
+                                            context
+                                                .read<CreatePayattuCubit>()
+                                                .deletePayattu(
+                                                    payattId:
+                                                        _userPayatts[index].id);
+                                          }
+                                        },
+                                        icon: Icon(
+                                          Icons.delete,
+                                          color: Theme.of(context).primaryColor,
+                                        )))
+                                // Dismissible(
+                                //   confirmDismiss: (direct) {
+                                // return showDialog<bool>(
+                                //   context: context,
+                                //   builder: (context) => ConfirmPopup(
+                                //     title: 'Confirm delete?',
+                                //     message:
+                                //         'Delete the payattu ${_userPayatts[index].host}',
+                                //   ),
+                                // );
+                                //   },
+                                //   key: Key(index.toString()),
+                                //   child: PayattuExpansionTile(
+                                //       payattu: _userPayatts[index]),
+                                //   onDismissed: (_) {
+                                // context
+                                //     .read<CreatePayattuCubit>()
+                                //     .deletePayattu(
+                                //         payattId: _userPayatts[index].id);
+                                //   },
+                                // ),
+                                );
                           } else if (state is DiscoverPayattuLoading) {
                             return const Center(
                               child: CircularProgressIndicator(),

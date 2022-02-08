@@ -2,8 +2,8 @@ import 'dart:typed_data';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
-import 'package:payattubook/core/utils/error_discriptors.dart';
 
+import '../../../core/utils/error_discriptors.dart';
 import '../../../core/utils/utils.dart';
 import '../../../data/authentication/models/user.dart';
 
