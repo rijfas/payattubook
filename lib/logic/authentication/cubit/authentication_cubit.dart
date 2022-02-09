@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 import 'package:hive/hive.dart';
@@ -42,7 +43,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     }
 
     if (profileImage != null && profileFileName != null) {
-      profileFileName = 'profile.' + profileFileName.split('.').last;
+      // profileFileName = 'profile.' + profileFileName.split('.').last;
       final image = await Utils.supabase.storage.from('profiles').uploadBinary(
           '${response.data!.user?.id}/$profileFileName', profileImage);
       if (image.error != null) {
@@ -218,19 +219,21 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       required Uint8List image,
       required String fileName}) async {
     emit(ProfileChangeLoading());
-    final profileFileName = 'profile.' + fileName.split('.').last;
+    // final profileFileName = 'profile.' + fileName.split('.').last;
     final response = await Utils.supabase.storage.from('profiles').uploadBinary(
-        '${Utils.supabase.auth.currentUser?.id}/$profileFileName', image,
-        fileOptions: const supabase.FileOptions(upsert: true));
+        '${Utils.supabase.auth.currentUser?.id}/$fileName', image);
     if (response.error != null) {
       emit(AuthenticationError(message: response.error?.message));
       emit(AuthenticationCompleted(user: currentProfile));
       return;
     }
+
     final imageUrl = Utils.supabase.storage
         .from('profiles')
-        .getPublicUrl('${Utils.supabase.auth.currentUser?.id}/$profileFileName')
+        .getPublicUrl('${Utils.supabase.auth.currentUser?.id}/$fileName')
         .data;
+
+    CachedNetworkImage.evictFromCache(imageUrl ?? '');
     final profile = await Utils.supabase
         .from('profiles')
         .update({'profile_url': imageUrl})
@@ -256,12 +259,24 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   }
 
   void deleteProfile({required User currentProfile}) async {
-    final fileName = currentProfile.profileUrl.split('/profiles/').last;
     emit(ProfileChangeLoading());
-    final response =
+    final fileName = currentProfile.profileUrl.split('profiles/').last;
+    final deleted =
         await Utils.supabase.storage.from('profiles').remove([fileName]);
+
+    if (deleted.error != null) {
+      emit(AuthenticationError(message: deleted.error?.message));
+      emit(AuthenticationCompleted(user: currentProfile));
+      return;
+    }
+    final response = await Utils.supabase
+        .from('profiles')
+        .update({'profile_url': ''})
+        .eq('user', Utils.supabase.auth.currentUser!.id)
+        .execute();
     if (response.error != null) {
       emit(AuthenticationError(message: response.error?.message));
+      emit(AuthenticationCompleted(user: currentProfile));
       return;
     }
     emit(

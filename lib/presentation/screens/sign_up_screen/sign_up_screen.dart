@@ -54,25 +54,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
           Utils.showLoadingDialog(context);
         } else if (state is AuthenticationCompleted) {
           Navigator.of(context).pop();
-          Navigator.of(context).pushReplacementNamed(AppRouter.dashboardScreen);
+          Utils.disableFullScreen().then((value) => Navigator.of(context)
+              .pushNamedAndRemoveUntil(
+                  AppRouter.dashboardScreen, (_) => false));
         } else if (state is AuthenticationError) {
           Navigator.of(context).pop();
-          Utils.showErrorSnackBar(context: context, message: state.message);
+          Utils.showSnackBar(context: context, message: state.message);
         }
       },
       child: Scaffold(
         body: SafeArea(
-          child: SizedBox(
-            height: size.height,
-            child: SingleChildScrollView(
+          child: SingleChildScrollView(
+            child: SizedBox(
+              height: size.height,
               child: Padding(
                 padding: const EdgeInsets.all(14.0),
                 child: Form(
                   key: _formKey,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: size.height * 0.05),
+                      const SizedBox(),
                       Center(
                         child: AvatarImagePicker(
                           radius: size.width * 0.25,
@@ -86,84 +89,90 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           },
                         ),
                       ),
-                      Text(
-                        'Sign Up',
-                        style: Theme.of(context).textTheme.headline3?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                      ),
-                      SizedBox(height: size.height * 0.025),
-                      UnderlinedIconTextField(
-                        keyboardType: TextInputType.name,
-                        validator:
-                            Validators.defaultStringValidator('full name'),
-                        controller: _fullNameController,
-                        labelText: 'Full Name',
-                        icon: Icons.person,
-                        textInputAction: TextInputAction.next,
-                      ),
-                      SizedBox(height: size.height * 0.025),
-                      UnderlinedIconTextField(
-                        keyboardType: TextInputType.text,
-                        validator: Validators.defaultStringValidator('address'),
-                        controller: _addressController,
-                        labelText: 'Address',
-                        icon: Icons.home,
-                        textInputAction: TextInputAction.next,
-                      ),
-                      SizedBox(height: size.height * 0.025),
-                      UnderlinedIconTextField(
-                        keyboardType: TextInputType.phone,
-                        validator: Validators.phoneNumberValidator,
-                        controller: _phoneNumberController,
-                        labelText: 'Mobile Number',
-                        icon: Icons.call,
-                        textInputAction: TextInputAction.next,
-                      ),
-                      SizedBox(height: size.height * 0.025),
-                      UnderlinedIconTextField(
-                        keyboardType: TextInputType.text,
-                        validator: Validators.passwordValidator,
-                        controller: _passwordController,
-                        labelText: 'Password',
-                        icon: Icons.lock,
-                        obscureText: true,
-                        textInputAction: TextInputAction.done,
-                      ),
-                      SizedBox(height: size.height * 0.025),
-                      RoundedElevatedButton(
-                        child: const Text('Sign Up'),
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            context.read<AuthenticationCubit>().signUp(
-                                  fullName: _fullNameController.value.text,
-                                  phoneNumber:
-                                      _phoneNumberController.value.text,
-                                  password: _passwordController.value.text,
-                                  address: _addressController.value.text,
-                                  profileImage: _profileImage,
-                                  profileFileName: _profileFileName,
-                                );
-                          }
-                        },
-                      ),
-                      SizedBox(height: size.height * 0.025),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Already have an account?'),
-                          const SizedBox(width: 4.0),
-                          GestureDetector(
-                            onTap: () => Navigator.pushReplacementNamed(
-                              context,
-                              AppRouter.signInScreen,
-                            ),
-                            child: const Text(
-                              'Sign In',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          )
+                          Text(
+                            'Sign Up',
+                            style:
+                                Theme.of(context).textTheme.headline3?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                          ),
+                          const Divider(),
+                          SizedBox(height: size.height * 0.025),
+                          UnderlinedIconTextField(
+                            keyboardType: TextInputType.name,
+                            validator:
+                                Validators.defaultStringValidator('full name'),
+                            controller: _fullNameController,
+                            labelText: 'Full Name',
+                            icon: Icons.person,
+                            textInputAction: TextInputAction.next,
+                          ),
+                          UnderlinedIconTextField(
+                            keyboardType: TextInputType.text,
+                            validator:
+                                Validators.defaultStringValidator('address'),
+                            controller: _addressController,
+                            labelText: 'Address',
+                            icon: Icons.home,
+                            textInputAction: TextInputAction.next,
+                          ),
+                          UnderlinedIconTextField(
+                            keyboardType: TextInputType.phone,
+                            validator: Validators.phoneNumberValidator,
+                            controller: _phoneNumberController,
+                            labelText: 'Mobile Number',
+                            icon: Icons.call,
+                            textInputAction: TextInputAction.next,
+                          ),
+                          UnderlinedIconTextField(
+                            keyboardType: TextInputType.text,
+                            validator: Validators.passwordValidator,
+                            controller: _passwordController,
+                            labelText: 'Password',
+                            icon: Icons.lock,
+                            obscureText: true,
+                            textInputAction: TextInputAction.done,
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          RoundedElevatedButton(
+                            child: const Text('Sign Up'),
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                context.read<AuthenticationCubit>().signUp(
+                                      fullName: _fullNameController.value.text,
+                                      phoneNumber:
+                                          _phoneNumberController.value.text,
+                                      password: _passwordController.value.text,
+                                      address: _addressController.value.text,
+                                      profileImage: _profileImage,
+                                      profileFileName: _profileFileName,
+                                    );
+                              }
+                            },
+                          ),
+                          SizedBox(height: size.height * 0.0125),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text('Already have an account?'),
+                              const SizedBox(width: 4.0),
+                              GestureDetector(
+                                onTap: () => Navigator.of(context).pop(),
+                                child: const Text(
+                                  'Sign In',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              )
+                            ],
+                          ),
+                          SizedBox(height: size.height * 0.025),
                         ],
                       )
                     ],

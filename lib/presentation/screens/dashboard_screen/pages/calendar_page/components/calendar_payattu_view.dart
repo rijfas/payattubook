@@ -190,6 +190,10 @@ class _CalendarPayattuViewState extends State<CalendarPayattuView> {
                                                   index:
                                                       value[index].keys.first);
                                           Navigator.of(context).pop();
+                                          Utils.showSnackBar(
+                                              context: context,
+                                              message:
+                                                  'Payattu is removed from current payattlist');
                                         }
                                       });
                                     },

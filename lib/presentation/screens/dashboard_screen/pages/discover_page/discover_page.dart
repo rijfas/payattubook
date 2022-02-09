@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:payattubook/core/utils/utils.dart';
 import '../../../../../core/constants/default_widgets.dart';
 import '../../../../../logic/discover_payattu/cubit/discover_payattu_cubit.dart';
 import '../../../../components/default_error_widget.dart';
@@ -105,8 +106,17 @@ class _DiscoverPageState extends State<DiscoverPage> {
                                   bottomButton: RoundedElevatedButton(
                                     child: const Text('Add to payattu list'),
                                     onPressed: () => readAmount(
-                                        context: context,
-                                        payattu: state.payattList[index]),
+                                            context: context,
+                                            payattu: state.payattList[index])
+                                        .then((value) {
+                                      if (value ?? false) {
+                                        Navigator.of(context).pop();
+                                        Utils.showSnackBar(
+                                            context: context,
+                                            message:
+                                                'Payattu added to current payattlist');
+                                      }
+                                    }),
                                   ),
                                 ),
                               );

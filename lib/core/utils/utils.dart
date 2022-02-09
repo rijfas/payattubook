@@ -7,16 +7,19 @@ class Utils {
 
   static final supabase = Supabase.instance.client;
 
-  static void enableFullScreen() async {
-    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+  static Future<void> enableFullScreen() async {
+    return SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: []);
   }
 
   static Future<void> disableFullScreen() async {
-    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    return SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: [SystemUiOverlay.top]);
   }
 
   static void showLoadingDialog(BuildContext context) {
     showDialog(
+      barrierDismissible: false,
       barrierColor: Colors.white54,
       context: context,
       builder: (_) => const Center(
@@ -25,8 +28,7 @@ class Utils {
     );
   }
 
-  static void showErrorSnackBar(
-      {required BuildContext context, String? message}) {
+  static void showSnackBar({required BuildContext context, String? message}) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(message ?? ''),
         backgroundColor: Theme.of(context).primaryColor));

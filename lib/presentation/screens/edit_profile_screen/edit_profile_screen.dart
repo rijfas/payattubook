@@ -22,7 +22,7 @@ class EditProfileScreen extends StatelessWidget {
           Utils.showLoadingDialog(context);
         } else if (state is AuthenticationError) {
           Navigator.of(context).pop();
-          Utils.showErrorSnackBar(context: context, message: state.message);
+          Utils.showSnackBar(context: context, message: state.message);
         } else if (state is AuthenticationCompleted) {
           Navigator.of(context).pop();
         }

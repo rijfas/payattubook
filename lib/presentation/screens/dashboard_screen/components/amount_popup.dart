@@ -62,15 +62,17 @@ class AmountPopup extends StatelessWidget {
   }
 }
 
-void readAmount({required BuildContext context, required Payattu payattu}) {
-  showDialog<bool>(
+Future<bool?> readAmount(
+    {required BuildContext context, required Payattu payattu}) {
+  return showDialog<bool>(
     context: context,
     builder: (_) => AmountPopup(
-      title: 'Enter Amount',
-      onSubmit: (String value) => context.read<ManagePayattuCubit>().addPayattu(
-            payattu: payattu,
-            amount: double.parse(value),
-          ),
-    ),
+        title: 'Enter Amount',
+        onSubmit: (String value) {
+          context.read<ManagePayattuCubit>().addPayattu(
+                payattu: payattu,
+                amount: double.parse(value),
+              );
+        }),
   );
 }

@@ -19,9 +19,8 @@ class LoadingScreen extends StatefulWidget {
 class _LoadingScreenState extends AuthState<LoadingScreen> {
   @override
   void initState() {
-    Utils.enableFullScreen();
-    recoverSupabaseSession();
     super.initState();
+    Utils.enableFullScreen().then((value) => recoverSupabaseSession());
   }
 
   @override
@@ -34,8 +33,8 @@ class _LoadingScreenState extends AuthState<LoadingScreen> {
               .pushNamedAndRemoveUntil(
                   AppRouter.dashboardScreen, (_) => false));
         } else if (state is AuthenticationPending) {
-          Utils.disableFullScreen().then((value) => Navigator.of(context)
-              .pushNamedAndRemoveUntil(AppRouter.signInScreen, (_) => false));
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil(AppRouter.signInScreen, (_) => false);
         }
       },
       child: Scaffold(

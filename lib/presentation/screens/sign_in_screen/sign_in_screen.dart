@@ -44,95 +44,107 @@ class _SignInScreenState extends State<SignInScreen> {
           Utils.showLoadingDialog(context);
         } else if (state is AuthenticationCompleted) {
           Navigator.of(context).pop();
-          Navigator.of(context).pushReplacementNamed(AppRouter.dashboardScreen);
+          Utils.disableFullScreen().then((value) => Navigator.of(context)
+              .pushNamedAndRemoveUntil(
+                  AppRouter.dashboardScreen, (_) => false));
         } else if (state is AuthenticationError) {
           Navigator.of(context).pop();
-          Utils.showErrorSnackBar(context: context, message: state.message);
+          Utils.showSnackBar(context: context, message: state.message);
         }
       },
       child: Scaffold(
         body: SafeArea(
-          child: SizedBox(
-            height: size.height,
-            child: SingleChildScrollView(
+          child: SingleChildScrollView(
+            child: SizedBox(
+              height: size.height,
               child: Padding(
                 padding: const EdgeInsets.all(14.0),
                 child: Form(
                   key: _formKey,
                   child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: size.height * 0.05),
+                      const SizedBox(),
                       Center(
                         child: SvgPicture.asset(
                           Assets.signInImage,
                           height: size.height * 0.2,
                         ),
                       ),
-                      SizedBox(height: size.height * 0.1),
-                      Text(
-                        'Sign In',
-                        style: Theme.of(context).textTheme.headline3?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                      ),
-                      SizedBox(height: size.height * 0.025),
-                      UnderlinedIconTextField(
-                        keyboardType: TextInputType.phone,
-                        validator: Validators.phoneNumberValidator,
-                        controller: _phoneController,
-                        labelText: 'Mobile Number',
-                        icon: Icons.call,
-                        textInputAction: TextInputAction.next,
-                      ),
-                      SizedBox(height: size.height * 0.025),
-                      UnderlinedIconTextField(
-                        keyboardType: TextInputType.text,
-                        validator: Validators.passwordValidator,
-                        controller: _passwordController,
-                        labelText: 'Password',
-                        icon: Icons.lock,
-                        obscureText: true,
-                        textInputAction: TextInputAction.done,
-                      ),
-                      SizedBox(height: size.height * 0.025),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: const [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                           Text(
-                            'Forgot Password?',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          )
+                            'Sign In',
+                            style:
+                                Theme.of(context).textTheme.headline3?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                          ),
+                          const Divider(),
+                          SizedBox(height: size.height * 0.025),
+                          UnderlinedIconTextField(
+                            keyboardType: TextInputType.phone,
+                            validator: Validators.phoneNumberValidator,
+                            controller: _phoneController,
+                            labelText: 'Mobile Number',
+                            icon: Icons.call,
+                            textInputAction: TextInputAction.next,
+                          ),
+                          UnderlinedIconTextField(
+                            validator: Validators.passwordValidator,
+                            controller: _passwordController,
+                            labelText: 'Password',
+                            icon: Icons.lock,
+                            obscureText: true,
+                            textInputAction: TextInputAction.done,
+                          ),
+                          SizedBox(height: size.height * 0.025),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: const [
+                              Text(
+                                'Forgot Password?',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
                         ],
                       ),
-                      SizedBox(height: size.height * 0.025),
-                      RoundedElevatedButton(
-                        child: const Text('Sign In'),
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            context.read<AuthenticationCubit>().signIn(
-                                phoneNumber: _phoneController.value.text,
-                                password: _passwordController.value.text);
-                          }
-                        },
-                      ),
-                      SizedBox(height: size.height * 0.025),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      Column(
                         children: [
-                          const Text('Doesn\'t have an account?'),
-                          const SizedBox(width: 4.0),
-                          GestureDetector(
-                            onTap: () => Navigator.pushReplacementNamed(
-                              context,
-                              AppRouter.signUpScreen,
-                            ),
-                            child: const Text(
-                              'Sign Up',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          )
+                          RoundedElevatedButton(
+                            child: const Text('Sign In'),
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                context.read<AuthenticationCubit>().signIn(
+                                    phoneNumber: _phoneController.value.text,
+                                    password: _passwordController.value.text);
+                              }
+                            },
+                          ),
+                          SizedBox(height: size.height * 0.0125),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text('Doesn\'t have an account?'),
+                              const SizedBox(width: 4.0),
+                              GestureDetector(
+                                onTap: () => Navigator.pushNamed(
+                                  context,
+                                  AppRouter.signUpScreen,
+                                ),
+                                child: const Text(
+                                  'Sign Up',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              )
+                            ],
+                          ),
+                          SizedBox(height: size.height * 0.025),
                         ],
                       )
                     ],

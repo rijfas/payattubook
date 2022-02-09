@@ -59,7 +59,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Utils.showLoadingDialog(context);
           } else if (state is CreatePayattuError) {
             Navigator.of(context).pop();
-            Utils.showErrorSnackBar(context: context, message: state.message);
+            Utils.showSnackBar(context: context, message: state.message);
           } else if (state is CreatePayattuCompleted) {
             context
                 .read<DiscoverPayattuCubit>()
@@ -118,9 +118,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               InkWell(
                                 onTap: () {
-                                  Utils.showErrorSnackBar(
+                                  Utils.showSnackBar(
                                       context: context,
-                                      message: 'Swipe left to delete');
+                                      message:
+                                          'List of payatts created by you');
                                 },
                                 child: const Text(
                                   '?',
@@ -213,7 +214,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   );
                 }
-                return const CircularProgressIndicator();
+                return const Center(child: CircularProgressIndicator());
               },
             ),
           ),

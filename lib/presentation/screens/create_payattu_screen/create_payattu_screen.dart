@@ -70,11 +70,13 @@ class _CreatePayattuScreenState extends State<CreatePayattuScreen> {
               listener: (context, state) {
                 if (state is CreatePayattuError) {
                   Navigator.of(context).pop();
-                  Utils.showErrorSnackBar(
-                      context: context, message: state.message);
+                  Utils.showSnackBar(context: context, message: state.message);
                 } else if (state is CreatePayattuCompleted) {
                   Navigator.of(context).pushNamedAndRemoveUntil(
                       AppRouter.dashboardScreen, (route) => false);
+                  Utils.showSnackBar(
+                      context: context,
+                      message: 'Payattu is successfully created');
                 } else if (state is CreatePayattuLoading) {
                   Utils.showLoadingDialog(context);
                 }
