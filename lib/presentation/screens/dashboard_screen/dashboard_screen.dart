@@ -22,15 +22,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
     HomePage(),
     DiscoverPage(),
     CalendarPage(),
-    Center(child: Text('Transactions(Coming soon)')),
+    // Center(child: Text('Transactions(Coming soon)')),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading:
-            IconButton(onPressed: () {}, icon: const Icon(Icons.notifications)),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed(AppRouter.payattListScreen);
+            },
+            icon: const Icon(Icons.list_alt)),
         centerTitle: true,
         title: const Text('PayattuBook'),
         actions: [
@@ -75,11 +78,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
             label: 'Calendar',
             backgroundColor: Colors.white,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_balance_wallet_rounded),
-            label: 'Transactions',
-            backgroundColor: Colors.white,
-          )
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.account_balance_wallet_rounded),
+          //   label: 'Transactions',
+          //   backgroundColor: Colors.white,
+          // )
         ],
       ),
       floatingActionButton: (_currentIndex == 1)

@@ -7,9 +7,7 @@ class Assets {
   static const defaultErrorImage = 'assets/images/error.svg';
   static const defaulEmptyImage = 'assets/images/empty.svg';
   static const loadingAnimation = 'assets/animations/wallet.riv';
-  static const List<String> greetImages = <String>[
-    'assets/images/greet_1.svg',
-    'assets/images/greet_2.svg',
-    'assets/images/greet_3.svg'
-  ];
+  static const firstOnboardImage = 'assets/images/greet_1.svg';
+  static const secondOnboardImage = 'assets/images/greet_2.svg';
+  static const thirdOnboardImage = 'assets/images/greet_3.svg';
 }

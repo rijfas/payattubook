@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -187,8 +185,12 @@ class _CalendarPayattuViewState extends State<CalendarPayattuView> {
                                           context
                                               .read<ManagePayattuCubit>()
                                               .removePayattu(
-                                                  index:
-                                                      value[index].keys.first);
+                                                index: value[index].keys.first,
+                                                payattu: value[index]
+                                                    .values
+                                                    .first
+                                                    .payattu,
+                                              );
                                           Navigator.of(context).pop();
                                           Utils.showSnackBar(
                                               context: context,

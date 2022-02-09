@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import '../screens/onboarding_screen/onboarding_screen.dart';
 
 import '../../core/exceptions/invalid_route_exception.dart';
 import '../screens/create_payattu_screen/create_payattu_screen.dart';
 import '../screens/dashboard_screen/dashboard_screen.dart';
 import '../screens/edit_profile_screen/edit_profile_screen.dart';
 import '../screens/loading_screen/loading_screen.dart';
+import '../screens/notifications_screen/payatt_list_screen.dart';
 import '../screens/profile_screen/profile_screen.dart';
 import '../screens/sign_in_screen/sign_in_screen.dart';
 import '../screens/sign_up_screen/sign_up_screen.dart';
@@ -19,6 +21,8 @@ class AppRouter {
   static const createPayattuScreen = 'create-payattu-screen';
   static const profileScreen = 'profile-screen';
   static const editProfileScreen = 'edit-profile-screen';
+  static const payattListScreen = 'payatt-list-screen';
+  static const onboardingScreen = 'onboarding-screen';
 
   static Route onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
@@ -36,6 +40,10 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const ProfileScreen());
       case editProfileScreen:
         return MaterialPageRoute(builder: (_) => const EditProfileScreen());
+      case payattListScreen:
+        return MaterialPageRoute(builder: (_) => const PayattListScreen());
+      case onboardingScreen:
+        return MaterialPageRoute(builder: (_) => const OnboardingScreen());
       default:
         throw InvalidRouteException(
             "invalid route reached : ${routeSettings.name}");

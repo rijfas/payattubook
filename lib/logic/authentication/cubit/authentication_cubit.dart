@@ -2,7 +2,6 @@ import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 import 'package:hive/hive.dart';
 
 import '../../../core/utils/error_discriptors.dart';
@@ -135,7 +134,14 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     emit(AuthenticationCompleted(user: user));
   }
 
-  void reSignIn() {
+  void reSignIn() async {
+    final box = await Hive.openBox('settings');
+    final bool isFirstRun = box.get('isFirstRun') ?? true;
+    await box.put('isFirstRun', false);
+    if (isFirstRun) {
+      emit(FirstAuthentication());
+      return;
+    }
     emit(AuthenticationPending());
   }
 

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:payattubook/core/utils/utils.dart';
+
+import '../../../../../core/constants/assets.dart';
 import '../../../../../core/constants/default_widgets.dart';
+import '../../../../../core/utils/utils.dart';
 import '../../../../../logic/discover_payattu/cubit/discover_payattu_cubit.dart';
 import '../../../../components/default_error_widget.dart';
 import '../../../../components/default_shaded_container.dart';
@@ -11,7 +13,6 @@ import '../../components/amount_popup.dart';
 import '../../components/bottom_payattu_card.dart';
 import '../../components/custom_search_bar.dart';
 import '../../components/payattu_tile.dart';
-import '../../../../../core/constants/assets.dart';
 
 class DiscoverPage extends StatefulWidget {
   const DiscoverPage({Key? key}) : super(key: key);

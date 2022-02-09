@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:payattubook/presentation/components/default_empty_widget.dart';
 
 import '../../../core/constants/assets.dart';
 import '../../../core/constants/default_widgets.dart';
@@ -12,6 +11,7 @@ import '../../../logic/authentication/cubit/authentication_cubit.dart';
 import '../../../logic/create_payattu/cubit/create_payattu_cubit.dart';
 import '../../../logic/discover_payattu/cubit/discover_payattu_cubit.dart';
 import '../../components/confirm_popup.dart';
+import '../../components/default_empty_widget.dart';
 import '../../router/app_router.dart';
 import '../dashboard_screen/components/payattu_tile.dart';
 

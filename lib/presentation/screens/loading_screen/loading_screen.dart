@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../core/utils/utils.dart';
 import 'package:rive/rive.dart';
 
 import '../../../core/constants/assets.dart';
@@ -19,8 +18,8 @@ class LoadingScreen extends StatefulWidget {
 class _LoadingScreenState extends AuthState<LoadingScreen> {
   @override
   void initState() {
+    recoverSupabaseSession();
     super.initState();
-    Utils.enableFullScreen().then((value) => recoverSupabaseSession());
   }
 
   @override
@@ -29,12 +28,14 @@ class _LoadingScreenState extends AuthState<LoadingScreen> {
     return BlocListener<AuthenticationCubit, AuthenticationState>(
       listener: (context, state) {
         if (state is AuthenticationCompleted) {
-          Utils.disableFullScreen().then((value) => Navigator.of(context)
-              .pushNamedAndRemoveUntil(
-                  AppRouter.dashboardScreen, (_) => false));
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil(AppRouter.dashboardScreen, (_) => false);
         } else if (state is AuthenticationPending) {
           Navigator.of(context)
               .pushNamedAndRemoveUntil(AppRouter.signInScreen, (_) => false);
+        } else if (state is FirstAuthentication) {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              AppRouter.onboardingScreen, (_) => false);
         }
       },
       child: Scaffold(

@@ -3,6 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'app.dart';
+import 'core/utils/notification_manager.dart';
 import 'core/utils/time_of_day_adapter.dart';
 import 'data/authentication/models/user.dart';
 import 'data/discover_payattu/models/payattu.dart';
@@ -17,6 +18,7 @@ void main() async {
   Hive.registerAdapter(TimeOfDayAdapter());
   Hive.registerAdapter(PayattuAdapter());
   Hive.registerAdapter(UserPayattuAdapter());
+  NotificationManager.initialize();
   await Supabase.initialize(
     anonKey:
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0Mzc5MjYwMCwiZXhwIjoxOTU5MzY4NjAwfQ.grvAsfDv1E6EeJz1tmNRKbVinoYhcraE4zmE8YbK08k',

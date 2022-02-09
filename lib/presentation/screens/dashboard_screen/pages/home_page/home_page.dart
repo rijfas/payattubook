@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:payattubook/presentation/components/default_empty_widget.dart';
-import '../../components/amount_popup.dart';
 
 import '../../../../../core/constants/assets.dart';
 import '../../../../../core/constants/default_widgets.dart';
@@ -10,6 +8,8 @@ import '../../../../../core/utils/utils.dart';
 import '../../../../../data/discover_payattu/models/payattu.dart';
 import '../../../../../logic/discover_payattu/cubit/discover_payattu_cubit.dart';
 import '../../../../../logic/manage_payattu/cubit/manage_payattu_cubit.dart';
+import '../../../../components/default_empty_widget.dart';
+import '../../components/amount_popup.dart';
 import 'payattu_expansion_tile.dart';
 
 class HomePage extends StatefulWidget {

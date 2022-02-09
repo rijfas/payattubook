@@ -44,9 +44,8 @@ class _SignInScreenState extends State<SignInScreen> {
           Utils.showLoadingDialog(context);
         } else if (state is AuthenticationCompleted) {
           Navigator.of(context).pop();
-          Utils.disableFullScreen().then((value) => Navigator.of(context)
-              .pushNamedAndRemoveUntil(
-                  AppRouter.dashboardScreen, (_) => false));
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil(AppRouter.dashboardScreen, (_) => false);
         } else if (state is AuthenticationError) {
           Navigator.of(context).pop();
           Utils.showSnackBar(context: context, message: state.message);
