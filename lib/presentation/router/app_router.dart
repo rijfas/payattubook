@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import '../screens/onboarding_screen/onboarding_screen.dart';
 
 import '../../core/exceptions/invalid_route_exception.dart';
 import '../screens/create_payattu_screen/create_payattu_screen.dart';
 import '../screens/dashboard_screen/dashboard_screen.dart';
 import '../screens/edit_profile_screen/edit_profile_screen.dart';
-import '../screens/loading_screen/loading_screen.dart';
 import '../screens/notifications_screen/payatt_list_screen.dart';
+import '../screens/onboarding_screen/onboarding_screen.dart';
 import '../screens/profile_screen/profile_screen.dart';
 import '../screens/sign_in_screen/sign_in_screen.dart';
 import '../screens/sign_up_screen/sign_up_screen.dart';
+import '../screens/splash_screen/splash_screen.dart';
 
 class AppRouter {
   const AppRouter._();
   static const greetScreen = 'greet-screen';
-  static const loadingScreen = 'loading-screen';
+  static const splashScreen = 'splash-screen';
   static const signInScreen = 'sign-in-screen';
   static const signUpScreen = 'sign-up-screen';
   static const dashboardScreen = 'dashboard-screen';
@@ -26,8 +26,8 @@ class AppRouter {
 
   static Route onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
-      case loadingScreen:
-        return MaterialPageRoute(builder: (_) => const LoadingScreen());
+      case splashScreen:
+        return MaterialPageRoute(builder: (_) => const SplashScreen());
       case signInScreen:
         return MaterialPageRoute(builder: (_) => const SignInScreen());
       case signUpScreen:

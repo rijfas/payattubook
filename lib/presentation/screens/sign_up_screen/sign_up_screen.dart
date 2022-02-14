@@ -65,78 +65,69 @@ class _SignUpScreenState extends State<SignUpScreen> {
         body: SafeArea(
           child: SingleChildScrollView(
             child: SizedBox(
-              height: size.height,
+              height: size.height - kToolbarHeight,
+              width: size.width,
               child: Padding(
                 padding: const EdgeInsets.all(14.0),
                 child: Form(
                   key: _formKey,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const SizedBox(),
-                      Center(
-                        child: AvatarImagePicker(
-                          radius: size.width * 0.25,
-                          onProfileChanged: (image, fileName) {
-                            _profileImage = image;
-                            _profileFileName = fileName;
-                          },
-                          onProfileDeleted: () {
-                            _profileImage = null;
-                            _profileFileName = null;
-                          },
-                        ),
+                      Text(
+                        'Sign Up',
+                        style: Theme.of(context).textTheme.headline3?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).primaryColor,
+                            ),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Sign Up',
-                            style:
-                                Theme.of(context).textTheme.headline3?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context).primaryColor,
-                                    ),
-                          ),
-                          const Divider(),
-                          SizedBox(height: size.height * 0.025),
-                          UnderlinedIconTextField(
-                            keyboardType: TextInputType.name,
-                            validator:
-                                Validators.defaultStringValidator('full name'),
-                            controller: _fullNameController,
-                            labelText: 'Full Name',
-                            icon: Icons.person,
-                            textInputAction: TextInputAction.next,
-                          ),
-                          UnderlinedIconTextField(
-                            keyboardType: TextInputType.text,
-                            validator:
-                                Validators.defaultStringValidator('address'),
-                            controller: _addressController,
-                            labelText: 'Address',
-                            icon: Icons.home,
-                            textInputAction: TextInputAction.next,
-                          ),
-                          UnderlinedIconTextField(
-                            keyboardType: TextInputType.phone,
-                            validator: Validators.phoneNumberValidator,
-                            controller: _phoneNumberController,
-                            labelText: 'Mobile Number',
-                            icon: Icons.call,
-                            textInputAction: TextInputAction.next,
-                          ),
-                          UnderlinedIconTextField(
-                            keyboardType: TextInputType.text,
-                            validator: Validators.passwordValidator,
-                            controller: _passwordController,
-                            labelText: 'Password',
-                            icon: Icons.lock,
-                            obscureText: true,
-                            textInputAction: TextInputAction.done,
-                          ),
-                        ],
+                      const Divider(),
+                      AvatarImagePicker(
+                        radius: size.width * 0.25,
+                        onProfileChanged: (image, fileName) {
+                          _profileImage = image;
+                          _profileFileName = fileName;
+                        },
+                        onProfileDeleted: () {
+                          _profileImage = null;
+                          _profileFileName = null;
+                        },
+                      ),
+                      SizedBox(height: size.height * 0.025),
+                      UnderlinedIconTextField(
+                        keyboardType: TextInputType.name,
+                        validator:
+                            Validators.defaultStringValidator('full name'),
+                        controller: _fullNameController,
+                        labelText: 'Full Name',
+                        icon: Icons.person,
+                        textInputAction: TextInputAction.next,
+                      ),
+                      UnderlinedIconTextField(
+                        keyboardType: TextInputType.text,
+                        validator: Validators.defaultStringValidator('address'),
+                        controller: _addressController,
+                        labelText: 'Address',
+                        icon: Icons.home,
+                        textInputAction: TextInputAction.next,
+                      ),
+                      UnderlinedIconTextField(
+                        keyboardType: TextInputType.phone,
+                        validator: Validators.phoneNumberValidator,
+                        controller: _phoneNumberController,
+                        labelText: 'Mobile Number',
+                        icon: Icons.call,
+                        textInputAction: TextInputAction.next,
+                      ),
+                      UnderlinedIconTextField(
+                        keyboardType: TextInputType.text,
+                        validator: Validators.passwordValidator,
+                        controller: _passwordController,
+                        labelText: 'Password',
+                        icon: Icons.lock,
+                        obscureText: true,
+                        textInputAction: TextInputAction.done,
                       ),
                       Column(
                         children: [
@@ -171,9 +162,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               )
                             ],
                           ),
-                          SizedBox(height: size.height * 0.025),
                         ],
-                      )
+                      ),
+                      const SizedBox(),
                     ],
                   ),
                 ),

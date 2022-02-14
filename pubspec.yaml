@@ -50,6 +50,8 @@ dependencies:
   badges: ^2.0.2
   smooth_page_indicator: ^1.0.0+2
   introduction_screen: ^3.0.0
+  flutter_native_splash: ^2.0.2
+  flutter_spinkit: ^5.1.0
 
 dev_dependencies:
   flutter_test:
@@ -81,6 +83,7 @@ flutter:
   assets:
     - assets/icons/google.png
     - assets/icons/default_profile.png
+    - assets/icons/app_icon.svg
     - assets/images/sign_up.svg
     - assets/images/sign_in.svg
     - assets/images/greet_1.svg

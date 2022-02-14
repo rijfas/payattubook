@@ -31,7 +31,7 @@ class App extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         onGenerateRoute: AppRouter.onGenerateRoute,
-        initialRoute: AppRouter.loadingScreen,
+        initialRoute: AppRouter.splashScreen,
         theme: AppTheme.lightTheme,
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -25,5 +26,8 @@ void main() async {
     url: 'https://zlqnelvmcsquoulmicev.supabase.co',
   );
   // HydratedBlocOverrides.runZoned(() => runApp(const App()), storage: storage);
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle.dark.copyWith(statusBarColor: Colors.transparent),
+  );
   runApp(const App());
 }

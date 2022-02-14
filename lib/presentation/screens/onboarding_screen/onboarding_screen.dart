@@ -18,16 +18,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   void initState() {
     super.initState();
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle.dark.copyWith(statusBarColor: Colors.transparent),
-    );
+    // SystemChrome.setSystemUIOverlayStyle(
+    //   SystemUiOverlayStyle.dark.copyWith(statusBarColor: Colors.transparent),
+    // );
   }
 
   @override
   void dispose() {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle.dark,
-    );
+    // SystemChrome.setSystemUIOverlayStyle(
+    //   SystemUiOverlayStyle.dark,
+    // );
     super.dispose();
   }
 

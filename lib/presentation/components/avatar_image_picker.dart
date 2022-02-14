@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../core/constants/assets.dart';
+import 'confirm_popup.dart';
 
+// TODO: Show loading spinner when image is picked
 class AvatarImagePicker extends StatefulWidget {
   const AvatarImagePicker({
     Key? key,
@@ -73,10 +75,22 @@ class _AvatarImagePickerState extends State<AvatarImagePicker> {
                 : IconButton(
                     icon: const Icon(Icons.delete),
                     onPressed: () {
-                      setState(() {
-                        _image = null;
-                      });
-                      widget.onProfileDeleted();
+                      showDialog<bool>(
+                              context: context,
+                              builder: (_) => const ConfirmPopup(
+                                  title: 'Alert',
+                                  message:
+                                      'Are sure to delete the profile image?'))
+                          .then(
+                        (value) {
+                          if (value ?? false) {
+                            setState(() {
+                              _image = null;
+                            });
+                            widget.onProfileDeleted();
+                          }
+                        },
+                      );
                     },
                   ))
       ],

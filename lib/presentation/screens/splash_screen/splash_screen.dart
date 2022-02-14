@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:payattubook/core/themes/app_theme.dart';
 import 'package:rive/rive.dart';
 
 import '../../../core/constants/assets.dart';
@@ -8,14 +10,14 @@ import '../../../core/states/auth_state.dart';
 import '../../../logic/authentication/cubit/authentication_cubit.dart';
 import '../../router/app_router.dart';
 
-class LoadingScreen extends StatefulWidget {
-  const LoadingScreen({Key? key}) : super(key: key);
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
 
   @override
-  _LoadingScreenState createState() => _LoadingScreenState();
+  _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _LoadingScreenState extends AuthState<LoadingScreen> {
+class _SplashScreenState extends AuthState<SplashScreen> {
   @override
   void initState() {
     recoverSupabaseSession();
@@ -69,18 +71,34 @@ class _LoadingScreenState extends AuthState<LoadingScreen> {
               );
             }
             return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(
-                  height: size.height * 0.3,
-                  child: const RiveAnimation.asset(
-                    Assets.loadingAnimation,
-                    artboard: 'wallet',
-                  ),
+                // SizedBox(
+                //   height: size.height * 0.3,
+                //   child: const RiveAnimation.asset(
+                //     Assets.loadingAnimation,
+                //     artboard: 'wallet',
+                //   ),
+                // ),
+                // SizedBox(height: size.height * 0.025),
+                // const CircularProgressIndicator(),
+
+                Column(
+                  children: [
+                    SvgPicture.asset(
+                      Assets.appIcon,
+                      width: size.width * 0.3,
+                    ),
+                    const Text(
+                      'Payatt Book',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )
+                  ],
                 ),
-                SizedBox(height: size.height * 0.025),
-                const CircularProgressIndicator(),
+                const SpinKitDoubleBounce(
+                  color: AppTheme.lightPrimaryColor,
+                ),
               ],
             );
           },

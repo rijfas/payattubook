@@ -10,4 +10,5 @@ class Assets {
   static const firstOnboardImage = 'assets/images/greet_1.svg';
   static const secondOnboardImage = 'assets/images/greet_2.svg';
   static const thirdOnboardImage = 'assets/images/greet_3.svg';
+  static const appIcon = 'assets/icons/app_icon.svg';
 }

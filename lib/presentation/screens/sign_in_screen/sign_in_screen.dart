@@ -55,7 +55,7 @@ class _SignInScreenState extends State<SignInScreen> {
         body: SafeArea(
           child: SingleChildScrollView(
             child: SizedBox(
-              height: size.height,
+              height: size.height - kToolbarHeight,
               child: Padding(
                 padding: const EdgeInsets.all(14.0),
                 child: Form(
