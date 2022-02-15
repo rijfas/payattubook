@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:payattubook/logic/transactions/cubit/transactions_cubit.dart';
+import 'package:payattubook/presentation/screens/dashboard_screen/pages/transactions_page/transactions_page.dart';
 
 import '../../../logic/authentication/cubit/authentication_cubit.dart';
 import '../../components/rounded_profile.dart';
@@ -22,6 +24,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     HomePage(),
     DiscoverPage(),
     CalendarPage(),
+    TransactionPage(),
     // Center(child: Text('Transactions(Coming soon)')),
   ];
 
@@ -78,11 +81,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
             label: 'Calendar',
             backgroundColor: Colors.white,
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.account_balance_wallet_rounded),
-          //   label: 'Transactions',
-          //   backgroundColor: Colors.white,
-          // )
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_balance_wallet_rounded),
+            label: 'Transactions',
+            backgroundColor: Colors.white,
+          )
         ],
       ),
       floatingActionButton: (_currentIndex == 1)
@@ -95,7 +98,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
               onPressed: () {
                 Navigator.of(context).pushNamed(AppRouter.createPayattuScreen);
               })
-          : null,
+          : ((_currentIndex == 3)
+              ? FloatingActionButton(
+                  backgroundColor: Theme.of(context).primaryColor,
+                  child: const Icon(
+                    Icons.add,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    context.read<TransactionsCubit>().addTransaction(
+                        recipient: 'Rijfas',
+                        date: DateTime.now(),
+                        amount: 12300);
+                  })
+              : null),
     );
   }
 }

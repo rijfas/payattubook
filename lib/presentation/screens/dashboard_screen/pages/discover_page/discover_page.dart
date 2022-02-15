@@ -82,6 +82,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                         return _buildEmptyMessage(message: 'No payattu found');
                       }
                       return ListView.builder(
+                        padding: DefaultWidgets.padding,
                         itemCount: state.payattList.length,
                         physics: const AlwaysScrollableScrollPhysics(),
                         itemBuilder: (context, index) => DefaultShadedContainer(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:payattubook/data/transactions/transaction.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'app.dart';
@@ -19,6 +20,7 @@ void main() async {
   Hive.registerAdapter(TimeOfDayAdapter());
   Hive.registerAdapter(PayattuAdapter());
   Hive.registerAdapter(UserPayattuAdapter());
+  Hive.registerAdapter(TransactionAdapter());
   NotificationManager.initialize();
   await Supabase.initialize(
     anonKey:

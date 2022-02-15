@@ -10,6 +10,7 @@ import '../screens/profile_screen/profile_screen.dart';
 import '../screens/sign_in_screen/sign_in_screen.dart';
 import '../screens/sign_up_screen/sign_up_screen.dart';
 import '../screens/splash_screen/splash_screen.dart';
+import '../screens/transactions_screen/transactions_screen.dart';
 
 class AppRouter {
   const AppRouter._();
@@ -23,6 +24,7 @@ class AppRouter {
   static const editProfileScreen = 'edit-profile-screen';
   static const payattListScreen = 'payatt-list-screen';
   static const onboardingScreen = 'onboarding-screen';
+  static const transactionsScreen = 'transactions-screen';
 
   static Route onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
@@ -44,6 +46,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const PayattListScreen());
       case onboardingScreen:
         return MaterialPageRoute(builder: (_) => const OnboardingScreen());
+      case transactionsScreen:
+        return MaterialPageRoute(builder: (_) => const TransactionsScreen());
       default:
         throw InvalidRouteException(
             "invalid route reached : ${routeSettings.name}");
