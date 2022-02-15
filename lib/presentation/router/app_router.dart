@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:payattubook/presentation/screens/create_transaction_screen/create_transaction_screen.dart';
 
 import '../../core/exceptions/invalid_route_exception.dart';
 import '../screens/create_payattu_screen/create_payattu_screen.dart';
@@ -25,6 +26,7 @@ class AppRouter {
   static const payattListScreen = 'payatt-list-screen';
   static const onboardingScreen = 'onboarding-screen';
   static const transactionsScreen = 'transactions-screen';
+  static const createTransactionScreen = 'create-transaction-screen';
 
   static Route onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
@@ -48,6 +50,9 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const OnboardingScreen());
       case transactionsScreen:
         return MaterialPageRoute(builder: (_) => const TransactionsScreen());
+      case createTransactionScreen:
+        return MaterialPageRoute(
+            builder: (_) => const CreateTransactionScreen());
       default:
         throw InvalidRouteException(
             "invalid route reached : ${routeSettings.name}");

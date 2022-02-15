@@ -19,7 +19,7 @@ class ConfirmPopup extends StatelessWidget {
       content: Text(message),
       actions: <Widget>[
         ElevatedButton(
-          child: const Text('Cancell'),
+          child: const Text('Cancel'),
           onPressed: () => Navigator.of(context).pop(false),
         ),
         ElevatedButton(

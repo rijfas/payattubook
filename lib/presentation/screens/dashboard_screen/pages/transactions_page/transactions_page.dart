@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
+import 'package:payattubook/presentation/components/transaction_tile.dart';
 
 import '../../../../../core/constants/default_widgets.dart';
 import '../../../../../core/themes/app_theme.dart';
@@ -44,7 +46,13 @@ class _TransactionPageState extends State<TransactionPage> {
             builder: (context, state) {
               if (state is TransactionsLoadingCompleted) {
                 if (state.transactions.isEmpty) {
-                  return const DeafultEmptyWidget(message: 'No Transactions');
+                  return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: const [
+                        SizedBox(width: double.infinity),
+                        DeafultEmptyWidget(message: 'No Transactions')
+                      ]);
                 }
                 return Column(
                   children: [
@@ -60,7 +68,7 @@ class _TransactionPageState extends State<TransactionPage> {
                             ),
                             const Divider(),
                             Text(
-                              state.totalAmount.toString(),
+                              '₹ ${state.totalAmount}',
                               style: const TextStyle(
                                 fontSize: 28.0,
                                 fontWeight: FontWeight.bold,
@@ -99,35 +107,8 @@ class _TransactionPageState extends State<TransactionPage> {
                     Expanded(
                       child: ListView.builder(
                         itemCount: state.transactions.length,
-                        itemBuilder: (context, index) => DefaultShadedContainer(
-                          child: ListTile(
-                            leading: const Icon(FontAwesomeIcons.rupeeSign),
-                            title: Text(
-                              state.transactions[index].recipient,
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            subtitle: Text(
-                              state.transactions[index].date.toString(),
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.secondary,
-                              ),
-                            ),
-                            trailing: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 4.0, horizontal: 8.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: Theme.of(context).primaryColor,
-                              ),
-                              child: Text(
-                                state.transactions[index].amount.toString(),
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ),
-                        ),
+                        itemBuilder: (context, index) => TransactionTile(
+                            transaction: state.transactions[index]),
                       ),
                     ),
                   ],

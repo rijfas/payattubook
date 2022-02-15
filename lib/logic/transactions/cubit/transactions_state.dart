@@ -15,3 +15,5 @@ class TransactionsLoadingCompleted extends TransactionsState {
   final List<Transaction> transactions;
   late final double totalAmount;
 }
+
+class TransactionsAdded extends TransactionsState {}

@@ -33,6 +33,7 @@ class TransactionsCubit extends Cubit<TransactionsState> {
         Transaction(id: id, recipient: recipient, date: date, amount: amount);
     final box = await Hive.openBox('transactions');
     await box.put(id, transaction);
+    emit(TransactionsAdded());
     loadTransactions();
   }
 

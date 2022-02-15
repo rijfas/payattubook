@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:payattubook/core/themes/app_theme.dart';
+import 'package:payattubook/presentation/router/app_router.dart';
 
 import '../../../../../core/constants/assets.dart';
 import '../../../../../core/constants/default_widgets.dart';
@@ -62,6 +64,32 @@ class _DiscoverPageState extends State<DiscoverPage> {
                 onClear: () =>
                     context.read<DiscoverPayattuCubit>().loadPayattu(),
               ),
+              DefaultWidgets.verticalSizedBox,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Discover Payattu',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    InkWell(
+                      onTap: () => Navigator.of(context)
+                          .pushNamed(AppRouter.createPayattuScreen),
+                      child: const Text(
+                        'Create New',
+                        style: TextStyle(
+                          color: AppTheme.lightSecondaryColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              const Divider(),
               Expanded(
                 child: RefreshIndicator(
                   onRefresh: () async {

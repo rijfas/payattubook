@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../../logic/transactions/cubit/transactions_cubit.dart';
 import '../../components/default_empty_widget.dart';
-import '../../components/default_shaded_container.dart';
+import '../../components/transaction_tile.dart';
+import '../../router/app_router.dart';
 import '../dashboard_screen/components/custom_search_bar.dart';
 
 class TransactionsScreen extends StatefulWidget {
@@ -52,34 +52,8 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                 return Expanded(
                   child: ListView.builder(
                     itemCount: state.transactions.length,
-                    itemBuilder: (context, index) => DefaultShadedContainer(
-                      child: ListTile(
-                        leading: const Icon(FontAwesomeIcons.rupeeSign),
-                        title: Text(
-                          state.transactions[index].recipient,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        subtitle: Text(
-                          state.transactions[index].date.toString(),
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
-                        ),
-                        trailing: Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 4.0, horizontal: 8.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            color: Theme.of(context).primaryColor,
-                          ),
-                          child: Text(
-                            state.transactions[index].amount.toString(),
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ),
+                    itemBuilder: (context, index) =>
+                        TransactionTile(transaction: state.transactions[index]),
                   ),
                 );
               }
@@ -95,8 +69,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
           color: Colors.white,
         ),
         onPressed: () {
-          context.read<TransactionsCubit>().addTransaction(
-              recipient: 'Rijfas', date: DateTime.now(), amount: 12300);
+          Navigator.of(context).pushNamed(AppRouter.createTransactionScreen);
         },
       ),
     );

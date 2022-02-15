@@ -1,14 +1,15 @@
+import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:payattubook/logic/transactions/cubit/transactions_cubit.dart';
-import 'package:payattubook/presentation/screens/dashboard_screen/pages/transactions_page/transactions_page.dart';
 
+import '../../../core/themes/app_theme.dart';
 import '../../../logic/authentication/cubit/authentication_cubit.dart';
 import '../../components/rounded_profile.dart';
 import '../../router/app_router.dart';
 import 'pages/calendar_page/calendar_page.dart';
 import 'pages/discover_page/discover_page.dart';
 import 'pages/home_page/home_page.dart';
+import 'pages/transactions_page/transactions_page.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -36,7 +37,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             onPressed: () {
               Navigator.of(context).pushNamed(AppRouter.payattListScreen);
             },
-            icon: const Icon(Icons.list_alt)),
+            icon: const Icon(Icons.insert_chart_outlined)),
         centerTitle: true,
         title: const Text('PayattuBook'),
         actions: [
@@ -60,58 +61,83 @@ class _DashboardScreenState extends State<DashboardScreen> {
         children: _pages,
         index: _currentIndex,
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.shifting,
+      bottomNavigationBar: DotNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) => setState(() => _currentIndex = index),
-        showUnselectedLabels: false,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-            backgroundColor: Colors.white,
+        dotIndicatorColor: AppTheme.lightPrimaryColor,
+        items: [
+          DotNavigationBarItem(
+            icon: const Icon(Icons.home),
+            selectedColor: AppTheme.lightPrimaryColor,
+            unselectedColor: AppTheme.lightSecondaryColor,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Discover',
-            backgroundColor: Colors.white,
+          DotNavigationBarItem(
+            icon: const Icon(Icons.search),
+            selectedColor: AppTheme.lightPrimaryColor,
+            unselectedColor: AppTheme.lightSecondaryColor,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today_outlined),
-            label: 'Calendar',
-            backgroundColor: Colors.white,
+          DotNavigationBarItem(
+            icon: const Icon(Icons.calendar_today_rounded),
+            selectedColor: AppTheme.lightPrimaryColor,
+            unselectedColor: AppTheme.lightSecondaryColor,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_balance_wallet_rounded),
-            label: 'Transactions',
-            backgroundColor: Colors.white,
+          DotNavigationBarItem(
+            icon: const Icon(Icons.account_balance_wallet_rounded),
+            selectedColor: AppTheme.lightPrimaryColor,
+            unselectedColor: AppTheme.lightSecondaryColor,
           )
         ],
       ),
-      floatingActionButton: (_currentIndex == 1)
-          ? FloatingActionButton(
-              backgroundColor: Theme.of(context).primaryColor,
-              child: const Icon(
-                Icons.edit,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                Navigator.of(context).pushNamed(AppRouter.createPayattuScreen);
-              })
-          : ((_currentIndex == 3)
-              ? FloatingActionButton(
-                  backgroundColor: Theme.of(context).primaryColor,
-                  child: const Icon(
-                    Icons.add,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    context.read<TransactionsCubit>().addTransaction(
-                        recipient: 'Rijfas',
-                        date: DateTime.now(),
-                        amount: 12300);
-                  })
-              : null),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   type: BottomNavigationBarType.shifting,
+      // currentIndex: _currentIndex,
+      // onTap: (index) => setState(() => _currentIndex = index),
+      //   showUnselectedLabels: false,
+      // items: const [
+      //   BottomNavigationBarItem(
+      //     icon: Icon(Icons.home),
+      //     label: 'Home',
+      //     backgroundColor: Colors.white,
+      //   ),
+      //   BottomNavigationBarItem(
+      //     icon: Icon(Icons.search),
+      //     label: 'Discover',
+      //     backgroundColor: Colors.white,
+      //   ),
+      //   BottomNavigationBarItem(
+      //     icon: Icon(Icons.calendar_today_outlined),
+      //     label: 'Calendar',
+      //     backgroundColor: Colors.white,
+      //   ),
+      //   BottomNavigationBarItem(
+      //     icon: Icon(Icons.account_balance_wallet_rounded),
+      //     label: 'Transactions',
+      //     backgroundColor: Colors.white,
+      //   )
+      // ],
+      // ),
+      // floatingActionButton: (_currentIndex == 1)
+      //     ? FloatingActionButton(
+      //         backgroundColor: Theme.of(context).primaryColor,
+      //         child: const Icon(
+      //           Icons.edit,
+      //           color: Colors.white,
+      //         ),
+      //         onPressed: () {
+      //           Navigator.of(context).pushNamed(AppRouter.createPayattuScreen);
+      //         })
+      //     : ((_currentIndex == 3)
+      //         ? FloatingActionButton(
+      //             backgroundColor: Theme.of(context).primaryColor,
+      //             child: const Icon(
+      //               Icons.add,
+      //               color: Colors.white,
+      //             ),
+      //             onPressed: () {
+      //               Navigator.of(context)
+      //                   .pushNamed(AppRouter.createTransactionScreen);
+      //             })
+      //         : null),
     );
   }
 }
