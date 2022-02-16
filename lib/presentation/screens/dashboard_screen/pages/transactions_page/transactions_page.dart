@@ -91,7 +91,7 @@ class _TransactionPageState extends State<TransactionPage> {
                           ),
                           InkWell(
                             onTap: () => Navigator.of(context)
-                                .pushNamed(AppRouter.transactionsScreen),
+                                .pushNamed(AppRouter.hostPayattuScreen),
                             child: const Text(
                               'View All',
                               style: TextStyle(

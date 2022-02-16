@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:hive/hive.dart';
 
 part 'transaction.g.dart';
@@ -18,4 +20,27 @@ class Transaction {
   final DateTime date;
   @HiveField(3)
   final double amount;
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'recipient': recipient,
+      'date': date.millisecondsSinceEpoch,
+      'amount': amount,
+    };
+  }
+
+  factory Transaction.fromMap(Map<String, dynamic> map) {
+    return Transaction(
+      id: "${map['id']}",
+      recipient: map['recipient'] ?? '',
+      date: DateTime.parse(map['date']),
+      amount: map['amount']?.toDouble() ?? 0.0,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory Transaction.fromJson(String source) =>
+      Transaction.fromMap(json.decode(source));
 }

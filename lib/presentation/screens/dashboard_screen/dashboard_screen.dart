@@ -138,6 +138,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
       //                   .pushNamed(AppRouter.createTransactionScreen);
       //             })
       //         : null),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: (_currentIndex == 3)
+          ? FloatingActionButton(
+              backgroundColor: AppTheme.lightPrimaryColor,
+              child: Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.of(context).pushNamed(AppRouter.transactionsScreen);
+              },
+            )
+          : null,
     );
   }
 }
