@@ -34,7 +34,7 @@ class Transaction {
     return Transaction(
       id: "${map['id']}",
       recipient: map['recipient'] ?? '',
-      date: DateTime.parse(map['date']),
+      date: DateTime.parse(map['created_at']),
       amount: map['amount']?.toDouble() ?? 0.0,
     );
   }

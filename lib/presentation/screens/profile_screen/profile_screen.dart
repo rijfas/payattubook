@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:payattubook/core/themes/app_theme.dart';
+import 'package:payattubook/presentation/components/rounded_elevated_button.dart';
 
 import '../../../core/constants/assets.dart';
 import '../../../core/constants/default_widgets.dart';
@@ -105,6 +107,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             fontSize: 16.0,
                           ),
                         ),
+                        // DefaultWidgets.verticalSizedBox,
+                        // RoundedElevatedButton(
+                        //   child: Padding(
+                        //     padding:
+                        //         const EdgeInsets.symmetric(horizontal: 16.0),
+                        //     child: Text(
+                        //       'Host Payattu',
+                        //       style: TextStyle(fontSize: 18.0),
+                        //     ),
+                        //   ),
+                        //   shrinkWrap: true,
+                        // onPressed: () => Navigator.of(context)
+                        //     .pushNamed(AppRouter.hostPayattuScreen),
+                        // ),
                         DefaultWidgets.verticalSpacing(context: context),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -219,6 +235,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppTheme.lightPrimaryColor,
+        child: const Icon(
+          Icons.event_note,
+          color: Colors.white,
+        ),
+        onPressed: () =>
+            Navigator.of(context).pushNamed(AppRouter.hostPayattuScreen),
       ),
     );
   }

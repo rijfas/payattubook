@@ -11,14 +11,18 @@ class DiscoverPayattuCubit extends Cubit<DiscoverPayattuState> {
   DiscoverPayattuCubit() : super(DiscoverPayattuLoading());
 
   Future<void> loadPayattu() async {
+    // show loading
     emit(DiscoverPayattuLoading());
+    // fetch data from backend
     final response = await Utils.supabase.from('payatts').select().execute();
+    // show error if error is not null
     if (response.error != null) {
       emit(DiscoverPayattuError(
           message: ErrorDescriptors.getNetworkErrorOrOriginalFromPostgrestError(
               response.error)));
       return;
     }
+    // convert data to payatt model
     final data = response.data;
     late List<Payattu> payatts = [];
     data.forEach((e) {
@@ -35,17 +39,20 @@ class DiscoverPayattuCubit extends Cubit<DiscoverPayattuState> {
         coverImageUrl: e['cover_image_url'],
       ));
     });
-
+    // loading success
     emit(DiscoverPayattuLoaded(payattList: payatts));
   }
 
   void searchPayattu({required String hostName}) async {
+    // show loading
     emit(DiscoverPayattuLoading());
+    // load data from backend
     final response = await Utils.supabase
         .from('payatts')
         .select()
         .ilike('host', '%$hostName%')
         .execute();
+    // show error if error is not null
     if (response.error != null) {
       emit(DiscoverPayattuError(
           message: ErrorDescriptors.getNetworkErrorOrOriginalFromPostgrestError(

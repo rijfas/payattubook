@@ -35,9 +35,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamed(AppRouter.payattListScreen);
+              Navigator.of(context).pushNamed(AppRouter.scanQrScreen);
             },
-            icon: const Icon(Icons.insert_chart_outlined)),
+            icon: const Icon(Icons.qr_code_scanner)),
         centerTitle: true,
         title: const Text('PayattuBook'),
         actions: [
@@ -138,19 +138,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
       //                   .pushNamed(AppRouter.createTransactionScreen);
       //             })
       //         : null),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: (_currentIndex == 3)
-          ? FloatingActionButton(
-              backgroundColor: AppTheme.lightPrimaryColor,
-              child: Icon(
-                Icons.add,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                Navigator.of(context).pushNamed(AppRouter.transactionsScreen);
-              },
-            )
-          : null,
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // floatingActionButton: (_currentIndex == 3)
+      //     ? FloatingActionButton(
+      //         backgroundColor: AppTheme.lightPrimaryColor,
+      //         child: Icon(
+      //           Icons.add,
+      //           color: Colors.white,
+      //         ),
+      //         onPressed: () {
+      //           Navigator.of(context).pushNamed(AppRouter.transactionsScreen);
+      //         },
+      //       )
+      //     : null,
     );
   }
 }

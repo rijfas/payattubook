@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:payattubook/presentation/screens/create_transaction_screen/create_transaction_screen.dart';
-import 'package:payattubook/presentation/screens/host_payattu_screen/host_payattu_screen.dart';
 
 import '../../core/exceptions/invalid_route_exception.dart';
 import '../screens/create_payattu_screen/create_payattu_screen.dart';
+import '../screens/create_transaction_screen/create_transaction_screen.dart';
 import '../screens/dashboard_screen/dashboard_screen.dart';
 import '../screens/edit_profile_screen/edit_profile_screen.dart';
+import '../screens/host_payattu_screen/host_payattu_screen.dart';
 import '../screens/notifications_screen/payatt_list_screen.dart';
 import '../screens/onboarding_screen/onboarding_screen.dart';
 import '../screens/profile_screen/profile_screen.dart';
+import '../screens/scan_qr_screen/scan_qr_screen.dart';
 import '../screens/sign_in_screen/sign_in_screen.dart';
 import '../screens/sign_up_screen/sign_up_screen.dart';
 import '../screens/splash_screen/splash_screen.dart';
@@ -29,6 +30,7 @@ class AppRouter {
   static const transactionsScreen = 'transactions-screen';
   static const createTransactionScreen = 'create-transaction-screen';
   static const hostPayattuScreen = 'host-payattu-screen';
+  static const scanQrScreen = 'scan-qr-screen';
 
   static Route onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
@@ -57,6 +59,8 @@ class AppRouter {
             builder: (_) => const CreateTransactionScreen());
       case hostPayattuScreen:
         return MaterialPageRoute(builder: (_) => const HostPayattuScreen());
+      case scanQrScreen:
+        return MaterialPageRoute(builder: (_) => const ScanQrScreen());
       default:
         throw InvalidRouteException(
             "invalid route reached : ${routeSettings.name}");
