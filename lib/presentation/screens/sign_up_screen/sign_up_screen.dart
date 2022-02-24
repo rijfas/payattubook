@@ -53,7 +53,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         if (state is AuthenticationLoading) {
           Utils.showLoadingDialog(context);
         } else if (state is AuthenticationCompleted) {
-          Navigator.of(context).pop();
+          // Navigator.of(context).pop();
           (value) => Navigator.of(context)
               .pushNamedAndRemoveUntil(AppRouter.dashboardScreen, (_) => false);
         } else if (state is AuthenticationError) {
