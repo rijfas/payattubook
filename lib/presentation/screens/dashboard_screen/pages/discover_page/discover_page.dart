@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:payattubook/core/themes/app_theme.dart';
-import 'package:payattubook/presentation/router/app_router.dart';
+import '../../../../../core/themes/app_theme.dart';
+import '../../../../router/app_router.dart';
 
 import '../../../../../core/constants/assets.dart';
 import '../../../../../core/constants/default_widgets.dart';

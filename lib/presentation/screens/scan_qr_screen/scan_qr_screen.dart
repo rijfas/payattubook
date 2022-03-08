@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:payattubook/core/themes/app_theme.dart';
-import 'package:payattubook/core/utils/utils.dart';
-import 'package:payattubook/logic/authentication/cubit/authentication_cubit.dart';
-import 'package:payattubook/logic/manage_payattu/cubit/manage_payattu_cubit.dart';
-import 'package:payattubook/presentation/screens/dashboard_screen/components/amount_popup.dart';
+import '../../../core/themes/app_theme.dart';
+import '../../../core/utils/utils.dart';
+import '../../../logic/authentication/cubit/authentication_cubit.dart';
+import '../../../logic/manage_payattu/cubit/manage_payattu_cubit.dart';
+import '../../../logic/transactions/cubit/transactions_cubit.dart';
+import '../../router/app_router.dart';
+import '../dashboard_screen/components/amount_popup.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../logic/scan_qr/cubit/scan_qr_cubit.dart';
@@ -34,26 +36,33 @@ class _ScanQrScreenState extends State<ScanQrScreen> {
           Utils.showLoadingDialog(context);
         } else if (state is ScanQrError) {
           Utils.showSnackBar(context: context, message: state.message);
+        } else if (state is ScanQrCompleted) {
+          showDialog(
+              context: context,
+              builder: (_) => AmountPopup(
+                  title:
+                      'Enter Amount for the payattu of ${state.payattu.host}',
+                  onSubmit: (value) {
+                    final authState = context.read<AuthenticationCubit>().state
+                        as AuthenticationCompleted;
+                    context.read<ScanQrCubit>().addTransaction(
+                          sender: Utils.supabase.auth.currentUser!.id,
+                          senderName: authState.user.fullName,
+                          payattu: state.payattu,
+                          amount: double.parse(value),
+                        );
+                  }));
+        } else if (state is TransactionAdded) {
+          // context
+          //     .read<ManagePayattuCubit>()
+          //     .addPayattu(payattu: state.payattu, amount: state.amount);
+          context.read<TransactionsCubit>().addTransaction(
+                recipient: state.payattu.host,
+                amount: state.amount,
+                date: state.payattu.date,
+              );
+          Navigator.of(context).pushReplacementNamed(AppRouter.dashboardScreen);
         }
-        // else if (state is ScanQrCompleted) {
-        //   showDialog(
-        //       context: context,
-        //       builder: (_) => AmountPopup(
-        //           title: 'Enter Amount',
-        //           onSubmit: (value) {
-        //             final authState = context.read<AuthenticationCubit>().state
-        //                 as AuthenticationCompleted;
-        //             context.read<ScanQrCubit>().addTransaction(
-        //                   senderId: Utils.supabase.auth.currentUser!.id,
-        //                   senderName: authState.user.fullName,
-        //                   recipient: state.code,
-        //                   amount: double.parse(value),
-        //                 );
-        //           }));
-        // }
-        // else if (state is TransactionAdded){
-        //   context.read<ManagePayattuCubit>().addPayattu(payattu: payattu, amount: amount)
-        // }
       },
       child: Scaffold(
         appBar: AppBar(
@@ -65,7 +74,7 @@ class _ScanQrScreenState extends State<ScanQrScreen> {
             _controller = controller;
             _controller.scannedDataStream.listen((event) {
               _controller.pauseCamera();
-              // context.read<ScanQrCubit>().scanQr(code: event.code!);
+              context.read<ScanQrCubit>().scanQr(code: event.code!);
             });
           },
           overlay: QrScannerOverlayShape(

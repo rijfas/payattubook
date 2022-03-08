@@ -18,6 +18,7 @@ class PayattuTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      selected: true,
       onTap: onTap,
       leading: RoundedProfile(url: payattu.coverImageUrl),
       title: Text(

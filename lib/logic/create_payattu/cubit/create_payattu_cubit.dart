@@ -67,6 +67,15 @@ class CreatePayattuCubit extends Cubit<CreatePayattuState> {
       return;
     }
 
+    final transaction = await Utils.supabase
+        .from('transaction')
+        .delete()
+        .match({'payattu': payattId}).execute();
+    if (transaction.error != null) {
+      emit(CreatePayattuError(message: response.error!.message));
+      return;
+    }
+
     emit(CreatePayattuCompleted());
   }
 }

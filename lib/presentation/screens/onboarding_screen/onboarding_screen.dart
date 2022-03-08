@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:payattubook/presentation/router/app_router.dart';
+import '../../router/app_router.dart';
 
 import '../../../core/constants/assets.dart';
 import '../../../core/themes/app_theme.dart';

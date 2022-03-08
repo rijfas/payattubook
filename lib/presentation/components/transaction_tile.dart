@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:payattubook/core/themes/app_theme.dart';
+import '../../core/themes/app_theme.dart';
 
 import '../../data/transactions/transaction.dart';
 import '../../logic/transactions/cubit/transactions_cubit.dart';

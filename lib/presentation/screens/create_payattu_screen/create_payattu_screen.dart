@@ -121,7 +121,7 @@ class _CreatePayattuScreenState extends State<CreatePayattuScreen> {
                       validator: (value) {
                         if (value == null) {
                           return 'Please select a date';
-                        } else if (DateTime.now().isBefore(value)) {
+                        } else if (!DateTime.now().isBefore(value)) {
                           return 'Please select an upcoming date';
                         }
                         return null;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:payattubook/logic/host_payattu/cubit/host_payattu_cubit.dart';
-import 'package:payattubook/logic/scan_qr/cubit/scan_qr_cubit.dart';
-import 'package:payattubook/logic/transactions/cubit/transactions_cubit.dart';
+import 'logic/host_payattu/cubit/host_payattu_cubit.dart';
+import 'logic/scan_qr/cubit/scan_qr_cubit.dart';
+import 'logic/transactions/cubit/transactions_cubit.dart';
 
 import 'core/themes/app_theme.dart';
 import 'logic/authentication/cubit/authentication_cubit.dart';

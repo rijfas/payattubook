@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../data/discover_payattu/models/payattu.dart';
 
 import '../../core/exceptions/invalid_route_exception.dart';
 import '../screens/create_payattu_screen/create_payattu_screen.dart';
@@ -58,7 +59,10 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (_) => const CreateTransactionScreen());
       case hostPayattuScreen:
-        return MaterialPageRoute(builder: (_) => const HostPayattuScreen());
+        return MaterialPageRoute(
+            builder: (_) => HostPayattuScreen(
+                  payattu: routeSettings.arguments as Payattu,
+                ));
       case scanQrScreen:
         return MaterialPageRoute(builder: (_) => const ScanQrScreen());
       default:

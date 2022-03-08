@@ -2,8 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:payattubook/core/themes/app_theme.dart';
-import 'package:payattubook/presentation/components/rounded_elevated_button.dart';
+import '../../../core/themes/app_theme.dart';
+import '../../components/rounded_elevated_button.dart';
 
 import '../../../core/constants/assets.dart';
 import '../../../core/constants/default_widgets.dart';
@@ -169,30 +169,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 itemCount: _userPayatts.length,
                                 physics: const ScrollPhysics(),
                                 itemBuilder: (context, index) => PayattuTile(
-                                    payattu: _userPayatts[index],
-                                    trailing: IconButton(
-                                        onPressed: () async {
-                                          final confirmDelete =
-                                              await showDialog<bool>(
-                                            context: context,
-                                            builder: (context) => ConfirmPopup(
-                                              title: 'Confirm delete?',
-                                              message:
-                                                  'Delete the payattu ${_userPayatts[index].host}',
-                                            ),
-                                          );
-                                          if (confirmDelete ?? false) {
-                                            context
-                                                .read<CreatePayattuCubit>()
-                                                .deletePayattu(
-                                                    payattId:
-                                                        _userPayatts[index].id);
-                                          }
-                                        },
-                                        icon: Icon(
-                                          Icons.delete,
-                                          color: Theme.of(context).primaryColor,
-                                        )))
+                                      payattu: _userPayatts[index],
+                                      trailing: IconButton(
+                                          onPressed: () => Navigator.of(context)
+                                              .pushNamed(
+                                                  AppRouter.hostPayattuScreen,
+                                                  arguments:
+                                                      _userPayatts[index]),
+                                          icon: Icon(Icons.qr_code)),
+                                      // trailing: IconButton(
+                                      //   onPressed: () async {
+                                      //     final confirmDelete =
+                                      //         await showDialog<bool>(
+                                      //       context: context,
+                                      //       builder: (context) => ConfirmPopup(
+                                      //         title: 'Confirm delete?',
+                                      //         message:
+                                      //             'Delete the payattu ${_userPayatts[index].host}',
+                                      //       ),
+                                      //     );
+                                      //     if (confirmDelete ?? false) {
+                                      //       context
+                                      //           .read<CreatePayattuCubit>()
+                                      //           .deletePayattu(
+                                      //               payattId:
+                                      //                   _userPayatts[index].id);
+                                      //     }
+                                      //   },
+                                      //   icon: Icon(
+                                      //     Icons.delete,
+                                      //     color: Theme.of(context).primaryColor,
+                                      //   ),
+                                      // ),
+                                    )
                                 // Dismissible(
                                 //   confirmDismiss: (direct) {
                                 // return showDialog<bool>(
@@ -236,15 +245,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppTheme.lightPrimaryColor,
-        child: const Icon(
-          Icons.event_note,
-          color: Colors.white,
-        ),
-        onPressed: () =>
-            Navigator.of(context).pushNamed(AppRouter.hostPayattuScreen),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: AppTheme.lightPrimaryColor,
+      //   child: const Icon(
+      //     Icons.event_note,
+      //     color: Colors.white,
+      //   ),
+      //   onPressed: () =>
+      //       Navigator.of(context).pushNamed(AppRouter.hostPayattuScreen),
+      // ),
     );
   }
 
