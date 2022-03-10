@@ -245,15 +245,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   backgroundColor: AppTheme.lightPrimaryColor,
-      //   child: const Icon(
-      //     Icons.event_note,
-      //     color: Colors.white,
-      //   ),
-      //   onPressed: () =>
-      //       Navigator.of(context).pushNamed(AppRouter.hostPayattuScreen),
-      // ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppTheme.lightPrimaryColor,
+        child: const Icon(
+          Icons.create,
+          color: Colors.white,
+        ),
+        onPressed: () =>
+            Navigator.of(context).pushNamed(AppRouter.createPayattuScreen),
+      ),
     );
   }
 

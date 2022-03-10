@@ -40,7 +40,10 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
         children: [
           CustomSearchBar(
             controller: _searchController,
-            onSearch: () {},
+            onClear: () => context.read<TransactionsCubit>().loadTransactions(),
+            onSearch: () => context
+                .read<TransactionsCubit>()
+                .searchTransaction(query: _searchController.value.text),
             hintText: 'Search Transaction',
           ),
           BlocBuilder<TransactionsCubit, TransactionsState>(

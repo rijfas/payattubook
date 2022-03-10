@@ -48,9 +48,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           showDoneButton: true,
           pages: [
             PageViewModel(
-              title: "Fractional shares",
+              title: "PayattuBook",
+              body: "A new face of panapayattu!",
+              image: SvgPicture.asset(
+                Assets.appIcon,
+                width: size.width * 0.3,
+              ),
+              decoration: pageDecoration,
+            ),
+            PageViewModel(
+              title: "Hassle-free Payattu Management",
               body:
-                  "Instead of having to buy an entire share, invest any amount you want.",
+                  "Create and manage all your payattu in single click. Detailed analysis and notifications for your payattu!",
               image: SvgPicture.asset(
                 Assets.firstOnboardImage,
                 width: size.width * 0.4,
@@ -58,9 +67,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               decoration: pageDecoration,
             ),
             PageViewModel(
-              title: "Learn as you go",
+              title: "Simple Transaction Management",
               body:
-                  "Download the Stockpile app and master the market with our mini-lesson.",
+                  "QR Based transaction management with search functionality for payatttu lookup.",
               image: SvgPicture.asset(
                 Assets.secondOnboardImage,
                 width: size.width * 0.4,
@@ -68,9 +77,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               decoration: pageDecoration,
             ),
             PageViewModel(
-              title: "Kids and teens",
+              title: "Easy to get started",
               body:
-                  "Kids and teens can track their stocks 24/7 and place trades that you approve.",
+                  "Start an account with your existing mobile number and get started with PayattuBook.",
               image: SvgPicture.asset(
                 Assets.thirdOnboardImage,
                 width: size.width * 0.4,

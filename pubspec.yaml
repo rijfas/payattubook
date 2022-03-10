@@ -95,6 +95,7 @@ flutter:
     - assets/images/greet_3.svg
     - assets/images/error.svg
     - assets/images/empty.svg
+    - assets/images/forget_password.svg
     - assets/animations/wallet.riv
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

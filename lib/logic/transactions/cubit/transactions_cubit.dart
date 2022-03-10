@@ -43,4 +43,17 @@ class TransactionsCubit extends Cubit<TransactionsState> {
     await box.delete(id);
     loadTransactions();
   }
+
+  void searchTransaction({required String query}) async {
+    emit(TransactonsLoading());
+    final box = await Hive.openBox('transactions');
+    final rawTransactions = box.values.toList();
+    List<Transaction> transactions = [];
+    for (final Transaction transaction in rawTransactions) {
+      if (transaction.recipient.contains(query)) {
+        transactions.add(transaction);
+      }
+    }
+    emit(TransactionsLoadingCompleted(transactions: transactions));
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:payattubook/presentation/screens/forget_password_screen/forget_password_screen.dart';
 import '../../data/discover_payattu/models/payattu.dart';
 
 import '../../core/exceptions/invalid_route_exception.dart';
@@ -32,6 +33,7 @@ class AppRouter {
   static const createTransactionScreen = 'create-transaction-screen';
   static const hostPayattuScreen = 'host-payattu-screen';
   static const scanQrScreen = 'scan-qr-screen';
+  static const forgetPasswordScreen = 'forget-password-screen';
 
   static Route onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
@@ -41,6 +43,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const SignInScreen());
       case signUpScreen:
         return MaterialPageRoute(builder: (_) => const SignUpScreen());
+      case forgetPasswordScreen:
+        return MaterialPageRoute(builder: (_) => const ForgetPasswordScreen());
       case dashboardScreen:
         return MaterialPageRoute(builder: (_) => const DashboardScreen());
       case createPayattuScreen:

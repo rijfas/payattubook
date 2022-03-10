@@ -104,10 +104,14 @@ class _SignInScreenState extends State<SignInScreen> {
                           SizedBox(height: size.height * 0.025),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
-                            children: const [
-                              Text(
-                                'Forgot Password?',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                            children: [
+                              InkWell(
+                                onTap: () => Navigator.of(context)
+                                    .pushNamed(AppRouter.forgetPasswordScreen),
+                                child: const Text(
+                                  'Forgot Password?',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
                               )
                             ],
                           ),
